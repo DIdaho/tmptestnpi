@@ -1,3 +1,4 @@
 vendor/
 /*.phar
 /.idea
+/conf/local.php
