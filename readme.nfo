@@ -1,0 +1,12 @@
+_________ How to init project :
+
+ composer are required so :
+
+###### first :
+ install composer on system (find binairies on : https://getcomposer.org/)
+
+ or local to project :
+curl -sS https://getcomposer.org/installer | php
+or if you don't have curl, you could : php -r "readfile('https://getcomposer.org/installer');" | php
+###### then run :
+if locally install

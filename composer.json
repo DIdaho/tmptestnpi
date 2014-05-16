@@ -1,5 +1,9 @@
 {
     "require": {
-        "silex/silex": "~1.2"
+        "silex/silex": "~1.2",
+        "csanquer/pdo-service-provider": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Controller": "Application/"}
     }
 }
