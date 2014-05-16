@@ -8,38 +8,58 @@
 namespace Controller;
 
 
-class NPIController {
-    /** @var \Silex\Application */
-    protected $_app;
+class NpiController extends ControllerDefault {
 
-    /** @param \Silex\Application $app */
-    protected function _setApp($app){$this->_app = $app;}
-
-    /** @return \Silex\Application */
-    protected function _getApp(){return $this->_app;}
-
-    /**
-     * @return \PDO
-     */
-    protected function _getPDO(){
-        $app = $this->_getApp();
-        // get PDO connections
-        $pdo = $app['pdo.dbs']['default'];
-// shorcut for default database
-        return( $app['pdo'] );
-    }
 
     public function __construct($app){
         $this->_setApp($app);
     }
 
+    protected function update(){
+        $npiModel = new \Models\NpiModel( $this->_getPDO() );
+//        $result = $npiModel->fetchAll();
+        $result = $npiModel->update($_GET);
+        return json_encode( array('success' => true) );
+    }
+
+    protected function fetchAll(){
+        $npiModel = new \Models\NpiModel( $this->_getPDO() );
+        $result = $npiModel->fetchAll();
+        return json_encode( $result->fetchAll( \PDO::FETCH_ASSOC ) );
+    }
+
+    protected function fetchOne($id){
+        $npiModel = new \Models\NpiModel( $this->_getPDO() );
+        $result = $npiModel->fetchOne($id);
+        return json_encode( $result->fetchAll( \PDO::FETCH_ASSOC ) );
+    }
+
+    protected function create(){
+        $npiModel = new \Models\NpiModel( $this->_getPDO() );
+        $id = $npiModel->create($_GET);
+        return json_encode( array( $npiModel->getPrimaryKeyFieldName() => $id ) );
+    }
+
+    protected function _dispatch($action){
+        switch($action) {
+            case 'update':
+                return $this->update();
+                break;
+            case 'create':
+                return $this->create();
+                break;
+            case 'findbyid':
+                return $this->fetchOne( $_POST['id'] );
+                break;
+            default:
+                return $this->fetchAll();
+        }
+    }
+
     public function getResponse(){
-//        var_dump($_GET);
-        echo '<b>test pdo request, npi table</b><br/>';
-        $sql = 'SELECT * FROM npi';
-        /**@var \PDOStatement */
-        $result = $this->_getPDO()->query($sql);
-        var_dump( $result->fetchAll( \PDO::FETCH_ASSOC) );
-        return 'npi controller';
+        if( isset($_GET['action']) && !empty($_GET['action']) ){
+            return $this->_dispatch($_GET['action']);
+        }
+        return $this->_dispatch('default');
     }
 }

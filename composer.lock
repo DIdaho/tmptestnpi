@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ee998e09c1e1bbd967ede48a632fb9af",
+    "hash": "906975839e5dc35dab9e60b496c99281",
     "packages": [
         {
             "name": "csanquer/pdo-service-provider",

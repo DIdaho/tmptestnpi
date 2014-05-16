@@ -58,7 +58,7 @@ $pdo = $app['pdo'];
 // define controllers for NPI
 $NPI = $app['controllers_factory'];
 $NPI->get('/', function ($action='') use ($app) {
-    $controller = new \Controller\NPIController($app);
+    $controller = new \Controller\NpiController($app);
     echo '<br/><u>action</u>:'.$action.'<br/>';
     return $controller->getResponse();
 });

@@ -12,7 +12,7 @@
     <script src="js/basic.js" type="text/javascript"></script>
 </head>
 <body>
-    <p>this is the basic page access, js app load etc... do your stuff...</p>
+    <p>this is the basic page access, js app load etc... do your stuff...</p><br/>
 <p>Surf the ==> <a href="http://127.0.0.1/apple_NPI/public/wave/"><img src="img/wave.png"/></a></p>
 <p>Call method ==> <a href="http://127.0.0.1/apple_NPI/public/NPI/?action=dostuff">Do Stuff</a></p>
 <p>Random HTML ==> <a href="http://127.0.0.1/apple_NPI/public/random.html">template load</a></p>

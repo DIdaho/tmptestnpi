@@ -15,3 +15,8 @@ _________ How to config application:
 
 config files are located in conf/ folder.
 duplicate local.default.php file, rename it local.php and adapt his content.
+
+
+__________ How to add namespace on autoloading
+
+just add new line in composer.json on psr-0 sublevel

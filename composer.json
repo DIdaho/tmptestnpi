@@ -4,6 +4,9 @@
         "csanquer/pdo-service-provider": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Controller": "Application/"}
+        "psr-0": {
+            "Controller": "Application/",
+            "Models": "Application/"
+        }
     }
 }
