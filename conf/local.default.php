@@ -6,7 +6,7 @@
  */
 
 return array(
-    'conflocal' => 'vallocal',
+    'debug' => false,
     'db' => array(
         'driver' => 'mysql',
         'host' => '127.0.0.1',//192.168.69.19

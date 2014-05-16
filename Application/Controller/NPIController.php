@@ -18,6 +18,9 @@ class NPIController {
     /** @return \Silex\Application */
     protected function _getApp(){return $this->_app;}
 
+    /**
+     * @return \PDO
+     */
     protected function _getPDO(){
         $app = $this->_getApp();
         // get PDO connections
@@ -31,9 +34,12 @@ class NPIController {
     }
 
     public function getResponse(){
-        var_dump($_GET);
-        /* test pdo */
-        $pdo = $this->_getPDO();
+//        var_dump($_GET);
+        echo '<b>test pdo request, npi table</b><br/>';
+        $sql = 'SELECT * FROM npi';
+        /**@var \PDOStatement */
+        $result = $this->_getPDO()->query($sql);
+        var_dump( $result->fetchAll( \PDO::FETCH_ASSOC) );
         return 'npi controller';
     }
-} 
+}
