@@ -91,7 +91,7 @@ class ModelDefault {
             //get table description
             $sql = 'EXPLAIN '.$this->_tableName;
             /**@var $result \PDOStatement */
-            $result = $this->_getPDO()->query($sql);
+            $result = $this->query($sql);
 
             //check if table exist
             if( false === $result ){
@@ -135,6 +135,23 @@ class ModelDefault {
         }
         return false;
     }
+
+    /**
+     * pdo query hook with error management
+     *
+     * @param $sql string
+     * @return \PDOStatement
+     * @throws \Exception
+     */
+    protected function query($sql){
+        $queryResult = $this->_getPDO()->query($sql);
+        if (!$queryResult) {
+            $info = get_class($this).' - '.implode(', ', $this->_getPDO()->errorInfo()).', SQL request : "' . $sql;
+            throw new \Exception($info);
+        } else {
+            return $queryResult;
+        }
+    }
     /**
      * @return \PDOStatement
      * @throws \Exception
@@ -142,7 +159,7 @@ class ModelDefault {
     public function fetchAll(){
         $this->_checkIfTableParameterDefined();
         $sql = "SELECT * FROM `".$this->_tableName."`";
-        return $this->_getPDO()->query($sql);
+        return $this->query($sql);
     }
 
     /**
@@ -153,13 +170,15 @@ class ModelDefault {
     public function fetchOne($id){
         $this->_checkIfTableParameterDefined();
         $sql = "SELECT * FROM `".$this->_tableName."` WHERE `".$this->getPrimaryKeyFieldName()."` = ".$this->cleanData($id);
-        return $this->_getPDO()->query($sql);
+        $result = $this->query($sql);
+        return $result;
+
     }
 
     public function delete($id){
         $this->_checkIfTableParameterDefined();
         $sql = "DELETE FROM `".$this->_tableName."` WHERE `".$this->getPrimaryKeyFieldName()."` = ".$this->cleanData($id);
-        return $this->_getPDO()->query($sql);
+        return $this->query($sql);
     }
 
     public function create($data){
@@ -174,8 +193,7 @@ class ModelDefault {
             }
         }
         $sql = 'INSERT INTO `'.$this->_tableName.'` ('. implode( ',', $fields ) .') VALUES ('. implode( ',', $fieldValues ) . ')';
-        echo $sql;
-        $this->_getPDO()->query($sql);
+        $this->query($sql);
         return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
     }
 
@@ -197,10 +215,13 @@ class ModelDefault {
         if( false === $id || !is_numeric($id) || empty($updateValue) ){
             throw new \Exception('No primary key value defined or empty primary key value or no data!');
         }else{
-            $sql = 'UPDATE `'.$this->_tableName.'` SET '. $updateValue.' '.$whereConstraint;
+            $sql = 'UPDATE `'.$this->_tableName.'` SET '. $updateValue.''.$whereConstraint;
         }
-        echo $sql;
-        return $this->_getPDO()->query($sql);
+        /* @var \PDOStatement*/
+        return $this->query($sql);
+//        var_dump($this->_getPDO()->errorInfo());
+//        var_dump($this->_getPDO()->errorCode());
+//        var_dump($result->errorCode());
     }
 
 

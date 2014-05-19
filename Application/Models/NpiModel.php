@@ -11,6 +11,7 @@ class NpiModel extends ModelDefault{
 
     public function __construct($pdo_instance){
         parent::__construct($pdo_instance, 'npi');
+        var_dump( $this->_getPDO() );
     }
 
 } 

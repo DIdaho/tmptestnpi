@@ -17,7 +17,6 @@ class NpiController extends ControllerDefault {
 
     protected function update(){
         $npiModel = new \Models\NpiModel( $this->_getPDO() );
-//        $result = $npiModel->fetchAll();
         $result = $npiModel->update($_GET);
         return json_encode( array('success' => true) );
     }
@@ -60,6 +59,7 @@ class NpiController extends ControllerDefault {
         if( isset($_GET['action']) && !empty($_GET['action']) ){
             return $this->_dispatch($_GET['action']);
         }
+
         return $this->_dispatch('default');
     }
 }

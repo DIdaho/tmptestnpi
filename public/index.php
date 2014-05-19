@@ -2,6 +2,7 @@
 // web/index.php
 require_once __DIR__.'/../vendor/autoload.php';
 use CSanquer\Silex\PdoServiceProvider\Provider\PdoServiceProvider;
+use Symfony\Component\HttpFoundation\Response;
 
 $app = new Silex\Application();
 //$app->get('/', function() use($app) {
@@ -29,6 +30,7 @@ if( !file_exists('../conf/local.php') ){
 }
 $configFile_local = include_once '../conf/local.php';
 
+/*@todo : rename*/
 $conf = array_merge( $configFile_global, $configFile_local );
 
 //var_dump($conf);
@@ -86,7 +88,23 @@ $app->mount('/NPI/', $NPI);
 //$app->mount('/NPI/{action}', $NPI);
 $app->mount('/wave', $wave);
 
+
+/**
+ * Error Handling
+ */
+$app->error(function (\Exception $e, $code) {
+    switch ($code) {
+        case 404:
+            $message = 'The requested page could not be found.';
+            break;
+        default:
+            $message = 'We are sorry, but something went terribly wrong.<br/><br/>'.$e->getMessage();
+    }
+
+    return new Response($message);
+});
+
 // ... definitions
-$app['debug'] = true;
+$app['debug'] = $conf['debug'];
 $app->run();
 
