@@ -1,6 +1,10 @@
-function ctrlNpiList($scope, $http, $routeParams, $modal){
+function ctrlNpiList($scope, $http, $location, $modal){
 
-    $scope.open = function(npi){
+    /**
+     * Edit NPI
+     * @param npi
+     */
+    $scope.edit = function(npi){
         var scope = $scope.$new();
         scope.npi = npi;
         $modal({
@@ -8,5 +12,13 @@ function ctrlNpiList($scope, $http, $routeParams, $modal){
             title: npi.npi_label,
             scope: scope
         });
+    }
+
+    /**
+     * View wave list
+     * @param npi
+     */
+    $scope.open = function(npi){
+        $location.path('/npi/' + npi._pk_npi);
     }
 }

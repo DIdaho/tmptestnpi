@@ -12,9 +12,14 @@
             <td>{{npi.npi_label}}</td>
             <td>{{npi.npi_product_level1}}</td>
             <td>
-                <a class="btn btn-primary pull-right" ng-click="open(npi)">
-                    <i class="fa fa-arrow-right"></i>
-                </a>
+                <div class="pull-right">
+                    <a class="btn btn-primary" ng-click="edit(npi)">
+                        &nbsp;<i class="fa fa-pencil"></i>&nbsp;
+                    </a>
+                    <a class="btn btn-primary" ng-click="open(npi)">
+                        <i class="fa fa-list"></i> View waves
+                    </a>
+                </div>
             </td>
         </tr>
     </tbody>

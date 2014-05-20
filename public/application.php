@@ -18,6 +18,7 @@
 
 <script type="text/javascript" src="js/controller/npiList.js"></script>
 <script type="text/javascript" src="js/controller/npiDetail.js"></script>
+<script type="text/javascript" src="js/controller/waveList.js"></script>
 <script type="text/javascript" src="js/application.js"></script>
 
 <div class="container-fluid" ng-app="Application">

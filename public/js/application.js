@@ -14,9 +14,14 @@ var module = angular.module('Application', [
 ])
 .config(function($routeProvider){
     $routeProvider.
-        when('/npi/:id?', {
+        when('/npi', {
             templateUrl: 'template/npi/list.html',
             controller: 'ctrlNpiList',
+            reloadOnSearch: false
+        }).
+        when('/npi/:id', {
+            templateUrl: 'template/wave/list.html',
+            controller: 'ctrlWaveList',
             reloadOnSearch: false
         }).
 //        when('/report', {

@@ -1,0 +1,21 @@
+<h1>Wave List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="wave in waves">
+            <td>{{npi.wave_label}}</td>
+            <td>
+                <div class="pull-right">
+                    <a class="btn btn-primary" ng-click="edit(wave)">
+                        &nbsp;<i class="fa fa-pencil"></i>&nbsp;
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
