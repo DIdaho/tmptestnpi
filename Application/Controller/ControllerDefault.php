@@ -106,5 +106,4 @@ class ControllerDefault implements ControllerProviderInterface {
         return $controller;
     }
 
-
 } 

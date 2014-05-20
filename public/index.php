@@ -5,7 +5,6 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-
 use CSanquer\Silex\PdoServiceProvider\Provider\PdoServiceProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,6 +41,8 @@ $app->register(
  * load route config, and controller...
  */
 $app->mount('/npi', new \Controller\NpiController() );
+$app->mount('/user', new \Controller\UserController() );
+$app->mount('/wave', new \Controller\WaveController() );
 
 /**
  * Error Handling
@@ -61,4 +62,3 @@ $app->error(function (\Exception $e, $code) {
 // ... definitions
 $app['debug'] = $conf['debug'];
 $app->run();
-

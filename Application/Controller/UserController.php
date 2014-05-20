@@ -7,19 +7,22 @@
 
 namespace Controller;
 
+use Silex\Application;
 
 class UserController extends ControllerDefault{
 
-    protected $request=false;
-
-    public function __construct($app){
-        $this->_setApp($app);
+    public function __construct(){
+        parent::__construct('user');
     }
 
-    public function dispatch($request, $param=false){
-        echo 'param : <br/>';var_dump($param);
-        echo '<br/>request : ';var_dump($request);
-        return ' ';
+    public function connect(Application $app) {
+        $controller = $this->controller;
+
+        // In here, you can write additional controller
+        // or overwrite existing controller in ControllerCore
+
+        parent::connect($app);
+        return $controller;
     }
 
 }

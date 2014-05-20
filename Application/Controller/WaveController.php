@@ -7,23 +7,21 @@
 
 namespace Controller;
 
+use Silex\Application;
 
 class WaveController {
-    /** @var \Silex\Application */
-    protected $_app;
 
-    /** @param \Silex\Application $app */
-    protected function setApp($app){$this->_app = $app;}
-
-    /** @return \Silex\Application */
-    protected function getApp(){return $this->_app;}
-
-    public function __construct($app){
-        $this->setApp($app);
+    public function __construct(){
+        parent::__construct('wave');
     }
 
-    public function getResponse(){
-        var_dump( $this->getApp() );
-        return 'npi controller';
+    public function connect(Application $app) {
+        $controller = $this->controller;
+
+        // In here, you can write additional controller
+        // or overwrite existing controller in ControllerCore
+
+        parent::connect($app);
+        return $controller;
     }
 } 
