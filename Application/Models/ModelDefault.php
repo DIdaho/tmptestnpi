@@ -183,7 +183,7 @@ class ModelDefault {
 
     public function create($data){
         $this->_checkIfTableParameterDefined();
-        print_r($data);
+//        print_r($data);
         $fields = array();
         $fieldValues = array();
         foreach( $data as $fieldName => $value ){
