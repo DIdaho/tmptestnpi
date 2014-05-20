@@ -49,7 +49,7 @@ $app->get('/', function () {
     include_once('basicPage.php');
     //or do other stuff...
     //but something must be return
-//    return '';
+    return '';
 
 });
 $app->mount('/npi', new \Controller\NpiController() );
