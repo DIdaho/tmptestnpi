@@ -49,7 +49,7 @@ $app->register(
  */
 $app->get('/', function () {
     //you could include whatever you want
-    include_once('basicPage.php');
+    include_once('application.php');
     //or do other stuff...
     //but something must be return
     return '';

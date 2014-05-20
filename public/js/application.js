@@ -14,9 +14,9 @@ var module = angular.module('Application', [
 ])
 .config(function($routeProvider){
     $routeProvider.
-        when('/npi/:templateId?', {
+        when('/npi/:id?', {
             templateUrl: 'template/npi/list.html',
-            controller: 'ctrlNpi',
+            controller: 'ctrlNpiList',
             reloadOnSearch: false
         }).
 //        when('/report', {
@@ -56,7 +56,12 @@ var module = angular.module('Application', [
     };
 
     //Promise tracker
-    $rootScope.tracker = promiseTracker();
+    $rootScope.tracker = promiseTracker();    //Load countries
+
+    $rootScope.npis = [];
+    $http.get('npi').success(function(data){
+        $rootScope.npis = data;
+    })
 
 });
 

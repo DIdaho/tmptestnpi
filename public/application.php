@@ -16,9 +16,29 @@
 <script type="text/javascript" src="bower/angular-sanitize/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="bower/angular-ui-sortable/sortable.js"></script>
 
-<script type="text/javascript" src="js/controller/npi.js"></script>
+<script type="text/javascript" src="js/controller/npiList.js"></script>
+<script type="text/javascript" src="js/controller/npiDetail.js"></script>
 <script type="text/javascript" src="js/application.js"></script>
 
 <div class="container-fluid" ng-app="Application">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Apple NPI</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-class="{active: activeRoute('npi')}"><a href="#/npi">NPI</a></li>
+<!--                    <li ng-class="{active: activeRoute('/templates')}"><a href="#/templates">Configuration</a></li>-->
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
     <div ng-view></div>
+
 </div>

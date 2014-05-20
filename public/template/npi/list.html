@@ -1,3 +1,21 @@
-
-
-Your stuff
+<h1>NPI List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Product</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="npi in npis|orderBy:'npi_label'">
+            <td>{{npi.npi_label}}</td>
+            <td>{{npi.npi_product_level1}}</td>
+            <td>
+                <a class="btn btn-primary pull-right" ng-click="open(npi)">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
