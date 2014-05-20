@@ -41,10 +41,17 @@ $app->register(
     )
 );
 
-
 /**
  * load route config, and controller...
  */
+$app->get('/', function () {
+    //you could include whatever you want
+    include_once('basicPage.php');
+    //or do other stuff...
+    //but something must be return
+//    return '';
+
+});
 $app->mount('/npi', new \Controller\NpiController() );
 $app->mount('/user', new \Controller\UserController() );
 $app->mount('/wave', new \Controller\WaveController() );
