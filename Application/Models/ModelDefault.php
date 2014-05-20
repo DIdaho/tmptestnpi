@@ -87,7 +87,7 @@ class ModelDefault {
      * @throws \Exception
      */
     protected function _loadTableConfigurationData(){
-        if( !empty($this->_tableName) ){
+        if( false !== $this->_tableName && !empty($this->_tableName) ){
             //get table description
             $sql = 'EXPLAIN '.$this->_tableName;
             /**@var $result \PDOStatement */
@@ -143,7 +143,7 @@ class ModelDefault {
      * @return \PDOStatement
      * @throws \Exception
      */
-    protected function query($sql){
+    public function query($sql){
         $queryResult = $this->_getPDO()->query($sql);
         if (!$queryResult) {
             $info = get_class($this).' - '.implode(', ', $this->_getPDO()->errorInfo()).', SQL request : "' . $sql;

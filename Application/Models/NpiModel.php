@@ -14,4 +14,4 @@ class NpiModel extends ModelDefault{
         var_dump( $this->_getPDO() );
     }
 
-} 
+}
