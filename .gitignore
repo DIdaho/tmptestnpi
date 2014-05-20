@@ -2,3 +2,4 @@ vendor/
 /*.phar
 /.idea
 /conf/local.php
+public/bower/
