@@ -9,6 +9,7 @@ use CSanquer\Silex\PdoServiceProvider\Provider\PdoServiceProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Controller\ControllerDefault;
 
 $app = new Silex\Application();
 
@@ -19,12 +20,15 @@ if( !file_exists('../conf/global.php') ){
     die('Missing global config file, service are unable to work properly.');
 }
 $configFile_global = include_once '../conf/global.php';
+
 if( !file_exists('../conf/local.php') ){
     die('Missing local config file, please duplicate default local config and modify it where necessary');
 }
 $configFile_local = include_once '../conf/local.php';
 
 $conf = array_merge( $configFile_global, $configFile_local );
+//add configuration parameter at application (can be retrieved from anywhere)
+$app[ControllerDefault::__PARAM_APP_KEY] = $conf;
 
 /**
  * register pdo db service provider
@@ -36,6 +40,7 @@ $app->register(
         'pdo.db.options' => $conf['db'],
     )
 );
+
 
 /**
  * load route config, and controller...
@@ -60,5 +65,5 @@ $app->error(function (\Exception $e, $code) {
 });
 
 // ... definitions
-$app['debug'] = $conf['debug'];
+$app['debug'] = $app['conf']['debug'];
 $app->run();

@@ -24,6 +24,8 @@ class NpiController extends ControllerDefault {
         // or overwrite existing controller in ControllerCore
 
         parent::connect($app);
+        //get global configuration
+//        var_dump( $this->_getAppParameters('db') );
         return $controller;
     }
 

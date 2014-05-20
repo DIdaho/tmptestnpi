@@ -9,7 +9,7 @@ namespace Controller;
 
 use Silex\Application;
 
-class WaveController {
+class WaveController extends ControllerDefault {
 
     public function __construct(){
         parent::__construct('wave');
@@ -24,4 +24,4 @@ class WaveController {
         parent::connect($app);
         return $controller;
     }
-} 
+}

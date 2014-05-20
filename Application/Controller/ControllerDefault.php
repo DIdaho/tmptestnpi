@@ -23,6 +23,8 @@ class ControllerDefault implements ControllerProviderInterface {
 
     protected $controller;
 
+    const __PARAM_APP_KEY = 'conf';
+
     /** @param \Silex\Application $app */
     protected function _setApp($app){$this->_app = $app;}
 
@@ -35,6 +37,14 @@ class ControllerDefault implements ControllerProviderInterface {
 
     public function setController($controller) { $this->controller = $controller; }
 
+    protected function _getAppParameters($name){
+        $app = $this->_getApp();
+        if( !empty($app) && !empty($name) ){
+            return $app[self::__PARAM_APP_KEY][$name];
+        }else{
+            return false;
+        }
+    }
     /**
      * @return \PDO
      */

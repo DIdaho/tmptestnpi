@@ -22,6 +22,7 @@ class UserController extends ControllerDefault{
         // or overwrite existing controller in ControllerCore
 
         parent::connect($app);
+
         return $controller;
     }
 
