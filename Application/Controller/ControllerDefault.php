@@ -99,6 +99,8 @@ class ControllerDefault implements ControllerProviderInterface {
         $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository) {
 //            $repository = new $targetRepository($app['db']);
             $params = $request->request->all();
+            $params = json_decode($request->getContent(), true);
+//            var_dump($params);
 //            var_dump($params);
             $params[ $targetRepository->getPrimaryKeyFieldName() ] = $id;
 //            return $app->json($repository->update($id, $params));

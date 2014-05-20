@@ -122,7 +122,7 @@ class ModelDefault {
 
     protected function _isTableField($fieldName){
         $this->_checkIfTableParameterDefined();
-        if( in_array($fieldName, $this->getFieldNameList() ) ){
+        if( in_array($fieldName, $this->getFieldNameList(), true ) ){
             return true;
         }
         return false;
@@ -233,7 +233,7 @@ class ModelDefault {
             }
         }
         $updateValue = rtrim($updateValue, ',');
-
+//var_dump($data);
         if( false === $id || !is_numeric($id) || empty($updateValue) ){
             throw new \Exception('No primary key value defined or empty primary key value or no data!');
         }else{
