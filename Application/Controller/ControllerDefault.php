@@ -83,7 +83,7 @@ class ControllerDefault implements ControllerProviderInterface {
 //            $repository = new $targetRepository($app['db']);
 //            $result = $repository->find($id);
             $result = $targetRepository->fetchOne($id);
-            $result = $result->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $result->fetch(\PDO::FETCH_ASSOC);
             return $app->json($result);
         })
             ->assert('id', '\d+');
