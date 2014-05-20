@@ -5,7 +5,16 @@ function ctrlNpiDetail($scope, $http){
 
     //Save item
     $scope.save = function(){
-        $http.put('npi/' + $scope.item._pk_npi, $scope.item).success(function(data){
+        if($scope.item._pk_npi)
+        {
+
+        }
+        var id = $scope.item._pk_npi ? $scope.item._pk_npi:'';
+        $http({
+            url: 'npi/' + id,
+            data: $scope.item,
+            method: id ? 'PUT':'POST'
+        }).success(function(data){
             if($scope.npi)
             {
                 angular.extend($scope.npi, data);

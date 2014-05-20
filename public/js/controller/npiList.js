@@ -9,7 +9,7 @@ function ctrlNpiList($scope, $http, $location, $modal){
         scope.npi = npi;
         $modal({
             template: 'template/npi/detail.html',
-            title: npi.npi_label,
+            title: npi ? npi.npi_label:'New NPI',
             scope: scope
         });
     }
