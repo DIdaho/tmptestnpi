@@ -116,6 +116,8 @@ class ModelDefault {
         if ((!is_numeric($data) ) && is_string($data)) {
             $data = str_replace("\\", '', $data);
             $data = $this->_getPDO()->quote($data, \PDO::PARAM_STR);
+        }elseif(empty($data) || null === $data){
+            $data = "''";
         }
         return $data;
     }

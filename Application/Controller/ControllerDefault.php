@@ -90,7 +90,9 @@ class ControllerDefault implements ControllerProviderInterface {
 
         $controller->post("/", function(Request $request) use ($app, $targetRepository) {
 //            $repository = new $targetRepository($app['db']);
-            $params = $request->request->all();
+//            $params = $request->request->all();
+            $params = json_decode($request->getContent(), true);
+//            var_dump($params);
 //            return $app->json($repository->insert($params));
             $id = $targetRepository->create($params);
             return $app->json( $targetRepository->fetchOne($id)->fetch(\PDO::FETCH_ASSOC) );
@@ -98,7 +100,7 @@ class ControllerDefault implements ControllerProviderInterface {
 
         $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository) {
 //            $repository = new $targetRepository($app['db']);
-            $params = $request->request->all();
+//            $params = $request->request->all();
             $params = json_decode($request->getContent(), true);
 //            var_dump($params);
 //            var_dump($params);
