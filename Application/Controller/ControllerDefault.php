@@ -99,9 +99,10 @@ class ControllerDefault implements ControllerProviderInterface {
         $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository) {
 //            $repository = new $targetRepository($app['db']);
             $params = $request->request->all();
-
+//            var_dump($params);
+            $params[ $targetRepository->getPrimaryKeyFieldName() ] = $id;
 //            return $app->json($repository->update($id, $params));
-            return $app->json($targetRepository->update($params));
+            return $app->json( $targetRepository->create($params) );
         })
             ->assert('id', '\d+');
 

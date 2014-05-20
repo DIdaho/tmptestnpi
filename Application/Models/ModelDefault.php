@@ -197,6 +197,28 @@ class ModelDefault {
         return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
     }
 
+    public function createOnDuplicateUpdate($data){
+        $this->_checkIfTableParameterDefined();
+        print_r($data);
+        $fields = array();
+        $fieldValues = array();
+        $duplicateString = '';
+        foreach( $data as $fieldName => $value ){
+            if( $this->_isTableField($fieldName) /*&& !$this->_isTablePrimaryKey($fieldName)*/ ){
+                array_push( $fields, '`'.$fieldName.'`' );
+                array_push( $fieldValues, $this->cleanData($value) );
+                $duplicateString .= '`'.$fieldName.'` = VALUES(`'.$fieldName.'`),';
+            }
+        }
+        $duplicateString = rtrim($duplicateString, ',');
+        $sql = 'INSERT INTO `'.$this->_tableName.
+                '` ('. implode( ',', $fields ) .') VALUES ('. implode( ',', $fieldValues ) . ')'.
+                ' ON DUPLICATE KEY UPDATE '.$duplicateString;
+//        return $sql;
+        $this->query($sql);
+        return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
+    }
+
     public function update($data){
         $this->_checkIfTableParameterDefined();
         $updateValue = '';
@@ -215,13 +237,10 @@ class ModelDefault {
         if( false === $id || !is_numeric($id) || empty($updateValue) ){
             throw new \Exception('No primary key value defined or empty primary key value or no data!');
         }else{
-            $sql = 'UPDATE `'.$this->_tableName.'` SET '. $updateValue.''.$whereConstraint;
+            $sql = 'UPDATE `'.$this->_tableName.'` SET '. $updateValue.' '.$whereConstraint;
         }
         /* @var \PDOStatement*/
         return $this->query($sql);
-//        var_dump($this->_getPDO()->errorInfo());
-//        var_dump($this->_getPDO()->errorCode());
-//        var_dump($result->errorCode());
     }
 
 
