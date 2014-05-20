@@ -14,8 +14,8 @@ use Controller\ControllerDefault;
 $app = new Silex\Application();
 
 //we enable the special method (PUT, DELETE) by method override
-Request::enableHttpMethodParameterOverride();
-
+//Request::enableHttpMethodParameterOverride();
+//
 /**
  * load app config file
  */
