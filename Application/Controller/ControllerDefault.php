@@ -35,6 +35,8 @@ class ControllerDefault implements ControllerProviderInterface {
         return $this->repository = new \Models\ModelDefault($this->_getPDO(), $this->_tableName);
     }
 
+    public function getRepository(){return $this->repository;}
+
     public function setController($controller) { $this->controller = $controller; }
 
     protected function _getAppParameters($name){

@@ -79,7 +79,7 @@ class ModelDefault {
     /**
      * @return \PDO
      */
-    protected function _getPDO(){
+    public function _getPDO(){
         return $this->pdo;
     }
 
