@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" role="dialog">
+<div class="modal modal-activity" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -10,14 +10,17 @@
             <div class="modal-body">
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Title</label>
+                        <label>Title
+                            <i class="fa fa-info-circle" bs-tooltip="'The reference displayed for this activity in administration & reports.'" data-placement="right"></i>
+                        </label>
                         <input class="form-control" type="text" ng-model="item.activ_title"/>
-                        <span class="help-block">The title is the reference displayed for this activity in administration & reports.</span>
+                        <span class="help-block"></span>
                     </div>
                     <div class="form-group">
-                        <label>Label</label>
+                        <label>Label
+                            <i class="fa fa-info-circle" bs-tooltip="'The text displayed to the end users, it should be grammatically correct.'" data-placement="right"></i>
+                        </label>
                         <input class="form-control" type="text" ng-model="item.activ_label"/>
-                        <span class="help-block">The label is the text displayed to the end users, it should be grammatically correct.</span>
                     </div>
                     <div class="checkbox">
                         <label>
@@ -28,9 +31,11 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="form-group">
-                        <label>Description</label>
+                        <label>
+                            Description
+                            <i class="fa fa-info-circle" bs-tooltip="'Help text provided to the end users through an <i class=\'fa fa-info-circle\'></i> icon. If left empty, the icon will be hidden.'" data-placement="right" data-html="true"></i>
+                        </label>
                         <textarea class="form-control" ng-model="item.activ_description"></textarea>
-                        <span class="help-block">The description is a help text provided to the end users through an <i class="fa fa-info-circle"></i> icon. If not provided, the icon will be hidden.</span>
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -42,8 +47,41 @@
                                 bs-select></button>
                     </div>
 
+                    <!--LIST-->
+                    <div ng-if="item.activ_config.type=='LIST'">
+                        <h4>
+                            Answers
+                            <a class="btn btn-success btn-sm pull-right" ng-click="addAnswer()"><i class="fa fa-plus"></i> Add an answer</a>
+                        </h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Label <i class="fa fa-info-circle" bs-tooltip="'Value displayed to the user when selecting her answer<br/>(for example: \'Happy\')'" data-placement="right" data-html="true"></i></th>
+                                    <th>Stored Value <i class="fa fa-info-circle" bs-tooltip="'Value stored server side and from which reports are drawn (for example: \'5\')'" data-placement="right" data-html="true"></i></th>
+                                    <th>Is Positive</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="answer in item.activ_config.answers">
+                                    <td><input class="form-control input-sm" ng-model="answer.label"/></td>
+                                    <td><input class="form-control input-sm" ng-model="answer.value"/></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="answer.positive" ng-true-value="1" ng-false-value="0"/> Positive</label></div></td>
+                                    <td><a class="btn btn-danger pull-right" ng-click="deleteAnswer(answer)"><i class="fa fa-trash-o"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-warning" ng-show="!item.activ_config.answers.length">
+                            You can add a new answer to this activity by using the <a class="btn btn-success btn-sm" ng-click="addAnswer(answer)"><i class="fa fa-plus"></i> Add an answer</a> button in the top right.
+                        </div>
+                        <div class="alert alert-info" ng-show="item.activ_config.answers.length>0">
+                            The user will be able to select an answer among the list through a dropdown menu.<br/>
+                            The "Is positive" checkbox is used by the reports to categorize answers. All answers can be positive or negative.
+                        </div>
+                    </div>
+
                     <div ng-if="item.activ_config.type=='BOOL'">
-                        <table class="table able-bordered">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th colspan="3">Configuration</th>
@@ -53,25 +91,25 @@
                                 <tr>
                                     <td>Value 1</td>
                                     <td><input class="form-control input-sm" ng-model="item.activ_config.value1" placeholder="Value 1 label"></td>
-                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value1Positive" ng-true-value="1">Is Positive</label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value1Positive" ng-true-value="1" ng-false-value="0">Is positive</label></div></td>
                                 </tr>
                                 <tr>
                                     <td>Value 2</td>
                                     <td><input class="form-control input-sm" ng-model="item.activ_config.value2" placeholder="Value 2 label"></td>
-                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value2Positive" ng-true-value="1">Is Positive</label></div></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value2Positive" ng-true-value="1" ng-false-value="0">Is positive</label></div></td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="alert alert-info">
                             The answer can be selected between "Value 1" or "Value 2" label. <br/>
-                            The "Is Positive" checkbox is used by the reports to categorize answers. Both can be positive or negative.
+                            The "Is positive" checkbox is used by the reports to categorize answers. Both can be positive or negative.
                         </div>
                     </div>
                     <div class="alert alert-info" ng-if="item.activ_config.type=='DATE'">
                         The question will be answered by the user filling a date using a calendar
                     </div>
                     <div class="alert alert-info" ng-if="item.activ_config.type=='TEXT'">
-                        The user will be provided a text box to type her answer. It is not possible to do get statistics on this type of answer.
+                        The user will be provided a text box to type her answer. This type of activity is ignored in the reports.
                     </div>
 
                 </div>

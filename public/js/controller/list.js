@@ -22,6 +22,7 @@ function ctrlList($scope, $http, $modal){
      * @param item
      */
     $scope.edit = function(item){
+        item = item ? item:{};
         //Set default values
         $scope.setDefaultValues(item);
         //Store original item
@@ -29,7 +30,7 @@ function ctrlList($scope, $http, $modal){
         $scope.item = angular.copy(item);
         $modal({
             template: 'template/'+$scope.config.type+'/detail.html',
-            title: item ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
+            title: item && item[$scope.config.fieldName] ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
             scope: $scope
         });
     }

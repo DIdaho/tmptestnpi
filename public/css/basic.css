@@ -7,3 +7,7 @@ body {
 .table .checkbox {
   margin-bottom: 5px;
   margin-top: 5px; }
+
+.modal-activity textarea {
+  resize: none;
+  height: 150px; }
