@@ -6,7 +6,7 @@ var module = angular.module('Application', [
     'ngRoute',
     'ngSanitize',
 //    'textAngular',
-//    'angular-growl',
+    'angular-growl',
 
     'mgcrea.ngStrap',
     'ui.sortable',
@@ -24,6 +24,11 @@ var module = angular.module('Application', [
             controller: 'ctrlWaveList',
             reloadOnSearch: false
         }).
+        when('/activity', {
+            templateUrl: 'template/activity/list.html',
+            controller: 'ctrlActivityList',
+            reloadOnSearch: false
+        }).
 //        when('/report', {
 //            templateUrl: 'modules/coverage/template/reportInstance.html',
 //            controller: 'ctrlReportInstance',
@@ -35,12 +40,11 @@ var module = angular.module('Application', [
 //            reloadOnSearch: false
 //        }).
 //        when('/', {
-//            templateUrl: 'modules/coverage/template/home.html',
-//            controller: 'ctrlHome',
+//            templateUrl: 'template/home.html',
 //            reloadOnSearch: false
 //        }).
         otherwise({
-            redirectTo: '/'
+            redirectTo: '/npi'
         });
 }).run(function($rootScope, $location, $http, promiseTracker){
     //Global config
@@ -68,6 +72,25 @@ var module = angular.module('Application', [
         $rootScope.npis = data;
     })
 
+});
+
+// register the interceptor via an anonymous factory
+module.factory('errorinterceptor', function ($q, growl) {
+    function success(response) {
+        return response;
+    }
+
+    function error(response) {
+        if (response.data.message) {
+            growl.addErrorMessage(response.data.message);
+        }
+        return $q.reject(response); //similar to throw response;
+    }
+
+    return function (promise) {
+
+        return promise.then(success, error);
+    }
 });
 
 module.directive('highlight', function($parse) {

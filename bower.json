@@ -25,6 +25,10 @@
     "angular-motion": "~0.3.2",
     "angular-ui-sortable": "~0.12.6",
     "angular-sanitize": "~1.2.16",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "angular-growl": "~0.4.0"
+  },
+  "resolutions": {
+    "angular": "1.2.16"
   }
 }

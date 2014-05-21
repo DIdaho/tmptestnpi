@@ -5,10 +5,6 @@ function ctrlNpiDetail($scope, $http){
 
     //Save item
     $scope.save = function(){
-        if($scope.item._pk_npi)
-        {
-
-        }
         var id = $scope.item._pk_npi ? $scope.item._pk_npi:'';
         $http({
             url: 'npi/' + id,

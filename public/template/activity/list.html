@@ -1,17 +1,17 @@
 <h1>
-    Wave List
+    Activities List
     <a class="btn btn-success btn-lg pull-right" ng-click="edit()"><i class="fa fa-plus"></i></a>
 </h1>
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Label</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="item in list">
-            <td>{{item.wave_name}}</td>
+            <td>{{item.activ_label}}</td>
             <td>
                 <div class="pull-right">
                     <a class="btn btn-primary" ng-click="edit(item)">
@@ -22,4 +22,5 @@
         </tr>
     </tbody>
 </table>
-<!--<pre>{{list|json}}</pre>-->
+<pre>{{list|json}}</pre>
+<pre>{{config|json}}</pre>

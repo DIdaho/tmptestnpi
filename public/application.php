@@ -15,9 +15,12 @@
 <script type="text/javascript" src="bower/angular-route/angular-route.min.js"></script>
 <script type="text/javascript" src="bower/angular-sanitize/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="bower/angular-ui-sortable/sortable.js"></script>
+<script type="text/javascript" src="bower/angular-growl/build/angular-growl.min.js"></script>
 
+<script type="text/javascript" src="js/controller/list.js"></script>
 <script type="text/javascript" src="js/controller/npiList.js"></script>
 <script type="text/javascript" src="js/controller/npiDetail.js"></script>
+<script type="text/javascript" src="js/controller/activityList.js"></script>
 <script type="text/javascript" src="js/controller/waveList.js"></script>
 <script type="text/javascript" src="js/application.js"></script>
 
@@ -34,6 +37,8 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li ng-class="{active: activeRoute('npi')}"><a href="#/npi">NPI</a></li>
+                    <li ng-class="{active: activeRoute('contact')}"><a href="#/contact">Contacts</a></li>
+                    <li ng-class="{active: activeRoute('activity')}"><a href="#/activity">Activities</a></li>
 <!--                    <li ng-class="{active: activeRoute('/templates')}"><a href="#/templates">Configuration</a></li>-->
                 </ul>
             </div><!-- /.navbar-collapse -->
