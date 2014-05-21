@@ -1,20 +1,89 @@
 <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+
             <div class="modal-header" ng-show="title">
                 <button type="button" class="close" ng-click="$hide()">&times;</button>
                 <h4 class="modal-title" ng-bind="title"></h4>
             </div>
+
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input class="form-control" type="text" ng-model="item.activ_label"/>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input class="form-control" type="text" ng-model="item.activ_title"/>
+                        <span class="help-block">The title is the reference displayed for this activity in administration & reports.</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Label</label>
+                        <input class="form-control" type="text" ng-model="item.activ_label"/>
+                        <span class="help-block">The label is the text displayed to the end users, it should be grammatically correct.</span>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="item.activ_daterequired" ng-true-value="1"/>
+                            Must provide a date when answering activity
+                        </label>
+                    </div>
                 </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" ng-model="item.activ_description"></textarea>
+                        <span class="help-block">The description is a help text provided to the end users through an <i class="fa fa-info-circle"></i> icon. If not provided, the icon will be hidden.</span>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>Type</label><br/>
+                        <button class="btn btn-default"
+                                ng-model="item.activ_config.type"
+                                ng-options="i.c as i.l for i in [{c:'BOOL', l:'Boolean'}, {c:'DATE', l:'Date'}, {c:'LIST', l:'List'}, {c:'TEXT', l:'Text'}]"
+                                bs-select></button>
+                    </div>
+
+                    <div ng-if="item.activ_config.type=='BOOL'">
+                        <table class="table able-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">Configuration</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Value 1</td>
+                                    <td><input class="form-control input-sm" ng-model="item.activ_config.value1" placeholder="Value 1 label"></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value1Positive" ng-true-value="1">Is Positive</label></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Value 2</td>
+                                    <td><input class="form-control input-sm" ng-model="item.activ_config.value2" placeholder="Value 2 label"></td>
+                                    <td><div class="checkbox"><label><input type="checkbox" ng-model="item.activ_config.value2Positive" ng-true-value="1">Is Positive</label></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="alert alert-info">
+                            The answer can be selected between "Value 1" or "Value 2" label. <br/>
+                            The "Is Positive" checkbox is used by the reports to categorize answers. Both can be positive or negative.
+                        </div>
+                    </div>
+                    <div class="alert alert-info" ng-if="item.activ_config.type=='DATE'">
+                        The question will be answered by the user filling a date using a calendar
+                    </div>
+                    <div class="alert alert-info" ng-if="item.activ_config.type=='TEXT'">
+                        The user will be provided a text box to type her answer. It is not possible to do get statistics on this type of answer.
+                    </div>
+
+                </div>
+
+                <div class="clearfix"></div>
             </div>
+
             <div class="modal-footer">
                 <button class="btn btn-danger" ng-click="$hide()">Cancel</button>
                 <button class="btn btn-success" ng-click="save(item, $hide);">{{item[config.key] ? 'Save':'Create'}}</button>
             </div>
+
         </div>
     </div>
 </div>

@@ -22,15 +22,15 @@ function ctrlList($scope, $http, $modal){
      * @param item
      */
     $scope.edit = function(item){
+        //Set default values
+        $scope.setDefaultValues(item);
         //Store original item
         $scope.originalItem = item;
-        //Create childScope
-        var scope = $scope.$new();
-        scope.item = angular.copy(item);
+        $scope.item = angular.copy(item);
         $modal({
             template: 'template/'+$scope.config.type+'/detail.html',
             title: item ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
-            scope: scope
+            scope: $scope
         });
     }
 
@@ -42,8 +42,6 @@ function ctrlList($scope, $http, $modal){
     $scope.save = function(item, callback){
         //Compute id
         var id = item && item[$scope.config.key] ? item[$scope.config.key]:'';
-        //Set default values
-        $scope.setDefaultValues(item);
         //Update/Insert
         $http({
             url: $scope.config.type + '/' + id,

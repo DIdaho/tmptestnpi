@@ -35,9 +35,9 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li ng-class="{active: activeRoute('npi')}"><a href="#/npi">NPI</a></li>
-                    <li ng-class="{active: activeRoute('contact')}"><a href="#/contact">Contacts</a></li>
-                    <li ng-class="{active: activeRoute('activity')}"><a href="#/activity">Activities</a></li>
+                    <li ng-class="{active: activeRoute('npi')}"><a href="#/npi"><i class="fa fa-globe fa-lg"></i> NPI</a></li>
+                    <li ng-class="{active: activeRoute('contact')}"><a href="#/contact"><i class="fa fa-users fa-lg"></i> Contacts</a></li>
+                    <li ng-class="{active: activeRoute('activity')}"><a href="#/activity"><i class="fa fa-folder fa-lg"></i> Activities</a></li>
 <!--                    <li ng-class="{active: activeRoute('/templates')}"><a href="#/templates">Configuration</a></li>-->
                 </ul>
             </div><!-- /.navbar-collapse -->
