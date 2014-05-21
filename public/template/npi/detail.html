@@ -1,4 +1,4 @@
-<div class="modal" tabindex="-1" role="dialog" ng-controller="ctrlNpiDetail">
+<div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" ng-show="title">
@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" ng-click="$hide()">Cancel</button>
-                <button class="btn btn-success" ng-click="save()">{{item._pk_npi ? 'Save':'Create'}}</button>
+                <button class="btn btn-success" ng-click="save(item, $hide)">{{item._pk_npi ? 'Save':'Create'}}</button>
             </div>
         </div>
     </div>

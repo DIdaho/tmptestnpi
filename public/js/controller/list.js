@@ -22,9 +22,11 @@ function ctrlList($scope, $http, $modal){
      * @param item
      */
     $scope.edit = function(item){
-        var scope = $scope.$new();
+        //Store original item
         $scope.originalItem = item;
-        $scope.item = angular.copy(item);
+        //Create childScope
+        var scope = $scope.$new();
+        scope.item = angular.copy(item);
         $modal({
             template: 'template/'+$scope.config.type+'/detail.html',
             title: item ? item[$scope.config.fieldName]:'New ' + $scope.config.title,

@@ -1,4 +1,4 @@
-function ctrlWaveList($scope, $http, $routeParams, $injector){
+function ctrlListWave($scope, $http, $routeParams, $injector){
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 

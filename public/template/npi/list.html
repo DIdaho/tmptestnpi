@@ -11,7 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="npi in npis|orderBy:'npi_label'">
+        <tr ng-repeat="npi in list|orderBy:'npi_label'">
             <td>{{npi.npi_label}}</td>
             <td>{{npi.npi_product_level1}}</td>
             <td>
@@ -21,6 +21,10 @@
                     </a>
                     <a class="btn btn-primary" ng-click="open(npi)">
                         <i class="fa fa-list"></i> View waves
+                    </a>
+
+                    <a class="btn btn-danger" ng-click="delete(npi)" disabled>
+                        &nbsp;<i class="fa fa-trash-o"></i>&nbsp;
                     </a>
                 </div>
             </td>

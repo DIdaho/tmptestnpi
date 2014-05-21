@@ -18,10 +18,9 @@
 <script type="text/javascript" src="bower/angular-growl/build/angular-growl.min.js"></script>
 
 <script type="text/javascript" src="js/controller/list.js"></script>
-<script type="text/javascript" src="js/controller/npiList.js"></script>
-<script type="text/javascript" src="js/controller/npiDetail.js"></script>
-<script type="text/javascript" src="js/controller/activityList.js"></script>
-<script type="text/javascript" src="js/controller/waveList.js"></script>
+<script type="text/javascript" src="js/controller/listNpi.js"></script>
+<script type="text/javascript" src="js/controller/listWave.js"></script>
+<script type="text/javascript" src="js/controller/listActivity.js"></script>
 <script type="text/javascript" src="js/application.js"></script>
 
 <div class="container-fluid" ng-app="Application">

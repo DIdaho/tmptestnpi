@@ -1,4 +1,4 @@
-function ctrlActivityList($scope, $http, $routeParams, $injector){
+function ctrlListActivity($scope, $http, $injector){
 
     $scope.config = {
         type: 'activity',

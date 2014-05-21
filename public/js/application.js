@@ -16,17 +16,17 @@ var module = angular.module('Application', [
     $routeProvider.
         when('/npi', {
             templateUrl: 'template/npi/list.html',
-            controller: 'ctrlNpiList',
+            controller: 'ctrlListNpi',
             reloadOnSearch: false
         }).
         when('/npi/:id', {
             templateUrl: 'template/wave/list.html',
-            controller: 'ctrlWaveList',
+            controller: 'ctrlListWave',
             reloadOnSearch: false
         }).
         when('/activity', {
             templateUrl: 'template/activity/list.html',
-            controller: 'ctrlActivityList',
+            controller: 'ctrlListActivity',
             reloadOnSearch: false
         }).
 //        when('/report', {
