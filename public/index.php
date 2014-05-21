@@ -58,6 +58,7 @@ $app->get('/', function () {
 $app->mount('/npi', new \Controller\NpiController() );
 $app->mount('/user', new \Controller\UserController() );
 $app->mount('/wave', new \Controller\WaveController() );
+$app->mount('/activity', new \Controller\ActivityController() );
 
 /**
  * Error Handling

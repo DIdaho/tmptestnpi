@@ -188,6 +188,7 @@ class ModelDefault {
 //        print_r($data);
         $fields = array();
         $fieldValues = array();
+//        var_dump($data);exit();
         foreach( $data as $fieldName => $value ){
             if( $this->_isTableField($fieldName) && !$this->_isTablePrimaryKey($fieldName) ){
                 array_push( $fields, '`'.$fieldName.'`' );
@@ -201,7 +202,7 @@ class ModelDefault {
 
     public function createOnDuplicateUpdate($data){
         $this->_checkIfTableParameterDefined();
-        print_r($data);
+//        print_r($data);
         $fields = array();
         $fieldValues = array();
         $duplicateString = '';
