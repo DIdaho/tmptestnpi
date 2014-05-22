@@ -1,21 +1,12 @@
 //For fixed navbar
-body { padding-top: 70px; }
-
-.table{
+.input-search{
+    position: fixed;
+    top: 51px;
     .form-control{
-        margin-bottom: 0;
-        margin-top: 0;
+        border-radius: 0;
+        border-right: 0;
     }
-    .checkbox{
-
-        margin-bottom: 5px;
-        margin-top: 5px;
-    }
-}
-
-.modal-activity{
-    textarea{
-        resize: none;
-        height:150px;
+    .input-group-addon{
+        border-radius: 0;
     }
 }

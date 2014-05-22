@@ -3,32 +3,29 @@
     <!--<li>{{current.name}}</li>-->
 <!--</ol>-->
 
-<div class="row">
-    <div class="col-lg-4">
-        <div class="col-xs-4 text-right"><strong>Name</strong></div>
-        <div class="col-xs-8">{{current.name}}</div>
-    </div>
-    <div class="col-lg-4">
-        <div class="col-xs-4 text-right"><strong>City</strong></div>
-        <div class="col-xs-8">{{current.city}}</div>
-    </div>
-    <div class="col-lg-4">
-        <div class="col-xs-4 text-right"><strong>Postal Code</strong></div>
-        <div class="col-xs-8">{{current.zip}}</div>
+
+
+<div class="panel panel-default panel-info">
+    <div class="panel-body bg-info">
+        <div class="col-lg-4">
+            <div class="col-xs-4 text-right"><strong>Name</strong></div>
+            <div class="col-xs-8">{{current.name}}</div>
+        </div>
+        <div class="col-lg-4">
+            <div class="col-xs-4 text-right"><strong>City</strong></div>
+            <div class="col-xs-8">{{current.city}}</div>
+        </div>
+        <div class="col-lg-4">
+            <div class="col-xs-4 text-right"><strong>Postal Code</strong></div>
+            <div class="col-xs-8">{{current.zip}}</div>
+        </div>
     </div>
 </div>
 
-<div class="clearfix">&nbsp;</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">Question 1</div>
-    <div class="panel-body">Question 1</div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-heading">Question 2</div>
-    <div class="panel-body">Question 2</div>
-</div>
-<div class="panel panel-default">
-    <div class="panel-heading">Question 3</div>
-    <div class="panel-body">Question 3</div>
+<div class="panel panel-default" ng-repeat="question in [1,2,3]">
+    <div class="panel-heading">
+        Question {{question}} label
+        <i class="fa fa-info-circle fa-2x pull-right" bs-tooltip="'Question {{question}} description'" data-placement="left"></i>
+    </div>
+    <div class="panel-body">Question {{question}}</div>
 </div>

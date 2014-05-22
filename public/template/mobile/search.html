@@ -1,4 +1,27 @@
-<div ng-include="'template/mobile/navigation.html'"/>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">-->
+            <!--<span class="sr-only">Toggle navigation</span>-->
+            <!--<i class="fa fa-search"></i>-->
+            <!--</button>-->
+            <a class="navbar-brand" ng-click="select()"><i class="fa fa-home"></i> {{wave.wave_name}}</a>
+            <div class="clearfix"></div>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="input-group input-search" ng-show="!current">
+    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+    <input class="form-control input-lg" ng-model="search" placeholder="Search by AppleID / Name / City / Postal Code"/>
+</div>
+<div ng-show="!current">
+    <!-- make room for search box-->
+    <br/>
+    <br/>
+</div>
+
 <div class="container-fluid">
     <table class="table table-striped table-hover" ng-show="!current">
         <thead>
@@ -9,11 +32,11 @@
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
-            <tr>
-                <td colspan="5">
-                    <input class="form-control input-lg" ng-model="search" placeholder="Search POS"/>
-                </td>
-            </tr>
+            <!--<tr>-->
+                <!--<td colspan="5">-->
+                    <!--<input class="form-control input-lg" ng-model="search" placeholder="Search POS"/>-->
+                <!--</td>-->
+            <!--</tr>-->
         </thead>
         <tbody>
             <tr ng-repeat="pos in list|filter:{$:search}|orderBy:'name'" ng-click="select(pos)">
@@ -21,17 +44,19 @@
                 <td>{{pos.city}}</td>
                 <td>{{pos.zip}}</td>
                 <td>
-                    <span class="fa-stack text-success" ng-class="{'text-warning':pos.name>'G'}" ng-show="pos.name<'L'">
-                      <i class="fa fa-square fa-stack-2x"></i>
-                      <i class="fa fa-check fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack text-danger" ng-show="pos.name>='L'">
-                      <i class="fa fa-square fa-stack-2x"></i>
-                      <i class="fa fa-warning fa-stack-1x fa-inverse"></i>
-                    </span>
+                    <div  class="pull-right">
+                        <span class="fa-stack text-success" ng-class="{'text-warning':pos.name>'G'}" ng-show="pos.name<'L'" bs-tooltip="'All questions answered'" data-placement="left">
+                          <i class="fa fa-square fa-stack-2x"></i>
+                          <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <span class="fa-stack text-danger" ng-show="pos.name>='L'" bs-tooltip="'Some questions are unanswered'" data-placement="left">
+                          <i class="fa fa-square fa-stack-2x"></i>
+                          <i class="fa fa-warning fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </div>
                 </td>
                 <td>
-                    <span class="fa-stack text-muted">
+                    <span class="fa-stack text-muted pull-right">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fa fa-arrow-right fa-stack-1x fa-inverse"></i>
                     </span>

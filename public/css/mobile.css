@@ -1,0 +1,8 @@
+.input-search {
+  position: fixed;
+  top: 51px; }
+  .input-search .form-control {
+    border-radius: 0;
+    border-right: 0; }
+  .input-search .input-group-addon {
+    border-radius: 0; }
