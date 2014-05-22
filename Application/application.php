@@ -2,6 +2,7 @@
 <link href="bower/font-awesome/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css">
 <link href="bower/angular-motion/dist/angular-motion.min.css" media="screen" rel="stylesheet" type="text/css">
 <link href="css/basic.css" media="screen" rel="stylesheet" type="text/css">
+<link href="css/application.css" media="screen" rel="stylesheet" type="text/css">
 
 <script type="text/javascript" src="bower/underscore/underscore.js"></script>
 
@@ -17,15 +18,21 @@
 <script type="text/javascript" src="bower/angular-ui-sortable/sortable.js"></script>
 <script type="text/javascript" src="bower/angular-growl/build/angular-growl.min.js"></script>
 
+<!-- CONTROLLERS -->
 <script type="text/javascript" src="js/controller/list.js"></script>
 <script type="text/javascript" src="js/controller/listNpi.js"></script>
 <script type="text/javascript" src="js/controller/listWave.js"></script>
 <script type="text/javascript" src="js/controller/listActivity.js"></script>
+<script type="text/javascript" src="js/controller/listContact.js"></script>
+
 <script type="text/javascript" src="js/application.js"></script>
+<script type="text/javascript" src="js/route/application.js"></script>
 
 <div class="container-fluid" ng-app="Application">
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div growl></div>
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-if="!activeRoute('mobile')">
         <div class="container-fluid">
 
             <div class="navbar-header">

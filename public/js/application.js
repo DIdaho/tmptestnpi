@@ -11,47 +11,7 @@ var module = angular.module('Application', [
     'mgcrea.ngStrap',
     'ui.sortable',
     'ajoslin.promise-tracker'
-])
-.config(function($routeProvider){
-    $routeProvider.
-        when('/npi', {
-            templateUrl: 'template/npi/list.html',
-            controller: 'ctrlListNpi',
-            reloadOnSearch: false
-        }).
-        when('/npi/:id', {
-            templateUrl: 'template/wave/list.html',
-            controller: 'ctrlListWave',
-            reloadOnSearch: false
-        }).
-        when('/activity', {
-            templateUrl: 'template/activity/list.html',
-            controller: 'ctrlListActivity',
-            reloadOnSearch: false
-        }).
-//        when('/report', {
-//            templateUrl: 'modules/coverage/template/reportInstance.html',
-//            controller: 'ctrlReportInstance',
-//            reloadOnSearch: false
-//        }).
-//        when('/setting', {
-//            templateUrl: 'modules/coverage/template/reportParameter.html',
-//            controller: 'ctrlReportParameter',
-//            reloadOnSearch: false
-//        }).
-//        when('/', {
-//            templateUrl: 'template/home.html',
-//            reloadOnSearch: false
-//        }).
-        otherwise({
-            redirectTo: '/npi'
-        });
-}).run(function($rootScope, $location, $http, promiseTracker){
-    //Global config
-    $rootScope.config = {
-
-    };
-
+]).run(function($rootScope, $location, $http, promiseTracker){
     //Returns true if passed route(s) is active
     $rootScope.activeRoute = function(route){
         if(_.isArray(route))
@@ -65,12 +25,7 @@ var module = angular.module('Application', [
     };
 
     //Promise tracker
-    $rootScope.tracker = promiseTracker();    //Load countries
-
-    $rootScope.npis = [];
-    $http.get('npi').success(function(data){
-        $rootScope.npis = data;
-    })
+    $rootScope.tracker = promiseTracker();
 
 });
 

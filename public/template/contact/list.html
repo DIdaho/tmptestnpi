@@ -1,0 +1,20 @@
+<h1>
+    Contact List
+</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <th>Contact Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in list">
+            <td>{{item.contact_country}}</td>
+            <td>{{item.contact_name}}</td>
+            <td>{{item.contact_email}}</td>
+        </tr>
+    </tbody>
+</table>
+<!--<pre>{{list|json}}</pre>-->

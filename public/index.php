@@ -49,7 +49,15 @@ $app->register(
  */
 $app->get('/', function () {
     //you could include whatever you want
-    include_once('application.php');
+    include_once('../Application/application.php');
+    //or do other stuff...
+    //but something must be return
+    return '';
+
+});
+$app->get('/mobile', function () {
+    //you could include whatever you want
+    include_once('../Application/mobile.php');
     //or do other stuff...
     //but something must be return
     return '';

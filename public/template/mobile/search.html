@@ -1,0 +1,44 @@
+<div ng-include="'template/mobile/navigation.html'"/>
+<div class="container-fluid">
+    <table class="table table-striped table-hover" ng-show="!current">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>City</th>
+                <th>Postal Code</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <input class="form-control input-lg" ng-model="search" placeholder="Search POS"/>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="pos in list|filter:{$:search}|orderBy:'name'" ng-click="select(pos)">
+                <td>{{pos.name}}</td>
+                <td>{{pos.city}}</td>
+                <td>{{pos.zip}}</td>
+                <td>
+                    <span class="fa-stack text-success" ng-class="{'text-warning':pos.name>'G'}" ng-show="pos.name<'L'">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-check fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <span class="fa-stack text-danger" ng-show="pos.name>='L'">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-warning fa-stack-1x fa-inverse"></i>
+                    </span>
+                </td>
+                <td>
+                    <span class="fa-stack text-muted">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-arrow-right fa-stack-1x fa-inverse"></i>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div ng-include="'template/mobile/pos.html'" ng-show="current"></div>
+</div>
