@@ -1,4 +1,7 @@
 <?php
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+
 // exemple route :
 //http://127.0.0.1/apple_NPI/public/npi/
 //http://127.0.0.1/apple_NPI/public/npi/1

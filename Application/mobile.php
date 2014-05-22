@@ -1,5 +1,5 @@
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <link href="bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="bower/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -19,8 +19,6 @@
     <script type="text/javascript" src="bower/angular-route/angular-route.min.js"></script>
     <script type="text/javascript" src="bower/angular-sanitize/angular-sanitize.min.js"></script>
     <script type="text/javascript" src="bower/angular-ui-sortable/sortable.js"></script>
-    <script type="text/javascript" src="bower/angular-growl/build/angular-growl.min.js"></script>
-
     <script type="text/javascript" src="bower/angular-growl/build/angular-growl.min.js"></script>
 
 <!--    <script type="text/javascript" src="bower/bootstrap/dist/js/bootstrap.min.js"></script>-->

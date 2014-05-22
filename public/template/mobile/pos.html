@@ -4,28 +4,31 @@
 <!--</ol>-->
 
 
-
-<div class="panel panel-default panel-info">
-    <div class="panel-body bg-info">
-        <div class="col-lg-4">
-            <div class="col-xs-4 text-right"><strong>Name</strong></div>
-            <div class="col-xs-8">{{current.name}}</div>
-        </div>
-        <div class="col-lg-4">
-            <div class="col-xs-4 text-right"><strong>City</strong></div>
-            <div class="col-xs-8">{{current.city}}</div>
-        </div>
-        <div class="col-lg-4">
-            <div class="col-xs-4 text-right"><strong>Postal Code</strong></div>
-            <div class="col-xs-8">{{current.zip}}</div>
+<div class="col-xs-12">
+    <div class="panel panel-default panel-info">
+        <div class="panel-body bg-info">
+            <div class="col-lg-4">
+                <div class="col-xs-4 text-right"><strong>Name</strong></div>
+                <div class="col-xs-8">{{current.name}}</div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-xs-4 text-right"><strong>City</strong></div>
+                <div class="col-xs-8">{{current.city}}</div>
+            </div>
+            <div class="col-lg-4">
+                <div class="col-xs-4 text-right"><strong>Postal Code</strong></div>
+                <div class="col-xs-8">{{current.zip}}</div>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="panel panel-default" ng-repeat="question in [1,2,3]">
-    <div class="panel-heading">
-        Question {{question}} label
-        <i class="fa fa-info-circle fa-2x pull-right" bs-tooltip="'Question {{question}} description'" data-placement="left"></i>
+<div class="col-xs-12 col-md-6" ng-repeat="question in [1,2,3]">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Question {{question}} label
+            <i class="fa fa-info-circle fa-2x pull-right" bs-tooltip="'Question {{question}} description'" data-placement="left"></i>
+        </div>
+        <div class="panel-body">Question {{question}}</div>
     </div>
-    <div class="panel-body">Question {{question}}</div>
 </div>

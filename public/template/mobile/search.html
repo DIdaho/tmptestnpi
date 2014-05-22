@@ -29,8 +29,8 @@
                 <th>Name</th>
                 <th>City</th>
                 <th>Postal Code</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
+                <th class="hidden-xs">&nbsp;</th>
+                <th class="hidden-xs">&nbsp;</th>
             </tr>
             <!--<tr>-->
                 <!--<td colspan="5">-->
@@ -43,7 +43,7 @@
                 <td>{{pos.name}}</td>
                 <td>{{pos.city}}</td>
                 <td>{{pos.zip}}</td>
-                <td>
+                <td class="hidden-xs">
                     <div  class="pull-right">
                         <span class="fa-stack text-success" ng-class="{'text-warning':pos.name>'G'}" ng-show="pos.name<'L'" bs-tooltip="'All questions answered'" data-placement="left">
                           <i class="fa fa-square fa-stack-2x"></i>
@@ -55,7 +55,7 @@
                         </span>
                     </div>
                 </td>
-                <td>
+                <td class="hidden-xs">
                     <span class="fa-stack text-muted pull-right">
                       <i class="fa fa-square fa-stack-2x"></i>
                       <i class="fa fa-arrow-right fa-stack-1x fa-inverse"></i>
@@ -64,6 +64,10 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="alert alert-warning" ng-show="!current && !(list|filter:{$:search}).length">
+        No result for this search.
+    </div>
 
     <div ng-include="'template/mobile/pos.html'" ng-show="current"></div>
 </div>

@@ -1,6 +1,7 @@
 .input-search {
   position: fixed;
-  top: 51px; }
+  top: 51px;
+  z-index: 10; }
   .input-search .form-control {
     border-radius: 0;
     border-right: 0; }
