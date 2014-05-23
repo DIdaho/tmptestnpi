@@ -1,4 +1,4 @@
-function ctrlListWave($scope, $http, $routeParams, $injector, $filter){
+function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 
@@ -31,7 +31,16 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter){
      * @returns {HttpPromise}
      */
     $scope.loadingPromise = function(item){
-        return $http.get('wave/' + item._pk_wave).then(function(data){return data.data});
+        if(item && item._pk_wave)
+        {
+            return $http.get('wave/' + item._pk_wave).then(function(data){return data.data});
+        }
+        else
+        {
+            var deferred = $q.defer();
+            deferred.resolve(item)
+            return deferred.promise;
+        }
     }
 
     //Activity selector

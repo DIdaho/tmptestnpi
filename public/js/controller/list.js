@@ -22,12 +22,13 @@ function ctrlList($scope, $http, $modal, $q){
      * @param item
      */
     $scope.edit = function(item){
+        $scope.originalItem = item;
+
         $scope.loadingPromise(item).then(function(item){
             item = item ? item:{};
             //Set default values
             $scope.setDefaultValues(item);
             //Store original item
-            $scope.originalItem = item;
             $scope.item = angular.copy(item);
             $modal({
                 template: 'template/'+$scope.config.type+'/detail.html',
