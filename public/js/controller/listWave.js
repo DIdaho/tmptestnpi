@@ -81,7 +81,9 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
     /**
      * Remove an activity
      */
-    $scope.removeActivity = function(){
-
+    $scope.removeActivity = function(index){
+        $scope.item.activities.splice(index, 1);
     }
+
+
 }
