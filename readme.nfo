@@ -1,6 +1,6 @@
-_________ How to init application :
+_____________ How to init application :
 
- composer are required so :
+## ===== composer are required, so :
 
 ###### first :
  install composer (find binairies on : https://getcomposer.org/)
@@ -11,12 +11,19 @@ or if you don't have curl, you could use this commands : php -r "readfile('https
 ###### then run :
 php composer.phar install
 
-_________ How to config application:
+
+## ===== bower are required also, so :
+
+###### install bower : http://bower.io/
+
+###### run bower install
+
+_____________ How to config application:
 
 config files are located in conf/ folder.
 duplicate local.default.php file, rename it local.php and adapt his content.
 
 
-__________ How to add namespace on autoloading
+_____________ How to add namespace on autoloading
 
 just add new line in composer.json on psr-0 sublevel
