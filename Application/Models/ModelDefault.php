@@ -15,6 +15,7 @@ class ModelDefault {
     protected $_tableDescription=false;
     protected $_fieldNameList=false;
     protected $_primaryKeyField=false;
+    public $jsonFields=array();
 
     public function __construct($pdo, $tableName=false){
         $this->pdo = $pdo;
@@ -138,6 +139,34 @@ class ModelDefault {
         return false;
     }
 
+    protected function _prepareJsonDataForDBStorage($data){
+        if( count($this->jsonFields) > 0){
+            foreach($this->jsonFields as $field){
+                if( isset($data[$field]) && $this->_isTableField($field) ){
+                    $data[$field] = json_encode($data[$field]);
+                }
+            }
+        }
+//        var_dump($data);
+        return $data;
+    }
+
+    protected function _prepareDataSetForJsonify($data){
+        if( count($this->jsonFields) > 0){
+            while ( list($key, $value) = each($data) ){
+                $data[$key] = $this->_prepareDataForJsonify($value);
+            }
+        }
+        return $data;
+    }
+
+    protected function _prepareDataForJsonify($data){
+        foreach($this->jsonFields as $field){
+            $data[$field] = json_decode($data[$field]);
+        }
+        return $data;
+    }
+
     /**
      * pdo query hook with error management
      *
@@ -155,24 +184,30 @@ class ModelDefault {
         }
     }
     /**
-     * @return \PDOStatement
+     * @return array
      * @throws \Exception
      */
     public function fetchAll(){
         $this->_checkIfTableParameterDefined();
         $sql = "SELECT * FROM `".$this->_tableName."`";
-        return $this->query($sql);
+        /*@var $statement \PDOStatement*/
+        $statement = $this->query($sql);
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $result = $this->_prepareDataSetForJsonify($result);
+        return $result;
     }
 
     /**
      * @param $id
-     * @return \PDOStatement
+     * @return array
      * @throws \Exception
      */
     public function fetchOne($id){
         $this->_checkIfTableParameterDefined();
         $sql = "SELECT * FROM `".$this->_tableName."` WHERE `".$this->getPrimaryKeyFieldName()."` = ".$this->cleanData($id);
-        $result = $this->query($sql);
+        $statement = $this->query($sql);
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        $result = $this->_prepareDataForJsonify($result);
         return $result;
 
     }
@@ -180,11 +215,17 @@ class ModelDefault {
     public function delete($id){
         $this->_checkIfTableParameterDefined();
         $sql = "DELETE FROM `".$this->_tableName."` WHERE `".$this->getPrimaryKeyFieldName()."` = ".$this->cleanData($id);
-        return $this->query($sql);
+        $this->query($sql);
     }
 
     public function create($data){
         $this->_checkIfTableParameterDefined();
+
+        //check if table contains jsonfield
+        if( false !== $this->jsonFields && count($this->jsonFields) > 0 ){
+            $data = $this->_prepareJsonDataForDBStorage($data);
+        }
+
 //        print_r($data);
         $fields = array();
         $fieldValues = array();
@@ -222,8 +263,14 @@ class ModelDefault {
         return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
     }
 
-    public function update($data){
+    public function update($data, $jsonFields=false){
         $this->_checkIfTableParameterDefined();
+
+        //check if table contains jsonfield
+        if( false !== $this->jsonFields && count($this->jsonFields) > 0 ){
+            $data = $this->_prepareJsonDataForDBStorage($data);
+        }
+
         $updateValue = '';
         $id = false;
         $sql = '';

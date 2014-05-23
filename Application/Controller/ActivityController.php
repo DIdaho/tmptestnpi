@@ -11,6 +11,8 @@ use Silex\Application;
 
 class ActivityController extends ControllerDefault {
 
+    protected $_jsonFields = array('activ_config');
+
     public function __construct(){
         parent::__construct('activity');
     }
