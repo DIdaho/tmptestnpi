@@ -6,15 +6,74 @@
                 <h4 class="modal-title" ng-bind="title"></h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input class="form-control" type="text" ng-model="item.wave_name"/>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>NPI</label>
+                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Launch Date</label>
+                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Deadline</label>
+                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr><th>Activities</th><th>&nbsp;</th></tr>
+                            <tr><td colspan="2">
+                                <button class="btn btn-default btn-block"
+                                        placeholder="Add an activity"
+                                        ng-model="select.activity"
+                                        ng-change="addActivity()"
+                                        ng-options="i as i.activ_label for i in activities"
+                                        bs-select></button>
+                            </td></tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="a in item.activities">
+                                <td>{{(activities|filter:{_pk_activity:a._ke_activity})[0].activ_label}}</td>
+                                <td>
+                                    <a class="btn btn-danger btn-sm pull-right" ng-click="removeActivity($index)">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-success btn-block" ng-click="save(item, $hide);">{{item[config.key] ? 'Save':'Create'}}</button>
                 </div>
+                <div class="col-xs-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Apple ID</th>
+                                <th>RTM</th>
+                                <th>Location</th>
+                                <th>Country</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="pos in item.pos">
+                                <td>{{pos.id}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="clearfix"></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-danger" ng-click="$hide()">Cancel</button>
-                <button class="btn btn-success" ng-click="save(item, $hide);">{{item[config.key] ? 'Save':'Create'}}</button>
+                <button class="btn btn-info" ng-click="$hide()">Close</button>
             </div>
+            <pre>{{item|json}}</pre>
         </div>
     </div>
 </div>

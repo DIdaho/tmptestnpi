@@ -6,12 +6,16 @@
     <thead>
         <tr>
             <th>Label</th>
+            <th>Title</th>
+            <th>Type</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
         <tr ng-repeat="item in list">
             <td>{{item.activ_label}}</td>
+            <td>{{item.activ_title}}</td>
+            <td>{{item.activ_config.type}}</td>
             <td>
                 <div class="pull-right">
                     <a class="btn btn-primary" ng-click="edit(item)">
