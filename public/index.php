@@ -47,6 +47,9 @@ $app->register(
     )
 );
 
+//Register service to map controller methods
+$app->register(new ServiceControllerServiceProvider());
+
 /**
  * load route config, and controller...
  */
@@ -70,6 +73,7 @@ $app->mount('/npi', new \Controller\NpiController() );
 $app->mount('/user', new \Controller\UserController() );
 $app->mount('/wave', new \Controller\WaveController() );
 $app->mount('/activity', new \Controller\ActivityController() );
+$app->mount('/cpm-pos', new \Controller\CpmPosController() );
 
 /**
  * Error Handling
