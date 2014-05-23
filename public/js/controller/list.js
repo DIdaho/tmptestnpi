@@ -1,4 +1,4 @@
-function ctrlList($scope, $http, $modal){
+function ctrlList($scope, $http, $modal, $q){
 
     /**
      * Init list of items
@@ -22,17 +22,19 @@ function ctrlList($scope, $http, $modal){
      * @param item
      */
     $scope.edit = function(item){
-        item = item ? item:{};
-        //Set default values
-        $scope.setDefaultValues(item);
-        //Store original item
-        $scope.originalItem = item;
-        $scope.item = angular.copy(item);
-        $modal({
-            template: 'template/'+$scope.config.type+'/detail.html',
-            title: item && item[$scope.config.fieldName] ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
-            scope: $scope
-        });
+        $scope.loadingPromise(item).then(function(item){
+            item = item ? item:{};
+            //Set default values
+            $scope.setDefaultValues(item);
+            //Store original item
+            $scope.originalItem = item;
+            $scope.item = angular.copy(item);
+            $modal({
+                template: 'template/'+$scope.config.type+'/detail.html',
+                title: item && item[$scope.config.fieldName] ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
+                scope: $scope
+            });
+        })
     }
 
     /**
@@ -73,5 +75,11 @@ function ctrlList($scope, $http, $modal){
      */
     $scope.setDefaultValues = function(item){
         return item;
+    }
+
+    $scope.loadingPromise = function(item){
+        var deferred = $q.defer();
+        deferred.resolve(item)
+        return deferred.promise;
     }
 }

@@ -25,6 +25,15 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter){
         }
     }
 
+    /**
+     * Load item before detail modal
+     * @param item
+     * @returns {HttpPromise}
+     */
+    $scope.loadingPromise = function(item){
+        return $http.get('wave/' + item._pk_wave).then(function(data){return data.data});
+    }
+
     //Activity selector
     $scope.select = {
         activity: null
@@ -54,7 +63,9 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter){
 
         //Add reference
         $scope.item.activities.push({
-            _ke_activity: id
+            _ke_activity: id,
+            _ke_wave: $scope.item._pk_wave,
+            order: 0
         });
     }
 
