@@ -12,6 +12,7 @@ use CSanquer\Silex\PdoServiceProvider\Provider\PdoServiceProvider;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Controller\ControllerDefault;
 
 $app = new Silex\Application();

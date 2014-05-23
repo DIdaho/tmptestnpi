@@ -8,9 +8,7 @@
 namespace Controller;
 
 use Silex\Application;
-use Silex\Provider\ServiceControllerServiceProvider;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CpmPosController extends ControllerDefault {
 
@@ -25,21 +23,13 @@ class CpmPosController extends ControllerDefault {
             return new \Controller\CpmPosController();
         });
 
-        $controller = $this->controller;
+        $this->controller->post("/", "cpm-pos.controller:filter");
+        $this->controller->get("/", "cpm-pos.controller:filter");
 
-        $controller->post("/", function(Request $request) use ($app) {
-
-            return $app->json( array('TEST'=>'SOME VALUE') );
-        });
-
-        $controller->get("/", "cpm-pos.controller:get");
-
-
-
-        return $controller;
+        return $this->controller;
     }
 
-    public function get(){
-        return new JsonResponse(array('GET'=>'SOME VALUE'));
+    public function filter(Application $app, Request $request){
+        return $app->json(array('GET'=>'SOME VALUE'));
     }
 }
