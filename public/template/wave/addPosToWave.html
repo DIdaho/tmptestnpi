@@ -76,6 +76,7 @@
                 <table class="table table-condensed table-striped">
                     <thead>
                     <tr>
+                        <th>&nbsp;</th>
                         <th>Apple ID</th>
                         <th>RTM</th>
                         <th>City</th>
@@ -85,7 +86,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="pos in results">
+                    <tr ng-repeat="pos in results|startFrom:(pagination.current-1)*pagination.nbItems|limitTo:pagination.nbItems"
+                        ng-class="{info: pos.isSelected}"
+                        ng-click="pos.isSelected = !pos.isSelected">
+                        <td>
+                            <input type="checkbox" ng-model="pos.isSelected"/>
+                        </td>
                         <td>{{pos.pos_apple_id}}</td>
                         <td>{{pos.pos_rtm}}</td>
                         <td>{{pos.pos_loc_city}}</td>
@@ -100,12 +106,20 @@
                 <div class="alert alert-warning am-fade text-center" ng-show="results.length === 0">Your search did not return any results. Please modify your filters.</div>
 
                 <div class="clearfix"></div>
+
+                <b class="pull-right" ng-show="results.length>0">{{results.length}} results</b>
+                <pagination
+                        ng-show="results.length>0"
+                        max-size="5"
+                        boundary-links="true"
+                        total-items="pagination.maxItems"
+                        ng-model="pagination.current">
+                        </pagination>
             </div>
+
             <div class="modal-footer">
                 <button class="btn btn-info" ng-click="close()">Close</button>
             </div>
-            <pre>{{dictionary|json}}</pre>
-            <pre>{{filter|json}}</pre>
         </div>
     </div>
 </div>

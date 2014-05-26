@@ -7,7 +7,7 @@ var module = angular.module('Application', [
     'ngSanitize',
 //    'textAngular',
     'angular-growl',
-
+    'ui.bootstrap.pagination',
     'mgcrea.ngStrap',
     'ngAnimate',
     'ui.sortable',
@@ -66,3 +66,10 @@ module.directive('highlight', function($parse) {
         }
     }
 })
+
+//Filter: startFrom
+module.filter('startFrom', function() {
+    return function(input, start) {
+        return input ? input.slice(start):input;
+    };
+});

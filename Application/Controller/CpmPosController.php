@@ -37,6 +37,7 @@ class CpmPosController extends ControllerDefault {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function filterAction(Application $app, Request $request){
+        ini_set('memory_limit', '256M');
         $params = json_decode($request->getContent(), true);
 
         //Fields to return
@@ -107,7 +108,7 @@ class CpmPosController extends ControllerDefault {
         FROM cpm_pos p
         LEFT JOIN cpm_sfo s ON s.f_pos_apple_id = p.f_pos_apple_id
         WHERE %s
-        LIMIT 100
+        # LIMIT 100
         ";
 
         //Launch query
