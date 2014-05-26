@@ -17,7 +17,6 @@ function ctrlListNpi($scope, $injector, $location, $modal){
     }
 
     $scope.$watchCollection(function(){return $scope.npis}, function(){
-        console.log('CHANGES')
         $scope.list = $scope.npis;
     })
 }

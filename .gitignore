@@ -3,3 +3,4 @@ vendor/
 /.idea
 /conf/local.php
 public/bower/
+sql/Dump20140512.sql
