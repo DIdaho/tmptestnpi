@@ -26,7 +26,10 @@ class NpiController extends ControllerDefault {
         $this->_setApp($app);
         $targetRepository = $this->setRepository();
 
-        //http://127.0.0.1/apple_NPI/public/npi/1/waves
+        /**
+         * used for retriving wave related to a npi
+         * url test : http://127.0.0.1/apple_NPI/public/npi/1/waves
+         */
         $controller->get("/{id}/waves", function($id) use ($app, $targetRepository) {
             if( empty($id) ){
                 throw new \Exception('npi id are required!');
@@ -35,11 +38,17 @@ class NpiController extends ControllerDefault {
             $result = $targetRepository->query($sql);
             $result = $result->fetchAll(\PDO::FETCH_ASSOC);
             return $app->json($result);
-        })
-            ->assert('id', '\d+');
+        })->assert('id', '\d+');
 
+
+        /**
+         * map global sharing route (crud)
+         */
         parent::connect($app);
-        //get global configuration
+
+
+
+        //note : get application global configuration
 //        var_dump( $this->_getAppParameters('db') );
         return $controller;
     }

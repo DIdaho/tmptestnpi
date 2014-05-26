@@ -162,7 +162,9 @@ class ModelDefault {
 
     protected function _prepareDataForJsonify($data){
         foreach($this->jsonFields as $field){
-            $data[$field] = json_decode($data[$field]);
+            if( isset($data[$field]) ){
+                $data[$field] = json_decode($data[$field]);
+            }
         }
         return $data;
     }
