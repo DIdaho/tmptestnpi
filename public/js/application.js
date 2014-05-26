@@ -9,6 +9,7 @@ var module = angular.module('Application', [
     'angular-growl',
 
     'mgcrea.ngStrap',
+    'ngAnimate',
     'ui.sortable',
     'ajoslin.promise-tracker'
 ]).run(function($rootScope, $location, $http, promiseTracker){

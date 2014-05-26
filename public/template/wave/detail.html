@@ -49,6 +49,7 @@
 
                     <button class="btn btn-success btn-block" ng-click="save(item, $hide);">{{item[config.key] ? 'Save':'Create'}}</button>
                 </div>
+
                 <div class="col-xs-8">
                     <table class="table">
                         <thead>
@@ -66,6 +67,8 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <a class="btn btn-success" ng-click="openAddPosToWave()"><i class="fa fa-plus"></i> Add POS to the wave</a>
                 </div>
 
                 <div class="clearfix"></div>

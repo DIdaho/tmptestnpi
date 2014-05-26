@@ -7,7 +7,6 @@
 
 namespace Models;
 
-
 class ModelDefault {
 
     protected $pdo;
@@ -17,7 +16,7 @@ class ModelDefault {
     protected $_primaryKeyField=false;
     public $jsonFields=array();
 
-    public function __construct($pdo, $tableName=false){
+    public function __construct(\PDO $pdo, $tableName=false){
         $this->pdo = $pdo;
         $this->_tableName = $tableName;
 
