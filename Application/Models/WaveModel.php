@@ -18,6 +18,13 @@ class WaveModel extends ModelDefault{
         $this->jsonFields = array('activ_config');
     }
 
+    /**
+     * method used for create or update wave data (and related information => related activities)
+     * inexistant waveactivities in post data will be deleted
+     *
+     * @param $data
+     * @return array|mixed
+     */
     public function updateWave( $data ){
 
         $idWave = false;
@@ -85,6 +92,12 @@ class WaveModel extends ModelDefault{
         return $this->fetchOne($idWave);
     }
 
+    /**
+     * fetch one wave data and related waveactivities
+     *
+     * @param $id
+     * @return array|mixed
+     */
     public function fetchOne( $id ){
         $sql = 'SELECT * FROM wave w
                     LEFT JOIN waveactivity wa ON wa._ke_wave = w._pk_wave
@@ -92,10 +105,15 @@ class WaveModel extends ModelDefault{
                 WHERE _pk_wave = '.$this->cleanData($id).' ORDER BY waveactiv_order';
         /*@var $statement \PDOStatement*/
         $statement = $this->query($sql);
-        return $this->_formatDbJsonFields( $statement->fetchAll(\PDO::FETCH_ASSOC) );
+        return $this->_formatDbDbWaveActivitiesJsonFields( $statement->fetchAll(\PDO::FETCH_ASSOC) );
     }
 
-    protected function _formatDbJsonFields( $data ){
+    /**
+     * format wave data and related waveactivities
+     * @param $data
+     * @return array|mixed
+     */
+    protected function _formatDbDbWaveActivitiesJsonFields( $data ){
         $result = array( 'activities' => array() );
         //if data content at least one result
         if( 0 < count($data) ){
