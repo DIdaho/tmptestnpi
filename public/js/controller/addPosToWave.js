@@ -29,9 +29,14 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
         country: null
     };
 
+    /**
+     * Launch search
+     * @type {null}
+     */
     $scope.results = null;
     $scope.search = function(){
         var request = $http.post('cpm-pos/', $scope.filter).success(function(data){
+            $scope.pagination.current = 1;
             $scope.sql = data.sql;
             if(data.results)
             {
@@ -41,6 +46,17 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
         });
         $scope.trackerSearch.addPromise(request);
     };
+
+    /**
+     * Select All/None
+     */
+    $scope.selectAllNone = function(){
+        if($scope.results)
+        {
+            var checkAll = $filter('filter')($scope.results, {isSelected:true}).length != $scope.results.length;
+            $scope.results.forEach(function(pos){pos.isSelected = checkAll});
+        }
+    }
 
     /**
      * Add a country

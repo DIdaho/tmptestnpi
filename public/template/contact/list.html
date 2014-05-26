@@ -1,20 +1,28 @@
 <h1>
     Contact List
 </h1>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Country</th>
-            <th>Contact Name</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="item in list">
-            <td>{{item.contact_country}}</td>
-            <td>{{item.contact_name}}</td>
-            <td>{{item.contact_email}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="col-lg-6 col-lg-offset-3">
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>Country</th>
+                <th>Contact Name</th>
+                <th>Email</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="contact in contacts|orderBy:'country_name'">
+                <td>{{contact.country_name}}</td>
+                <td>{{contact.contact_name}}</td>
+                <td>{{contact.contact_email}}</td>
+                <td>
+                    <a class="btn btn-primary" ng-click="edit(contact)">
+                        &nbsp;<i class="fa fa-pencil"></i>&nbsp;
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <!--<pre>{{list|json}}</pre>-->
