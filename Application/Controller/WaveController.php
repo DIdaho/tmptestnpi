@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class WaveController extends ControllerDefault {
 
     public function __construct(){
+        //set associated table name (for basic crud functionality)
         parent::__construct('wave');
     }
 
@@ -24,7 +25,6 @@ class WaveController extends ControllerDefault {
      */
     public function connect(Application $app) {
         $controller = $this->controller;
-
 
         $this->_setApp($app);
         /** @var $targetRepository \Models\WaveModel*/

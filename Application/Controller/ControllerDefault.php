@@ -44,7 +44,7 @@ class ControllerDefault implements ControllerProviderInterface {
     /** @return \Silex\Application */
     protected function _getApp(){return $this->_app;}
     /**
-     * set current controller db repository
+     * set current controller db repository (pdo manager)
      * if no repository defined on function parameter ModelDefault will be return
      *
      * @param bool | \Models\* $repository
@@ -60,10 +60,20 @@ class ControllerDefault implements ControllerProviderInterface {
         return $this->repository;
     }
 
+    /**
+     * get current controller db repository (pdo manager)
+     * @return \Models\ModelDefault | \Models\*
+     */
     public function getRepository(){return $this->repository;}
 
     public function setController($controller) { $this->controller = $controller; }
 
+    /**
+     * return application configuration parameter
+     * (from files : conf/global.php, conf/local.php)
+     * @param $name
+     * @return mixed
+     */
     protected function _getAppParameters($name){
         $app = $this->_getApp();
         if( !empty($app) && !empty($name) ){
@@ -73,6 +83,7 @@ class ControllerDefault implements ControllerProviderInterface {
         }
     }
     /**
+     * retrive pdo object
      * @return \PDO
      */
     protected function _getPDO(){
@@ -88,6 +99,10 @@ class ControllerDefault implements ControllerProviderInterface {
         return( $app['pdo'] );
     }
 
+    /**
+     * set table name parameter if associated table exist (for crud functionality)
+     * @param bool $tableName
+     */
     public function __construct($tableName=false) {
         $this->setController( new ControllerCollection(new Route()) );
         $this->_tableName = $tableName;
@@ -115,6 +130,7 @@ class ControllerDefault implements ControllerProviderInterface {
             $results = $targetRepository->fetchAll();
             return $app->json($results);
         });
+
         /**
          * fetch one record
          */
@@ -122,6 +138,7 @@ class ControllerDefault implements ControllerProviderInterface {
             $result = $targetRepository->fetchOne($id);
             return $app->json($result);
         })->assert('id', '\d+');
+
         /**
          * create a new reccord
          *
@@ -136,6 +153,7 @@ class ControllerDefault implements ControllerProviderInterface {
             $id = $targetRepository->create($params, $jsonField);
             return $app->json( $targetRepository->fetchOne($id) );
         });
+
         /**
          * update one reccord
          */
@@ -145,6 +163,7 @@ class ControllerDefault implements ControllerProviderInterface {
             $targetRepository->update($params, $jsonField);
             return $app->json( $targetRepository->fetchOne($id) );
         })->assert('id', '\d+');
+
         /**
          * delete one reccord
          */

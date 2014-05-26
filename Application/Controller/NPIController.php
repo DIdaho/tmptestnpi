@@ -14,17 +14,24 @@ class NpiController extends ControllerDefault {
 
 
     public function __construct(){
+        //set associated table name (for basic crud functionality)
         parent::__construct('npi');
     }
 
+    /**
+     * Load global route / specific Npi route
+     *
+     * @param Application $app
+     * @return \Silex\ControllerCollection
+     */
     public function connect(Application $app) {
         $controller = $this->controller;
 
-        // In here, you can write additional controller
-        // or overwrite existing controller in ControllerCore
-
         $this->_setApp($app);
         $targetRepository = $this->setRepository();
+
+        // In here, you can write additional controller
+        // or overwrite existing controller in ControllerCore
 
         /**
          * used for retriving wave related to a npi
@@ -40,16 +47,11 @@ class NpiController extends ControllerDefault {
             return $app->json($result);
         })->assert('id', '\d+');
 
-
         /**
-         * map global sharing route (crud)
+         * map global route (crud)
          */
         parent::connect($app);
 
-
-
-        //note : get application global configuration
-//        var_dump( $this->_getAppParameters('db') );
         return $controller;
     }
 
