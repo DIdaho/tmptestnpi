@@ -79,6 +79,11 @@ class ControllerDefault implements ControllerProviderInterface {
         $app = $this->_getApp();
         // get PDO connections
         $pdo = $app['pdo.dbs']['default'];
+        if( ! $app['pdo'] instanceof \PDO)
+        {
+            throw new \Exception('No PDO instance for this Controller');
+        }
+
         // shorcut for default database
         return( $app['pdo'] );
     }

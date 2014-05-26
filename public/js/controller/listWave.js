@@ -1,4 +1,4 @@
-function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
+function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $modal){
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 
@@ -33,7 +33,9 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
     $scope.loadingPromise = function(item){
         if(item && item._pk_wave)
         {
-            return $http.get('wave/' + item._pk_wave).then(function(data){return data.data});
+            return $http.get('wave/' + item._pk_wave).then(function(data){
+                return data.data
+            });
         }
         else
         {
@@ -52,6 +54,7 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
      * Add an activity
      */
     $scope.addActivity = function(){
+
         //Store ID
         var id = $scope.select.activity._pk_activity;
 
@@ -85,5 +88,19 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q){
         $scope.item.activities.splice(index, 1);
     }
 
+    /**
+     * Open modal to edit POS
+     */
+    $scope.openAddPosToWave = function(){
+        $scope.modalDetail.hide();
+        $modal({
+            template: 'template/wave/addPosToWave.html',
+            scope: $scope,
+            controller: ctrlAddPosToWave
+        });
+    }
 
+    setTimeout(function(){
+        $scope.openAddPosToWave();
+    }, 500)
 }

@@ -1,0 +1,5 @@
+cpm_pos => t_plt_pos_cache
+cpm_company => t_plt_company_cache
+cpm_gmacc_rule => t_gmacc_rule
+cpm_pos_rule => lt_pos_rule
+cpm_sfo => t_sfo_edw_info

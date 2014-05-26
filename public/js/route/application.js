@@ -39,4 +39,10 @@ module.config(function($routeProvider){
         $rootScope.npis = data;
     })
 
+    //Load config
+    $rootScope.dictionary = {};
+    $http.get('cpm-pos/dictionary').success(function(data){
+        $rootScope.dictionary = data;
+    })
+
 });

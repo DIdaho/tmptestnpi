@@ -7,8 +7,9 @@ var module = angular.module('Application', [
     'ngSanitize',
 //    'textAngular',
     'angular-growl',
-
+    'ui.bootstrap.pagination',
     'mgcrea.ngStrap',
+    'ngAnimate',
     'ui.sortable',
     'ajoslin.promise-tracker'
 ]).run(function($rootScope, $location, $http, promiseTracker){
@@ -65,3 +66,10 @@ module.directive('highlight', function($parse) {
         }
     }
 })
+
+//Filter: startFrom
+module.filter('startFrom', function() {
+    return function(input, start) {
+        return input ? input.slice(start):input;
+    };
+});

@@ -1,0 +1,126 @@
+<div class="modal" tabindex="-1" role="dialog" ng-controller="ctrlAddPosToWave">
+    <div class="modal-dialog modal-lg modal-add-pos-to-wave">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title">Add POS to the wave</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-3">
+                    <h4>Location</h4>
+                    <div class="form-group"><input class="form-control" ng-model="filter.spotlight" placeholder="Apple ID / Name"/></div>
+
+                    <!-- REGION -->
+                    <div class="form-group">
+                        <button class="btn btn-default btn-block"
+                                placeholder="Region"
+                                ng-model="filter.region"
+                                ng-options="i.name as i.name for i in dictionary.regions"
+                                bs-select></button>
+                    </div>
+
+                    <!-- COUNTRY -->
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               ng-change="addCountry()"
+                               ng-model="search.country"
+                               ng-options="c.name as c.name for c in dictionary.countries"
+                               placeholder="Country" bs-typeahead/>
+                        <div ng-repeat="(country, b) in filter.countries">
+                            {{country}}&nbsp;<a class="btn btn-danger btn-xs pull-right" ng-click="removeItem(filter.countries, country)"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               ng-change="addSalesOrg()"
+                               ng-model="search.salesorg"
+                               ng-options="c.name as c.name for c in dictionary.salesorg"
+                               placeholder="Sales Org." bs-typeahead/>
+                        <div ng-repeat="(salesorg, b) in filter.salesorgs">
+                            {{salesorg}}&nbsp;<a class="btn btn-danger btn-xs pull-right" ng-click="removeItem(filter.salesorgs, salesorg)"><i class="fa fa-minus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <h4>RTM</h4>
+                    <div ng-repeat="rtm in dictionary.rtms">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="filter.rtm[rtm.name]"/>
+                                {{rtm.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <h4>Program</h4>
+                    <div ng-repeat="prg in dictionary.programs">
+                        <div class="checkbox col-xs-6">
+                            <label>
+                                <input type="checkbox" ng-model="filter.program[prg.name]"/>
+                                {{prg.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-3 pull-right">
+                    <a class="btn btn-primary btn-block pull-right"
+                       ng-click="search()">
+                        <i class="fa fa-search" ng-show="!trackerSearch.active()"></i>
+                        <i class="fa fa-spinner fa-spin" ng-show="trackerSearch.active()"></i>
+                        Search
+                    </a>
+                </div>
+
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Apple ID</th>
+                        <th>RTM</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Region</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="pos in results|startFrom:(pagination.current-1)*pagination.nbItems|limitTo:pagination.nbItems"
+                        ng-class="{info: pos.isSelected}"
+                        ng-click="pos.isSelected = !pos.isSelected">
+                        <td>
+                            <input type="checkbox" ng-model="pos.isSelected"/>
+                        </td>
+                        <td>{{pos.pos_apple_id}}</td>
+                        <td>{{pos.pos_rtm}}</td>
+                        <td>{{pos.pos_loc_city}}</td>
+                        <td>{{pos.pos_loc_country}}</td>
+                        <td>{{pos.pos_loc_region}}</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="alert alert-info am-fade text-center" ng-show="results === null">Use the filters above to launch a search</div>
+                <div class="alert alert-warning am-fade text-center" ng-show="results.length === 0">Your search did not return any results. Please modify your filters.</div>
+
+                <div class="clearfix"></div>
+
+                <b class="pull-right" ng-show="results.length>0">{{results.length}} results</b>
+                <pagination
+                        ng-show="results.length>0"
+                        max-size="5"
+                        boundary-links="true"
+                        total-items="pagination.maxItems"
+                        ng-model="pagination.current">
+                        </pagination>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-info" ng-click="close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

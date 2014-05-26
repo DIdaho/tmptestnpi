@@ -30,7 +30,7 @@ function ctrlList($scope, $http, $modal, $q){
             $scope.setDefaultValues(item);
             //Store original item
             $scope.item = angular.copy(item);
-            $modal({
+            $scope.modalDetail = $modal({
                 template: 'template/'+$scope.config.type+'/detail.html',
                 title: item && item[$scope.config.fieldName] ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
                 scope: $scope
