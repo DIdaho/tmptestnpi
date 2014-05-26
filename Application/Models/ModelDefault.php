@@ -8,25 +8,48 @@
 namespace Models;
 
 class ModelDefault {
-
+    /**
+     * @var \PDO
+     */
     protected $pdo;
+    /**
+     * current table for crud
+     * @var string
+     */
     protected $_tableName;
+    /**
+     * all table field and related information
+     * @var bool|array
+     */
     protected $_tableDescription=false;
+    /**
+     * table field name current table collection
+     * @var bool|array
+     */
     protected $_fieldNameList=false;
+    /**
+     * primary key field name
+     * @var bool|string
+     */
     protected $_primaryKeyField=false;
+    /**
+     * table fields collection json formated
+     * @var array
+     */
     public $jsonFields=array();
 
+    /**
+     * tableName are required for basic crud functionality
+     * @param \PDO $pdo
+     * @param string $tableName
+     */
     public function __construct(\PDO $pdo, $tableName=false){
         $this->pdo = $pdo;
         $this->_tableName = $tableName;
-
-        //check if table name define
-//        if( !empty($this->_tableName) ){
-//            var_dump($this->getTableDescription());
-//        }
     }
 
     /**
+     * if table name defined, return table primary key field name
      * @return boolean|string
      * @throws \Exception
      */
@@ -39,6 +62,7 @@ class ModelDefault {
     }
 
     /**
+     * if table name defined, return table fields parameter
      * @return boolean|array
      * @throws \Exception
      */
@@ -51,6 +75,7 @@ class ModelDefault {
     }
 
     /**
+     * if table name defined, return collection table field name
      * @return boolean|array
      * @throws \Exception
      */
@@ -63,6 +88,11 @@ class ModelDefault {
     }
 
     /**
+     * check if table parameter can be loaded.
+     * if table name defined make table data configuration load attempt
+     * if success return true (or throw exception)
+     * if table name aren't defined return false
+     *
      * @return bool
      * @throws \Exception
      */
@@ -84,6 +114,9 @@ class ModelDefault {
     }
 
     /**
+     * load table data configuration.
+     * if table name aren't defined throw exception
+     *
      * @throws \Exception
      */
     protected function _loadTableConfigurationData(){
@@ -112,6 +145,13 @@ class ModelDefault {
         }
     }
 
+    /**
+     * pdo quote method hook!
+     * use to clean data before insert, update
+     *
+     * @param $data
+     * @return mixed|string
+     */
     public function cleanData($data){
         if ((!is_numeric($data) ) && is_string($data)) {
             $data = str_replace("\\", '', $data);
@@ -122,6 +162,12 @@ class ModelDefault {
         return $data;
     }
 
+    /**
+     * check if $fieldName is in current table field !
+     * (but table name must be defined)
+     * @param $fieldName
+     * @return bool
+     */
     protected function _isTableField($fieldName){
         $this->_checkIfTableParameterDefined();
         if( in_array($fieldName, $this->getFieldNameList(), true ) ){
@@ -130,6 +176,12 @@ class ModelDefault {
         return false;
     }
 
+    /**
+     * check if $fieldName is current table primary key
+     * (but table name must be defined)
+     * @param $fieldName
+     * @return bool
+     */
     protected function _isTablePrimaryKey($fieldName){
         $this->_checkIfTableParameterDefined();
         if( strcmp($fieldName, $this->getPrimaryKeyFieldName() ) == 0 ){
@@ -138,6 +190,13 @@ class ModelDefault {
         return false;
     }
 
+    /**
+     * transform array from json field storage to json format
+     * must be called before insert/update statement if $this->jsonFields used
+     *
+     * @param $data
+     * @return mixed
+     */
     protected function _prepareJsonDataForDBStorage($data){
         if( count($this->jsonFields) > 0){
             foreach($this->jsonFields as $field){
@@ -150,6 +209,13 @@ class ModelDefault {
         return $data;
     }
 
+    /**
+     * same functionnality as $this->_prepareJsonDataForDBStorage
+     * but work on collection
+     *
+     * @param $data
+     * @return mixed
+     */
     protected function _prepareDataSetForJsonify($data){
         if( count($this->jsonFields) > 0){
             while ( list($key, $value) = each($data) ){
@@ -159,9 +225,18 @@ class ModelDefault {
         return $data;
     }
 
+    /**
+     * transform json data in query statement in array
+     * must be called after select and before json_encode
+     *
+     * @param $data
+     * @return mixed
+     */
     protected function _prepareDataForJsonify($data){
         foreach($this->jsonFields as $field){
-            $data[$field] = json_decode($data[$field]);
+            if( isset($data[$field]) ){
+                $data[$field] = json_decode($data[$field]);
+            }
         }
         return $data;
     }
@@ -182,7 +257,14 @@ class ModelDefault {
             return $queryResult;
         }
     }
+
     /**
+     * Basic crud functionality
+     * Work only if current object table name attribute is define
+     */
+
+    /**
+     * fetch all record from current table
      * @return array
      * @throws \Exception
      */
@@ -197,6 +279,8 @@ class ModelDefault {
     }
 
     /**
+     * fetch one record from current table
+     *
      * @param $id
      * @return array
      * @throws \Exception
@@ -208,15 +292,25 @@ class ModelDefault {
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
         $result = $this->_prepareDataForJsonify($result);
         return $result;
-
     }
 
+    /**
+     * delete one record from current table
+     * @param $id
+     */
     public function delete($id){
         $this->_checkIfTableParameterDefined();
         $sql = "DELETE FROM `".$this->_tableName."` WHERE `".$this->getPrimaryKeyFieldName()."` = ".$this->cleanData($id);
         $this->query($sql);
     }
 
+    /**
+     * create a new record in current table
+     * return primary key value from created record
+     *
+     * @param $data
+     * @return int
+     */
     public function create($data){
         $this->_checkIfTableParameterDefined();
 
@@ -225,10 +319,10 @@ class ModelDefault {
             $data = $this->_prepareJsonDataForDBStorage($data);
         }
 
-//        print_r($data);
         $fields = array();
         $fieldValues = array();
-//        var_dump($data);exit();
+
+        //parse current table fieldname and omit primary key field
         foreach( $data as $fieldName => $value ){
             if( $this->_isTableField($fieldName) && !$this->_isTablePrimaryKey($fieldName) ){
                 array_push( $fields, '`'.$fieldName.'`' );
@@ -237,15 +331,26 @@ class ModelDefault {
         }
         $sql = 'INSERT INTO `'.$this->_tableName.'` ('. implode( ',', $fields ) .') VALUES ('. implode( ',', $fieldValues ) . ')';
         $this->query($sql);
+
+        //get new record primary key value
         return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
     }
 
+    /**
+     * INSET statement with on duplicate key update statement
+     * return primary key value from created record
+     *
+     * @param $data
+     * @return int
+     */
     public function createOnDuplicateUpdate($data){
         $this->_checkIfTableParameterDefined();
-//        print_r($data);
+
         $fields = array();
         $fieldValues = array();
         $duplicateString = '';
+
+        //parse current table fieldname and omit primary key field
         foreach( $data as $fieldName => $value ){
             if( $this->_isTableField($fieldName) /*&& !$this->_isTablePrimaryKey($fieldName)*/ ){
                 array_push( $fields, '`'.$fieldName.'`' );
@@ -257,12 +362,20 @@ class ModelDefault {
         $sql = 'INSERT INTO `'.$this->_tableName.
                 '` ('. implode( ',', $fields ) .') VALUES ('. implode( ',', $fieldValues ) . ')'.
                 ' ON DUPLICATE KEY UPDATE '.$duplicateString;
-//        return $sql;
         $this->query($sql);
+
+        //get new record primary key value
         return $this->_getPDO()->lastInsertId($this->getPrimaryKeyFieldName());
     }
 
-    public function update($data, $jsonFields=false){
+    /**
+     * update a current table record
+     *
+     * @param $data
+     * @return \PDOStatement
+     * @throws \Exception
+     */
+    public function update($data){
         $this->_checkIfTableParameterDefined();
 
         //check if table contains jsonfield
@@ -282,24 +395,14 @@ class ModelDefault {
             }
         }
         $updateValue = rtrim($updateValue, ',');
-//var_dump($data);
+
         if( false === $id || !is_numeric($id) || empty($updateValue) ){
             throw new \Exception('No primary key value defined or empty primary key value or no data!');
         }else{
             $sql = 'UPDATE `'.$this->_tableName.'` SET '. $updateValue.' '.$whereConstraint;
         }
         /* @var \PDOStatement*/
-        return $this->query($sql);
+        $this->query($sql);
     }
-
-
-//UPDATE `apple_npi`.`npi`
-//SET
-//`_pk_npi` = {_pk_npi: },
-//`npi_label` = {npi_label: },
-//`npi_product_level1` = {npi_product_level1: }
-//WHERE <{where_condition}>;
-
-
 
 } 

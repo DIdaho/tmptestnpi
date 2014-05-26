@@ -12,9 +12,15 @@ use Silex\Application;
 class UserController extends ControllerDefault{
 
     public function __construct(){
+        //set associated table name (for basic crud functionality)
         parent::__construct('user');
     }
-
+    /**
+     * Load global route / specific User route
+     *
+     * @param Application $app
+     * @return \Silex\ControllerCollection
+     */
     public function connect(Application $app) {
         $controller = $this->controller;
 

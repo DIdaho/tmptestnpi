@@ -16,15 +16,26 @@ use Symfony\Component\HttpFoundation\Request;
 class ControllerDefault implements ControllerProviderInterface {
     /** @var \Silex\Application */
     protected $_app;
-
+    /**
+     * associated table name
+     * @var string
+     */
     protected $_tableName;
-
+    /**
+     * db object manager
+     * @var \Models\ModelDefault
+     */
     protected $repository;
 
     protected $controller;
-
+    /**
+     * app key configuration parameter
+     */
     const __PARAM_APP_KEY = 'conf';
-
+    /**
+     * db field json storage, used for json_encode / decode
+     * @var array
+     */
     protected $_jsonFields = array();
 
     /** @param \Silex\Application $app */
@@ -32,17 +43,37 @@ class ControllerDefault implements ControllerProviderInterface {
 
     /** @return \Silex\Application */
     protected function _getApp(){return $this->_app;}
-
-    public function setRepository() {
-        $this->repository = new \Models\ModelDefault($this->_getPDO(), $this->_tableName);
-        $this->repository->jsonFields = $this->_jsonFields;
+    /**
+     * set current controller db repository (pdo manager)
+     * if no repository defined on function parameter ModelDefault will be return
+     *
+     * @param bool | \Models\* $repository
+     * @return \Models\ModelDefault | \Models\*
+     */
+    public function setRepository($repository=false) {
+        if(false === $repository){
+            $this->repository = new \Models\ModelDefault($this->_getPDO(), $this->_tableName);
+            $this->repository->jsonFields = $this->_jsonFields;
+        }else{
+            $this->repository = $repository;
+        }
         return $this->repository;
     }
 
+    /**
+     * get current controller db repository (pdo manager)
+     * @return \Models\ModelDefault | \Models\*
+     */
     public function getRepository(){return $this->repository;}
 
     public function setController($controller) { $this->controller = $controller; }
 
+    /**
+     * return application configuration parameter
+     * (from files : conf/global.php, conf/local.php)
+     * @param $name
+     * @return mixed
+     */
     protected function _getAppParameters($name){
         $app = $this->_getApp();
         if( !empty($app) && !empty($name) ){
@@ -52,6 +83,7 @@ class ControllerDefault implements ControllerProviderInterface {
         }
     }
     /**
+     * retrive pdo object
      * @return \PDO
      */
     protected function _getPDO(){
@@ -67,100 +99,77 @@ class ControllerDefault implements ControllerProviderInterface {
         return( $app['pdo'] );
     }
 
+    /**
+     * set table name parameter if associated table exist (for crud functionality)
+     * @param bool $tableName
+     */
     public function __construct($tableName=false) {
-//        $calledClass = explode('\\', get_called_class());
-//        $class = end($calledClass);
-//        $this->setRepository( new \Models\NpiModel( $this->_getPDO() ) );
         $this->setController( new ControllerCollection(new Route()) );
         $this->_tableName = $tableName;
     }
 
-//    protected function _prepareDataSetForJsonify($data){
-//        if( count($this->_jsonFields) > 0){
-//            var_dump($data);
-//            while ( list($key, $value) = each($data) ){
-//                function() use($data, $key, $value){
-//                    foreach($this->_jsonFields as $field){
-//                        $data[$key][$field] = json_decode($value[$field]);
-//                    }
-//                };
-//            }
-//            var_dump($data);exit();
-//        }
-//    }
-
-//    protected function _prepareJsonDataForDBStorage($data){
-//        if( count($this->_jsonFields) > 0){
-//            foreach($this->_jsonFields as $field){
-//                $data[$field] = json_encode($data[$field]);
-//            }
-//        }
-//        var_dump($data);
-//        return $data;
-//    }
-
+    /**
+     * Load General Route (crud)
+     *
+     * @param Application $app
+     * @return ControllerCollection
+     */
     public function connect(Application $app)
     {
         $controller = $this->controller;
         $this->_setApp($app);
         /**@var $targetRepository \Models\ModelDefault */
         $targetRepository = $this->setRepository();
+        /**@var $jsonField array */
+        $jsonField = $this->_jsonFields;
 
+        /**
+         * fetch all data
+         */
         $controller->get("/", function() use ($app, $targetRepository) {
-//            $repository = new $targetRepository($app['db']);
-//            $results = $repository->findAll();
             $results = $targetRepository->fetchAll();
-//            $results = $results->fetchAll(\PDO::FETCH_ASSOC);
-
             return $app->json($results);
         });
 
+        /**
+         * fetch one record
+         */
         $controller->get("/{id}", function($id) use ($app, $targetRepository) {
-//            $repository = new $targetRepository($app['db']);
-//            $result = $repository->find($id);
             $result = $targetRepository->fetchOne($id);
-//            $result = $result->fetch(\PDO::FETCH_ASSOC);
             return $app->json($result);
-        })
-            ->assert('id', '\d+');
+        })->assert('id', '\d+');
 
-        $jsonField = $this->_jsonFields;
+        /**
+         * create a new reccord
+         *
+         * ### info dev :
+         * //note : permet de recuperer des params en get ou post
+         * var_dump( $request->request->all() );
+         * //note : permet de recuperer le contenu fournis (request payload)
+         * var_dump( $request->getContent() );
+         */
         $controller->post("/", function(Request $request) use ($app, $targetRepository, $jsonField) {
-//            $repository = new $targetRepository($app['db']);
-//            $params = $request->request->all();
-//            var_dump( $request->request->all() );
-//            var_dump( $request->getContent() );
             $params = json_decode($request->getContent(), true);
-//            var_dump( $params );
-//            var_dump($params);
-//            return $app->json($repository->insert($params));
-//            $params = $this->_prepareJsonDataForDBStorage($params);
             $id = $targetRepository->create($params, $jsonField);
             return $app->json( $targetRepository->fetchOne($id) );
         });
 
-        $jsonField = $this->_jsonFields;
+        /**
+         * update one reccord
+         */
         $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository, $jsonField) {
-//            $repository = new $targetRepository($app['db']);
-//            $params = $request->request->all();
             $params = json_decode($request->getContent(), true);
-//            var_dump($params);
-//            var_dump($params);
             $params[ $targetRepository->getPrimaryKeyFieldName() ] = $id;
-//            $params = $self->_prepareJsonDataForDBStorage($params);
-//            return $app->json($repository->update($id, $params));
-            $app->json( $targetRepository->update($params, $jsonField) );
+            $targetRepository->update($params, $jsonField);
             return $app->json( $targetRepository->fetchOne($id) );
-        })
-            ->assert('id', '\d+');
+        })->assert('id', '\d+');
 
+        /**
+         * delete one reccord
+         */
         $controller->delete("/{id}", function($id) use ($app, $targetRepository) {
-//            $repository = new $targetRepository($app['db']);
-
-//            return $app->json($repository->delete($id));
             return $app->json($targetRepository->delete($id));
-        })
-            ->assert('id', '\d+');
+        }) ->assert('id', '\d+');
 
         return $controller;
     }
