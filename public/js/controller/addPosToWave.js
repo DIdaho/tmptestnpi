@@ -17,7 +17,7 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
     //Init pagination
     $scope.pagination = {
         current: 1,
-        nbItems: 10,
+        nbItems: 8,
         maxItems: 0
     };
 

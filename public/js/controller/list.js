@@ -32,7 +32,7 @@ function ctrlList($scope, $http, $modal, $q){
             $scope.item = angular.copy(item);
             $scope.modalDetail = $modal({
                 template: 'template/'+$scope.config.type+'/detail.html',
-                title: item && item[$scope.config.fieldName] ? item[$scope.config.fieldName]:'New ' + $scope.config.title,
+                title: item && item[$scope.config.fieldName] ? $scope.config.title + ': ' + item[$scope.config.fieldName]:'New ' + $scope.config.title,
                 scope: $scope
             });
         })
