@@ -1,0 +1,579 @@
+
+-- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
+--
+-- Host: localhost    Database: apple_npi
+-- ------------------------------------------------------
+-- Server version	5.5.24-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cpm_company`
+--
+
+DROP TABLE IF EXISTS `cpm_company`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpm_company` (
+  `f_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `f_hq_apple_id` int(11) unsigned NOT NULL,
+  `f_contract_id` int(11) unsigned NOT NULL,
+  `f_name` varchar(255) NOT NULL,
+  `f_tradename` varchar(255) NOT NULL DEFAULT '',
+  `f_primary_sales_org` varchar(255) NOT NULL,
+  `f_primary_sales_org_name` varchar(255) NOT NULL,
+  `f_country` varchar(2) NOT NULL,
+  `f_direct_indirect` varchar(32) NOT NULL,
+  `f_city` varchar(255) NOT NULL,
+  `f_postal_code` varchar(255) NOT NULL,
+  `f_channel` varchar(255) NOT NULL,
+  `f_tocc` varchar(255) NOT NULL,
+  `f_rtm` varchar(255) NOT NULL,
+  `f_num_active_pos` int(11) unsigned DEFAULT NULL,
+  `f_num_apr` int(11) unsigned DEFAULT NULL,
+  `f_num_ase_education` int(11) unsigned DEFAULT NULL,
+  `f_num_ase_creative` int(11) unsigned DEFAULT NULL,
+  `f_num_inline_mac` int(11) unsigned DEFAULT NULL,
+  `f_num_inline_ipod` int(11) unsigned DEFAULT NULL,
+  `f_num_apple_shop` int(11) unsigned DEFAULT NULL,
+  `f_num_gondola` int(11) unsigned DEFAULT NULL,
+  `f_num_apple_cpu` int(11) unsigned DEFAULT NULL,
+  `f_num_ipod` int(11) unsigned DEFAULT NULL,
+  `f_num_iphone` int(11) unsigned DEFAULT NULL,
+  `f_num_ipad` int(11) unsigned DEFAULT NULL,
+  `f_sap_sold_to` varchar(255) DEFAULT NULL,
+  `f_sap_ship_to_options` varchar(255) DEFAULT NULL,
+  `f_signer1_name` varchar(255) DEFAULT NULL,
+  `f_signer1_email` varchar(255) DEFAULT NULL,
+  `f_region` varchar(64) DEFAULT NULL,
+  `f_country_name` varchar(64) DEFAULT NULL,
+  `f_company_retail` int(11) unsigned DEFAULT NULL,
+  `f_company_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_company_telecom` int(11) unsigned DEFAULT NULL,
+  `f_company_other` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_rtm_retail` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_rtm_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_rtm_telecom` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_rtm_education` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_rtm_other` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_service` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_consultant_nw` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_distributor` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_generic_def` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_enterprise` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_nonrtm_training` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_ase` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_ubiquity` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_aasi` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_carrier` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_non_carrier` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_aatc` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_aasp` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_gondola_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_inline_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_inline_ipod_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_apr_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_apple_shop_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_ipad_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_ipod_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_mac_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_iphone_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_account_exec_1_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_1_email` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_email` varchar(64) DEFAULT NULL,
+  `f_company_channel` varchar(64) DEFAULT NULL,
+  `f_num_sfo_ubiquity_ind` int(11) unsigned DEFAULT NULL,
+  `f_status` int(1) DEFAULT NULL,
+  `f_num_pos_program_cep` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_cep_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_white_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_sfo_as2_ind` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_white` int(11) unsigned DEFAULT NULL,
+  `f_num_pos_program_as2` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`f_id`),
+  KEY `f_country` (`f_country`),
+  KEY `f_primary_sales_org` (`f_primary_sales_org`),
+  KEY `f_hq_apple_id` (`f_hq_apple_id`),
+  KEY `f_contract_id` (`f_contract_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6094 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stored_cpm_pos`
+--
+
+DROP TABLE IF EXISTS `stored_cpm_pos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stored_cpm_pos` (
+  `_ke_wave` int(11) DEFAULT NULL,
+  `f_id` int(11) DEFAULT NULL,
+  `f_pos_apple_id` int(11) unsigned NOT NULL,
+  `f_hq_apple_id` int(11) unsigned NOT NULL,
+  `f_contract_id` int(11) unsigned NOT NULL,
+  `f_legal_name` varchar(255) NOT NULL,
+  `f_trade_name` varchar(255) NOT NULL,
+  `f_primary_sales_org` varchar(255) NOT NULL,
+  `f_primary_sales_org_name` varchar(255) NOT NULL,
+  `f_country` varchar(2) NOT NULL,
+  `f_street` varchar(255) NOT NULL,
+  `f_city` varchar(255) NOT NULL,
+  `f_postal_code` varchar(255) NOT NULL,
+  `f_is_hq` int(11) unsigned DEFAULT NULL,
+  `f_rtm` varchar(255) NOT NULL,
+  `f_rtm_primary` varchar(64) DEFAULT NULL,
+  `f_is_apr` int(11) unsigned DEFAULT NULL,
+  `f_is_ase_education` int(11) unsigned DEFAULT NULL,
+  `f_is_ase_creative` int(11) unsigned DEFAULT NULL,
+  `f_is_inline_mac` int(11) unsigned DEFAULT NULL,
+  `f_is_inline_ipod` int(11) unsigned DEFAULT NULL,
+  `f_is_apple_shop` int(11) unsigned DEFAULT NULL,
+  `f_is_gondola` int(11) unsigned DEFAULT NULL,
+  `f_is_apple_cpu` int(11) unsigned DEFAULT NULL,
+  `f_is_ipod` int(11) unsigned DEFAULT NULL,
+  `f_is_iphone` int(11) unsigned DEFAULT NULL,
+  `f_is_ipad` int(11) unsigned DEFAULT NULL,
+  `f_rule_name` varchar(255) DEFAULT NULL,
+  `f_rtms` varchar(255) DEFAULT NULL,
+  `f_programs` varchar(255) DEFAULT NULL,
+  `f_company_name` varchar(255) NOT NULL,
+  `f_region` varchar(64) DEFAULT NULL,
+  `f_country_name` varchar(64) DEFAULT NULL,
+  `f_company_retail` int(11) unsigned DEFAULT NULL,
+  `f_company_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_company_telecom` int(11) unsigned DEFAULT NULL,
+  `f_company_other` int(11) unsigned DEFAULT NULL,
+  `f_company_channel` varchar(64) DEFAULT NULL,
+  `f_pos_rtm_retail` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_telecom` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_education` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_other` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_service` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_consultant_nw` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_distributor` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_generic_def` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_enterprise` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_training` int(11) unsigned DEFAULT NULL,
+  `f_pos_on_reseller_locator` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_ase` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_ubiquity` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aasi` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_carrier` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_non_carrier` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aatc` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aasp` int(11) unsigned DEFAULT NULL,
+  `f_sfo_gondola_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_inline_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_inline_ipod_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_apr_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_apple_shop_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_ipad_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_ipod_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_mac_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_iphone_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_pos_asc_names` text,
+  `f_pos_asc_emails` text,
+  `f_pos_lead_asc_names` text,
+  `f_pos_lead_asc_emails` text,
+  `f_account_exec_1_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_1_email` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_email` varchar(64) DEFAULT NULL,
+  `f_sfo_ubiquity_ind` int(11) unsigned DEFAULT NULL,
+  `f_status` int(1) DEFAULT NULL,
+  `f_pos_program_cep` int(11) unsigned DEFAULT NULL,
+  `f_sfo_cep_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_white_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_as2_ind` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_white` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_as2` int(11) unsigned DEFAULT NULL,
+  UNIQUE KEY `UNICITY` (`_ke_wave`,`f_pos_apple_id`),
+  KEY `f_country` (`f_country`),
+  KEY `f_primary_sales_org` (`f_primary_sales_org`),
+  KEY `f_pos_apple_id` (`f_pos_apple_id`),
+  KEY `f_hq_apple_id` (`f_hq_apple_id`),
+  KEY `f_contract_id` (`f_contract_id`),
+  KEY `f_region` (`f_region`),
+  KEY `f_rtm_primary` (`f_rtm_primary`),
+  KEY `f_primary_sales_org_name` (`f_primary_sales_org_name`),
+  KEY `f_country_name` (`f_country_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `npi`
+--
+
+DROP TABLE IF EXISTS `npi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `npi` (
+  `_pk_npi` int(11) NOT NULL AUTO_INCREMENT,
+  `npi_label` varchar(120) DEFAULT NULL,
+  `npi_product_level1` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`_pk_npi`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cpm_sfo`
+--
+
+DROP TABLE IF EXISTS `cpm_sfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpm_sfo` (
+  `f_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `f_pos_apple_id` int(11) unsigned DEFAULT NULL,
+  `f_sfo_program_id` int(11) NOT NULL,
+  `f_sfo_store_id` int(11) NOT NULL,
+  `f_program` varchar(255) NOT NULL,
+  `f_fixture_type` varchar(255) NOT NULL,
+  `f_fixture_size` varchar(255) NOT NULL,
+  `f_fixture_format` varchar(255) NOT NULL,
+  `f_fixture_install_date` date DEFAULT NULL,
+  `f_apple_floor_space` varchar(255) NOT NULL,
+  `f_apple_funded_staffing_model` varchar(255) NOT NULL,
+  `f_merchandising_language` varchar(255) NOT NULL,
+  `f_sfo_pos_name` varchar(255) NOT NULL,
+  `f_sfo_contract_id` int(11) unsigned DEFAULT NULL,
+  `f_sfo_pos_address` varchar(255) NOT NULL,
+  `f_sfo_pos_city` varchar(255) NOT NULL,
+  `f_sfo_pos_postal_code` varchar(255) NOT NULL,
+  `f_sfo_pos_country` varchar(10) NOT NULL,
+  `f_sfo_company_name` varchar(255) NOT NULL,
+  `f_sfo_status_group` varchar(255) NOT NULL,
+  `f_sfo_status` varchar(255) NOT NULL,
+  PRIMARY KEY (`f_id`),
+  KEY `f_pos_apple_id` (`f_pos_apple_id`),
+  KEY `f_sfo_program_id` (`f_sfo_program_id`),
+  KEY `f_sfo_store_id` (`f_sfo_store_id`),
+  KEY `f_program` (`f_program`),
+  KEY `f_fixture_type` (`f_fixture_type`),
+  KEY `f_fixture_size` (`f_fixture_size`),
+  KEY `f_fixture_format` (`f_fixture_format`),
+  KEY `f_sfo_contract_id` (`f_sfo_contract_id`),
+  KEY `f_sfo_pos_country` (`f_sfo_pos_country`),
+  KEY `f_sfo_status_group` (`f_sfo_status_group`),
+  KEY `f_sfo_status` (`f_sfo_status`)
+) ENGINE=MyISAM AUTO_INCREMENT=42742 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stored_cpm_pos_rule`
+--
+
+DROP TABLE IF EXISTS `stored_cpm_pos_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stored_cpm_pos_rule` (
+  `_ke_wave` int(11) DEFAULT NULL,
+  `f_id` int(11) DEFAULT NULL,
+  `f_apple_id` int(11) unsigned NOT NULL,
+  `f_rule_id` int(11) unsigned NOT NULL,
+  UNIQUE KEY `appleId_ruleId` (`f_apple_id`,`f_rule_id`),
+  UNIQUE KEY `UNICITY` (`_ke_wave`,`f_apple_id`),
+  KEY `f_apple_id` (`f_apple_id`),
+  KEY `f_rule_id` (`f_rule_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cpm_pos`
+--
+
+DROP TABLE IF EXISTS `cpm_pos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpm_pos` (
+  `f_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `f_pos_apple_id` int(11) unsigned NOT NULL,
+  `f_hq_apple_id` int(11) unsigned NOT NULL,
+  `f_contract_id` int(11) unsigned NOT NULL,
+  `f_legal_name` varchar(255) NOT NULL,
+  `f_trade_name` varchar(255) NOT NULL,
+  `f_primary_sales_org` varchar(255) NOT NULL,
+  `f_primary_sales_org_name` varchar(255) NOT NULL,
+  `f_country` varchar(2) NOT NULL,
+  `f_street` varchar(255) NOT NULL,
+  `f_city` varchar(255) NOT NULL,
+  `f_postal_code` varchar(255) NOT NULL,
+  `f_is_hq` int(11) unsigned DEFAULT NULL,
+  `f_rtm` varchar(255) NOT NULL,
+  `f_rtm_primary` varchar(64) DEFAULT NULL,
+  `f_is_apr` int(11) unsigned DEFAULT NULL,
+  `f_is_ase_education` int(11) unsigned DEFAULT NULL,
+  `f_is_ase_creative` int(11) unsigned DEFAULT NULL,
+  `f_is_inline_mac` int(11) unsigned DEFAULT NULL,
+  `f_is_inline_ipod` int(11) unsigned DEFAULT NULL,
+  `f_is_apple_shop` int(11) unsigned DEFAULT NULL,
+  `f_is_gondola` int(11) unsigned DEFAULT NULL,
+  `f_is_apple_cpu` int(11) unsigned DEFAULT NULL,
+  `f_is_ipod` int(11) unsigned DEFAULT NULL,
+  `f_is_iphone` int(11) unsigned DEFAULT NULL,
+  `f_is_ipad` int(11) unsigned DEFAULT NULL,
+  `f_rule_name` varchar(255) DEFAULT NULL,
+  `f_rtms` varchar(255) DEFAULT NULL,
+  `f_programs` varchar(255) DEFAULT NULL,
+  `f_company_name` varchar(255) NOT NULL,
+  `f_region` varchar(64) DEFAULT NULL,
+  `f_country_name` varchar(64) DEFAULT NULL,
+  `f_company_retail` int(11) unsigned DEFAULT NULL,
+  `f_company_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_company_telecom` int(11) unsigned DEFAULT NULL,
+  `f_company_other` int(11) unsigned DEFAULT NULL,
+  `f_company_channel` varchar(64) DEFAULT NULL,
+  `f_pos_rtm_retail` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_prosumer` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_telecom` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_education` int(11) unsigned DEFAULT NULL,
+  `f_pos_rtm_other` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_service` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_consultant_nw` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_distributor` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_generic_def` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_enterprise` int(11) unsigned DEFAULT NULL,
+  `f_pos_nonrtm_training` int(11) unsigned DEFAULT NULL,
+  `f_pos_on_reseller_locator` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_ase` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_ubiquity` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aasi` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_carrier` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_non_carrier` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aatc` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_aasp` int(11) unsigned DEFAULT NULL,
+  `f_sfo_gondola_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_inline_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_inline_ipod_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_apr_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_apple_shop_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_ipad_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_ipod_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_mac_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_iphone_ppg_ind` int(11) unsigned DEFAULT NULL,
+  `f_pos_asc_names` text,
+  `f_pos_asc_emails` text,
+  `f_pos_lead_asc_names` text,
+  `f_pos_lead_asc_emails` text,
+  `f_account_exec_1_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_1_email` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_name` varchar(64) DEFAULT NULL,
+  `f_account_exec_2_email` varchar(64) DEFAULT NULL,
+  `f_sfo_ubiquity_ind` int(11) unsigned DEFAULT NULL,
+  `f_status` int(1) DEFAULT NULL,
+  `f_pos_program_cep` int(11) unsigned DEFAULT NULL,
+  `f_sfo_cep_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_white_ind` int(11) unsigned DEFAULT NULL,
+  `f_sfo_as2_ind` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_white` int(11) unsigned DEFAULT NULL,
+  `f_pos_program_as2` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`f_id`),
+  KEY `f_country` (`f_country`),
+  KEY `f_primary_sales_org` (`f_primary_sales_org`),
+  KEY `f_pos_apple_id` (`f_pos_apple_id`),
+  KEY `f_hq_apple_id` (`f_hq_apple_id`),
+  KEY `f_contract_id` (`f_contract_id`),
+  KEY `f_region` (`f_region`),
+  KEY `f_rtm_primary` (`f_rtm_primary`),
+  KEY `f_primary_sales_org_name` (`f_primary_sales_org_name`),
+  KEY `f_country_name` (`f_country_name`)
+) ENGINE=MyISAM AUTO_INCREMENT=86499 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cpm_gmacc_rule`
+--
+
+DROP TABLE IF EXISTS `cpm_gmacc_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpm_gmacc_rule` (
+  `f_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `f_menu_name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `f_rule_name` varchar(255) COLLATE utf8_bin NOT NULL,
+  `f_description` varchar(1024) COLLATE utf8_bin NOT NULL,
+  `f_criteria` varchar(2048) COLLATE utf8_bin NOT NULL DEFAULT '',
+  `f_create_date` datetime DEFAULT NULL,
+  `f_modify_date` datetime DEFAULT NULL,
+  `f_show_in_filter` int(11) unsigned NOT NULL,
+  `f_show_in_dashboard` int(11) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (`f_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `waveactivity`
+--
+
+DROP TABLE IF EXISTS `waveactivity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `waveactivity` (
+  `_cp_waveactivity` int(11) NOT NULL AUTO_INCREMENT,
+  `_ke_wave` int(11) DEFAULT NULL,
+  `_ke_activity` int(11) DEFAULT NULL,
+  `waveactiv_order` int(11) DEFAULT NULL,
+  PRIMARY KEY (`_cp_waveactivity`),
+  UNIQUE KEY `idx_uniquewaveactivity` (`_ke_wave`,`_ke_activity`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `stored_cpm_sfo`
+--
+
+DROP TABLE IF EXISTS `stored_cpm_sfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stored_cpm_sfo` (
+  `_ke_wave` int(11) DEFAULT NULL,
+  `f_id` int(11) DEFAULT NULL,
+  `f_pos_apple_id` int(11) unsigned DEFAULT NULL,
+  `f_sfo_program_id` int(11) NOT NULL,
+  `f_sfo_store_id` int(11) NOT NULL,
+  `f_program` varchar(255) NOT NULL,
+  `f_fixture_type` varchar(255) NOT NULL,
+  `f_fixture_size` varchar(255) NOT NULL,
+  `f_fixture_format` varchar(255) NOT NULL,
+  `f_fixture_install_date` date DEFAULT NULL,
+  `f_apple_floor_space` varchar(255) NOT NULL,
+  `f_apple_funded_staffing_model` varchar(255) NOT NULL,
+  `f_merchandising_language` varchar(255) NOT NULL,
+  `f_sfo_pos_name` varchar(255) NOT NULL,
+  `f_sfo_contract_id` int(11) unsigned DEFAULT NULL,
+  `f_sfo_pos_address` varchar(255) NOT NULL,
+  `f_sfo_pos_city` varchar(255) NOT NULL,
+  `f_sfo_pos_postal_code` varchar(255) NOT NULL,
+  `f_sfo_pos_country` varchar(10) NOT NULL,
+  `f_sfo_company_name` varchar(255) NOT NULL,
+  `f_sfo_status_group` varchar(255) NOT NULL,
+  `f_sfo_status` varchar(255) NOT NULL,
+  UNIQUE KEY `UNICITY` (`_ke_wave`,`f_pos_apple_id`),
+  KEY `f_pos_apple_id` (`f_pos_apple_id`),
+  KEY `f_sfo_program_id` (`f_sfo_program_id`),
+  KEY `f_sfo_store_id` (`f_sfo_store_id`),
+  KEY `f_program` (`f_program`),
+  KEY `f_fixture_type` (`f_fixture_type`),
+  KEY `f_fixture_size` (`f_fixture_size`),
+  KEY `f_fixture_format` (`f_fixture_format`),
+  KEY `f_sfo_contract_id` (`f_sfo_contract_id`),
+  KEY `f_sfo_pos_country` (`f_sfo_pos_country`),
+  KEY `f_sfo_status_group` (`f_sfo_status_group`),
+  KEY `f_sfo_status` (`f_sfo_status`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `contact`
+--
+
+DROP TABLE IF EXISTS `contact`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contact` (
+  `_pk_contact` int(11) NOT NULL AUTO_INCREMENT,
+  `contact_country` varchar(2) DEFAULT NULL,
+  `contact_name` varchar(250) DEFAULT NULL,
+  `contact_email` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`_pk_contact`),
+  UNIQUE KEY `UNICITY` (`contact_country`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `_pk_user` int(11) NOT NULL,
+  `user_login` varchar(45) NOT NULL,
+  PRIMARY KEY (`_pk_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `activity`
+--
+
+DROP TABLE IF EXISTS `activity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `activity` (
+  `_pk_activity` int(11) NOT NULL AUTO_INCREMENT,
+  `activ_title` varchar(160) DEFAULT NULL,
+  `activ_label` text,
+  `activ_daterequired` tinyint(1) DEFAULT NULL,
+  `activ_description` text,
+  `activ_config` text,
+  PRIMARY KEY (`_pk_activity`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `wave`
+--
+
+DROP TABLE IF EXISTS `wave`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wave` (
+  `_pk_wave` int(11) NOT NULL AUTO_INCREMENT,
+  `_ke_npi` int(11) DEFAULT NULL,
+  `wave_name` varchar(120) DEFAULT NULL,
+  `wave_launchDate` varchar(60) DEFAULT NULL,
+  `wave_deadLine` varchar(120) DEFAULT NULL,
+  `wave_status` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`_pk_wave`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cpm_pos_rule`
+--
+
+DROP TABLE IF EXISTS `cpm_pos_rule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpm_pos_rule` (
+  `f_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `f_apple_id` int(11) unsigned NOT NULL,
+  `f_rule_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`f_id`),
+  UNIQUE KEY `appleId_ruleId` (`f_apple_id`,`f_rule_id`),
+  KEY `f_apple_id` (`f_apple_id`),
+  KEY `f_rule_id` (`f_rule_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=440715 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping events for database 'apple_npi'
+--
+
+--
+-- Dumping routines for database 'apple_npi'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-05-27 10:36:50
