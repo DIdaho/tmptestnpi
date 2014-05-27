@@ -13,7 +13,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CpmPosController extends ControllerDefault {
 
+    protected $_fieldsToReturn = array(
+        'pos_apple_id' => 'p.f_pos_apple_id',
+        'pos_hq_id' => 'f_hq_apple_id',
+        'pos_contract_id' => 'f_contract_id',
+        'pos_name' => 'f_legal_name',
+        'pos_tradename' => 'f_trade_name',
+        'pos_sales_id' => 'f_primary_sales_org',
+        'pos_sales_name' => 'f_primary_sales_org_name',
+        'pos_loc_region' => 'f_region',
+        'pos_loc_country' => 'f_country_name',
+        'pos_loc_street' => 'f_street',
+        'pos_loc_city' => 'f_city',
+        'pos_loc_postal_code' => 'f_postal_code',
+        'pos_rtm' => 'f_rtm_primary',
+    );
+
     public function __construct(){
+        ini_set('memory_limit', '512M');
         parent::__construct('cpm_pos');
     }
 
@@ -26,6 +43,7 @@ class CpmPosController extends ControllerDefault {
         $this->controller->post("/", "cpm-pos.controller:filterAction");
         $this->controller->post("/add-pos-to-wave/{id}", "cpm-pos.controller:addPosToWaveAction")->assert('id', '\d+');
         $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
+        $this->controller->get("/stored/{id}", "cpm-pos.controller:storedAction")->assert('id', '\d+');
 
         return $this->controller;
     }
@@ -37,26 +55,12 @@ class CpmPosController extends ControllerDefault {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function filterAction(Application $app, Request $request){
-        ini_set('memory_limit', '512M');
         $params = json_decode($request->getContent(), true);
 
         //Fields to return
-        $map = array(
-            'pos_apple_id' => 'p.f_pos_apple_id',
-            'pos_hq_id' => 'f_hq_apple_id',
-            'pos_contract_id' => 'f_contract_id',
-            'pos_name' => 'f_legal_name',
-            'pos_tradename' => 'f_trade_name',
-            'pos_sales_id' => 'f_primary_sales_org',
-            'pos_sales_name' => 'f_primary_sales_org_name',
-            'pos_loc_region' => 'f_region',
-            'pos_loc_country' => 'f_country_name',
-            'pos_loc_street' => 'f_street',
-            'pos_loc_city' => 'f_city',
-            'pos_loc_postal_code' => 'f_postal_code',
-            'pos_rtm' => 'f_rtm_primary',
+        $map = array_merge($this->_fieldsToReturn, array(
             'isLinked' => "0",
-        );
+        ));
 
         //Work on fields
         array_walk($map, function(&$v, $k){$v = "$v as $k";});
@@ -183,7 +187,8 @@ class CpmPosController extends ControllerDefault {
 
         //Return inserted lines
 
-        return $app->json(null);
+
+        return $this->storedAction($app, $request, $id);
     }
 
     /**
@@ -192,6 +197,7 @@ class CpmPosController extends ControllerDefault {
      * @param $targetTable
      * @param $waveId
      * @param array $appleIds
+     * @param string $field
      */
     protected function _store($originTable, $targetTable, $waveId, array $appleIds, $field='f_pos_apple_id'){
         //Get field name list
@@ -212,4 +218,32 @@ class CpmPosController extends ControllerDefault {
         $statement = $this->_getPDO()->prepare($sql);
         $statement->execute(array_merge(array($waveId), $appleIds));
     }
+
+    /**
+     * Return the list of stored POS for this wave
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function storedAction(Application $app, Request $request, $id){
+
+        $map = array_merge($this->_fieldsToReturn, array(
+            '_ke_wave' => '_ke_wave',
+        ));
+
+        //Work on fields
+        array_walk($map, function(&$v, $k){$v = "$v as $k";});
+        $fields = implode(', ', $map);
+
+        $sql = "SELECT $fields FROM stored_cpm_pos p WHERE _ke_wave = ?";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array($id));
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $app->json($result);
+    }
+
 }

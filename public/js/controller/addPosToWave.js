@@ -94,12 +94,15 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
     }
 
     /**
-     *
+     * Add selected POS to the wave
      */
     $scope.addSelectedPos = function(){
         var toAdd = _.map(_.filter($scope.results, function(i){return i.isSelected}), function(pos, key){return pos.pos_apple_id});
         var request = $http.post('cpm-pos/add-pos-to-wave/' + $scope.item._pk_wave, toAdd).success(function(data){
-           console.log(data);
+            if(_.isArray(data))
+            {
+                $scope.item.pos = data;
+            }
         });
         $scope.trackerAdding.addPromise(request);
     }
