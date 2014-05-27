@@ -176,7 +176,7 @@ class ControllerDefault implements ControllerProviderInterface {
     public function createAction(Application $app, Request $request){
         $params = json_decode($request->getContent(), true);
         //call method for action before creation
-        $this->beforeCreateAction();
+        $this->beforeCreateAction($app, $request);
         $id = $this->getRepository()->create($params);
         return $app->json( $this->getRepository()->fetchOne($id) );
     }
@@ -184,7 +184,7 @@ class ControllerDefault implements ControllerProviderInterface {
     public function updateAction(Application $app, Request $request, $id){
         $params = json_decode($request->getContent(), true);
         //call method for action before data update
-        $this->beforeUpdateAction();
+        $this->beforeUpdateAction($app, $request, $id);
         $params[ $this->getRepository()->getPrimaryKeyFieldName() ] = $id;
         $this->getRepository()->update($params);
         return $app->json( $this->getRepository()->fetchOne($id) );
@@ -192,7 +192,7 @@ class ControllerDefault implements ControllerProviderInterface {
 
     public function deleteAction(Application $app, Request $request, $id){
         //call method for action before delete
-        $this->beforeDeleteAction();
+        $this->beforeDeleteAction($app, $request, $id);
         return $app->json($this->getRepository()->delete($id));
     }
 
@@ -211,10 +211,10 @@ class ControllerDefault implements ControllerProviderInterface {
      * these method can be overwrited in subclass
      */
 
-    public function beforeCreateAction(){}
+    public function beforeCreateAction(Application $app, Request $request){}
 
-    public function beforeUpdateAction(){}
+    public function beforeUpdateAction(Application $app, Request $request, $id){}
 
-    public function beforeDeleteAction(){}
+    public function beforeDeleteAction(Application $app, Request $request, $id){}
 
 } 
