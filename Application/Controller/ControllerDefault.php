@@ -175,20 +175,27 @@ class ControllerDefault implements ControllerProviderInterface {
 
     public function createAction(Application $app, Request $request){
         $params = json_decode($request->getContent(), true);
+        //call method for action before creation
+        $this->beforeCreateAction();
         $id = $this->getRepository()->create($params);
         return $app->json( $this->getRepository()->fetchOne($id) );
     }
 
     public function updateAction(Application $app, Request $request, $id){
         $params = json_decode($request->getContent(), true);
+        //call method for action before data update
+        $this->beforeUpdateAction();
         $params[ $this->getRepository()->getPrimaryKeyFieldName() ] = $id;
         $this->getRepository()->update($params);
         return $app->json( $this->getRepository()->fetchOne($id) );
     }
 
     public function deleteAction(Application $app, Request $request, $id){
+        //call method for action before delete
+        $this->beforeDeleteAction();
         return $app->json($this->getRepository()->delete($id));
     }
+
 
 
     /**
@@ -197,13 +204,17 @@ class ControllerDefault implements ControllerProviderInterface {
      */
     public function additionnalRoutes(){}
 
-    //TODO
-    //updateAction
-    //createAction
-    //deleteAction
 
-    //beforeUpdate
-    //beforeCreate
-    //beforeDelete
+    /**
+     *In here you can write additional validation before
+     *routing. Throw Exception if you wan't to handle error
+     * these method can be overwrited in subclass
+     */
+
+    public function beforeCreateAction(){}
+
+    public function beforeUpdateAction(){}
+
+    public function beforeDeleteAction(){}
 
 } 
