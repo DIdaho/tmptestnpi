@@ -96,7 +96,9 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         $modal({
             template: 'template/wave/addPosToWave.html',
             scope: $scope,
-            controller: ctrlAddPosToWave
+            controller: ctrlAddPosToWave,
+            backdrop: 'static',
+            keyboard: false
         });
     }
 

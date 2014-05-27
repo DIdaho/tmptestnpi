@@ -37,7 +37,7 @@ class CpmPosController extends ControllerDefault {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function filterAction(Application $app, Request $request){
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '512M');
         $params = json_decode($request->getContent(), true);
 
         //Fields to return
