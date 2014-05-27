@@ -40,6 +40,49 @@ class CpmPosController extends ControllerDefault {
         $this->controller->post("/add-pos-to-wave/{id}", "$class:addPosToWaveAction")->assert('id', '\d+');
         $this->controller->get("/dictionary", "$class:dictionaryAction");
         $this->controller->get("/stored/{id}", "$class:storedAction")->assert('id', '\d+');
+        $this->controller->delete("/delete-pos-from-wave/{id}", "$class:deletePosFromWaveAction")->assert('id', '\d+');
+    }
+
+    /**
+     * Store data from a CPM table to a storage table
+     * @param $originTable
+     * @param $targetTable
+     * @param $waveId
+     * @param array $appleIds
+     * @param string $field
+     */
+    protected function _store($originTable, $targetTable, $waveId, array $appleIds, $field='f_pos_apple_id'){
+        //Get field name list
+        $repo = new \Models\ModelDefault($this->_getPDO(), $originTable);
+        $fields = $repo->getFieldNameList();
+
+        //Create prepared request
+        $sql = "
+            INSERT IGNORE INTO $targetTable (_ke_wave, ".implode(',', $fields).")
+            SELECT
+                ?, ".implode(',', $fields)."
+            FROM $originTable
+            WHERE
+                $field IN (" . rtrim(str_repeat('?, ', count($appleIds)), ', ') . ");
+        ";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array_merge(array($waveId), $appleIds));
+    }
+
+    /**
+     * @param $table
+     * @param $waveId
+     * @param array $appleIds
+     * @param string $field
+     */
+    protected function _deleteStore($table, $waveId, array $appleIds, $field='f_pos_apple_id'){
+        $sql = "DELETE FROM $table WHERE _ke_wave = ? AND $field IN (" . rtrim(str_repeat('?, ', count($appleIds)), ', ') . ")";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array_merge(array($waveId), $appleIds));
     }
 
     /**
@@ -180,37 +223,7 @@ class CpmPosController extends ControllerDefault {
         $this->_store('cpm_sfo', 'stored_cpm_sfo', $id, $appleIds);
 
         //Return inserted lines
-
-
         return $this->storedAction($app, $request, $id);
-    }
-
-    /**
-     * Store data from a CPM table to a storage table
-     * @param $originTable
-     * @param $targetTable
-     * @param $waveId
-     * @param array $appleIds
-     * @param string $field
-     */
-    protected function _store($originTable, $targetTable, $waveId, array $appleIds, $field='f_pos_apple_id'){
-        //Get field name list
-        $repo = new \Models\ModelDefault($this->_getPDO(), $originTable);
-        $fields = $repo->getFieldNameList();
-
-        //Create prepared request
-        $sql = "
-            INSERT IGNORE INTO $targetTable (_ke_wave, ".implode(',', $fields).")
-            SELECT
-                ?, ".implode(',', $fields)."
-            FROM $originTable
-            WHERE
-                $field IN (" . rtrim(str_repeat('?, ', count($appleIds)), ', ') . ");
-        ";
-
-        //Launch query
-        $statement = $this->_getPDO()->prepare($sql);
-        $statement->execute(array_merge(array($waveId), $appleIds));
     }
 
     /**
@@ -238,6 +251,16 @@ class CpmPosController extends ControllerDefault {
         $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         return $app->json($result);
+    }
+
+    public function deletePosFromWaveAction(Application $app, Request $request, $id){
+        $appleIds = json_decode($request->getContent(), true);
+
+        $this->_deleteStore('stored_cpm_pos', $id, $appleIds);
+        $this->_deleteStore('stored_cpm_pos_rule', $id, $appleIds, 'f_apple_id');
+        $this->_deleteStore('stored_cpm_sfo', $id, $appleIds);
+
+        return $app->json();
     }
 
 }
