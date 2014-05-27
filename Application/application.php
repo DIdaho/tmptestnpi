@@ -38,6 +38,8 @@
         </div><!-- /.container-fluid -->
     </nav>
 
+    <div class="loading-indicator progress progress-striped active" ng-show="tracker.active()"><div class="progress-bar progress-bar-info" style="width:100%"></div></div>
+
     <div ng-view></div>
 
 </div>

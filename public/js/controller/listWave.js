@@ -2,6 +2,12 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 
+    //Init pagination
+    $scope.pagination = {
+        current: 1,
+        nbItems: 10
+    };
+
     //Get list
     $http.get('npi/' + $routeParams.id + '/waves').success(function(data){
         $scope.list = data;
@@ -34,7 +40,14 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         if(item && item._pk_wave)
         {
             return $http.get('wave/' + item._pk_wave).then(function(data){
-                return data.data
+
+                var object = data.data;
+                return $http.get('cpm-pos/stored/' + item._pk_wave).then(function(data){
+                    object.pos = data.data;
+
+                    //Return detailed object
+                    return object;
+                });
             });
         }
         else
@@ -100,6 +113,15 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
             backdrop: 'static',
             keyboard: false
         });
+    }
+
+    $scope.removePos = function(appleId){
+        $http.delete('cpm-pos/delete-pos-from-wave/' + $scope.item._pk_wave, {
+            data: [appleId]
+        }).success(function(){
+            var toDelete = _.findWhere($scope.item.pos, {pos_apple_id: appleId});
+            $scope.item.pos.splice($scope.item.pos.indexOf(toDelete), 1);
+        })
     }
 
 //    setTimeout(function(){

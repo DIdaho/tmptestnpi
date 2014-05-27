@@ -24,7 +24,7 @@ function ctrlList($scope, $http, $modal, $q){
     $scope.edit = function(item){
         $scope.originalItem = item;
 
-        $scope.loadingPromise(item).then(function(item){
+        var request = $scope.loadingPromise(item).then(function(item){
             item = item ? item:{};
             //Set default values
             $scope.setDefaultValues(item);
@@ -36,6 +36,8 @@ function ctrlList($scope, $http, $modal, $q){
                 scope: $scope
             });
         })
+
+        $scope.tracker.addPromise(request);
     }
 
     /**
