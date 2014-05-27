@@ -24,6 +24,7 @@ class WaveController extends ControllerDefault {
      * @return \Silex\ControllerCollection
      */
     public function connect(Application $app) {
+        parent::connect($app);
         $controller = $this->controller;
 
         $this->_setApp($app);
@@ -36,10 +37,10 @@ class WaveController extends ControllerDefault {
         /**
          * fetch one wave
          */
-        $controller->get("/{id}", function($id) use ($app, $targetRepository) {
-            $result = $targetRepository->fetchOne($id);
-            return $app->json($result);
-        })->assert('id', '\d+');
+//        $controller->get("/{id}", function($id) use ($app, $targetRepository) {
+//            $result = $targetRepository->fetchOne($id);
+//            return $app->json($result);
+//        })->assert('id', '\d+');
 
         /**
          * used for wave udpate
@@ -67,7 +68,7 @@ class WaveController extends ControllerDefault {
         })->assert('id', '\d+');
 
 
-        parent::connect($app);
+
         return $controller;
     }
 }
