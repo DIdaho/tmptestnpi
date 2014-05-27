@@ -2,6 +2,12 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 
+    //Init pagination
+    $scope.pagination = {
+        current: 1,
+        nbItems: 10
+    };
+
     //Get list
     $http.get('npi/' + $routeParams.id + '/waves').success(function(data){
         $scope.list = data;
@@ -33,8 +39,13 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
     $scope.loadingPromise = function(item){
         if(item && item._pk_wave)
         {
+            //Load linked POS
+            $http.get('cpm-pos/stored/' + item._pk_wave).success(function(data){
+                item.pos = data;
+            });
+
             return $http.get('wave/' + item._pk_wave).then(function(data){
-                return data.data
+                return angular.extend(data.data, item);
             });
         }
         else

@@ -11,3 +11,9 @@
 
 .modal-add-pos-to-wave .checkbox {
   margin: 0; }
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block; }
