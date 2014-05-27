@@ -13,7 +13,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CpmPosController extends ControllerDefault {
 
+    protected $_fieldsToReturn = array(
+        'pos_apple_id' => 'p.f_pos_apple_id',
+        'pos_hq_id' => 'f_hq_apple_id',
+        'pos_contract_id' => 'f_contract_id',
+        'pos_name' => 'f_legal_name',
+        'pos_tradename' => 'f_trade_name',
+        'pos_sales_id' => 'f_primary_sales_org',
+        'pos_sales_name' => 'f_primary_sales_org_name',
+        'pos_loc_region' => 'f_region',
+        'pos_loc_country' => 'f_country_name',
+        'pos_loc_street' => 'f_street',
+        'pos_loc_city' => 'f_city',
+        'pos_loc_postal_code' => 'f_postal_code',
+        'pos_rtm' => 'f_rtm_primary',
+    );
+
     public function __construct(){
+        ini_set('memory_limit', '512M');
         parent::__construct('cpm_pos');
     }
 
@@ -33,9 +50,12 @@ class CpmPosController extends ControllerDefault {
     public function additionnalRoutes(){
         //Register CPM POS controller
         $app['cpm-pos.controller'] = $this;
-
         $this->controller->post("/", "cpm-pos.controller:filterAction");
+        $this->controller->post("/add-pos-to-wave/{id}", "cpm-pos.controller:addPosToWaveAction")->assert('id', '\d+');
         $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
+        $this->controller->get("/stored/{id}", "cpm-pos.controller:storedAction")->assert('id', '\d+');
+
+        return $this->controller;
     }
     /**
      * Filtered list of POS
@@ -44,26 +64,12 @@ class CpmPosController extends ControllerDefault {
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function filterAction(Application $app, Request $request){
-        ini_set('memory_limit', '256M');
         $params = json_decode($request->getContent(), true);
 
         //Fields to return
-        $map = array(
-            'pos_apple_id' => 'p.f_pos_apple_id',
-            'pos_hq_id' => 'f_hq_apple_id',
-            'pos_contract_id' => 'f_contract_id',
-            'pos_name' => 'f_legal_name',
-            'pos_tradename' => 'f_trade_name',
-            'pos_sales_id' => 'f_primary_sales_org',
-            'pos_sales_name' => 'f_primary_sales_org_name',
-            'pos_loc_region' => 'f_region',
-            'pos_loc_country' => 'f_country_name',
-            'pos_loc_street' => 'f_street',
-            'pos_loc_city' => 'f_city',
-            'pos_loc_postal_code' => 'f_postal_code',
-            'pos_rtm' => 'f_rtm_primary',
+        $map = array_merge($this->_fieldsToReturn, array(
             'isLinked' => "0",
-        );
+        ));
 
         //Work on fields
         array_walk($map, function(&$v, $k){$v = "$v as $k";});
@@ -171,4 +177,82 @@ class CpmPosController extends ControllerDefault {
             'countries' => array_filter($countries),
         ));
     }
+
+    /**
+     * Add POS to a wave     *
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function addPosToWaveAction(Application $app, Request $request, $id){
+
+        //Get params (list of Apple IDs to add)
+        $appleIds = json_decode($request->getContent(), true);
+
+        $this->_store('cpm_pos', 'stored_cpm_pos', $id, $appleIds);
+        $this->_store('cpm_pos_rule', 'stored_cpm_pos_rule', $id, $appleIds, 'f_apple_id');
+        $this->_store('cpm_sfo', 'stored_cpm_sfo', $id, $appleIds);
+
+        //Return inserted lines
+
+
+        return $this->storedAction($app, $request, $id);
+    }
+
+    /**
+     * Store data from a CPM table to a storage table
+     * @param $originTable
+     * @param $targetTable
+     * @param $waveId
+     * @param array $appleIds
+     * @param string $field
+     */
+    protected function _store($originTable, $targetTable, $waveId, array $appleIds, $field='f_pos_apple_id'){
+        //Get field name list
+        $repo = new \Models\ModelDefault($this->_getPDO(), $originTable);
+        $fields = $repo->getFieldNameList();
+
+        //Create prepared request
+        $sql = "
+            INSERT IGNORE INTO $targetTable (_ke_wave, ".implode(',', $fields).")
+            SELECT
+                ?, ".implode(',', $fields)."
+            FROM $originTable
+            WHERE
+                $field IN (" . rtrim(str_repeat('?, ', count($appleIds)), ', ') . ");
+        ";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array_merge(array($waveId), $appleIds));
+    }
+
+    /**
+     * Return the list of stored POS for this wave
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function storedAction(Application $app, Request $request, $id){
+
+        $map = array_merge($this->_fieldsToReturn, array(
+            '_ke_wave' => '_ke_wave',
+        ));
+
+        //Work on fields
+        array_walk($map, function(&$v, $k){$v = "$v as $k";});
+        $fields = implode(', ', $map);
+
+        $sql = "SELECT $fields FROM stored_cpm_pos p WHERE _ke_wave = ?";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array($id));
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $app->json($result);
+    }
+
 }

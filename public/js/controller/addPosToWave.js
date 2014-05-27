@@ -7,6 +7,7 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
 
     //Search promise tracker
     $scope.trackerSearch = promiseTracker();
+    $scope.trackerAdding = promiseTracker();
 
     //Init pagination
     $scope.pagination = {
@@ -35,6 +36,7 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
      */
     $scope.results = null;
     $scope.search = function(){
+        $scope.results = null;
         var request = $http.post('cpm-pos/', $scope.filter).success(function(data){
             $scope.pagination.current = 1;
             $scope.sql = data.sql;
@@ -89,6 +91,20 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
      */
     $scope.removeItem = function(object, key){
         delete object[key];
+    }
+
+    /**
+     * Add selected POS to the wave
+     */
+    $scope.addSelectedPos = function(){
+        var toAdd = _.map(_.filter($scope.results, function(i){return i.isSelected}), function(pos, key){return pos.pos_apple_id});
+        var request = $http.post('cpm-pos/add-pos-to-wave/' + $scope.item._pk_wave, toAdd).success(function(data){
+            if(_.isArray(data))
+            {
+                $scope.item.pos = data;
+            }
+        });
+        $scope.trackerAdding.addPromise(request);
     }
 
     /**
