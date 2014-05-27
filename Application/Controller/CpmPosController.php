@@ -23,8 +23,8 @@ class CpmPosController extends ControllerDefault {
 
         //Register CPM POS controller
         $app['cpm-pos.controller'] = $this;
-
         $this->controller->post("/", "cpm-pos.controller:filterAction");
+        $this->controller->post("/add-pos-to-wave/{id}", "cpm-pos.controller:addPosToWaveAction")->assert('id', '\d+');
         $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
 
         return $this->controller;
@@ -163,5 +163,53 @@ class CpmPosController extends ControllerDefault {
             'salesorg' => array_filter($sales),
             'countries' => array_filter($countries),
         ));
+    }
+
+    /**
+     * Add POS to a wave     *
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function addPosToWaveAction(Application $app, Request $request, $id){
+
+        //Get params (list of Apple IDs to add)
+        $appleIds = json_decode($request->getContent(), true);
+
+        $this->_store('cpm_pos', 'stored_cpm_pos', $id, $appleIds);
+        $this->_store('cpm_pos_rule', 'stored_cpm_pos_rule', $id, $appleIds, 'f_apple_id');
+        $this->_store('cpm_sfo', 'stored_cpm_sfo', $id, $appleIds);
+
+        //Return inserted lines
+
+        return $app->json(null);
+    }
+
+    /**
+     * Store data from a CPM table to a storage table
+     * @param $originTable
+     * @param $targetTable
+     * @param $waveId
+     * @param array $appleIds
+     */
+    protected function _store($originTable, $targetTable, $waveId, array $appleIds, $field='f_pos_apple_id'){
+        //Get field name list
+        $repo = new \Models\ModelDefault($this->_getPDO(), $originTable);
+        $fields = $repo->getFieldNameList();
+
+        //Create prepared request
+        $sql = "
+            INSERT IGNORE INTO $targetTable (_ke_wave, ".implode(',', $fields).")
+            SELECT
+                ?, ".implode(',', $fields)."
+            FROM $originTable
+            WHERE
+                $field IN (" . rtrim(str_repeat('?, ', count($appleIds)), ', ') . ");
+        ";
+
+        //Launch query
+        $statement = $this->_getPDO()->prepare($sql);
+        $statement->execute(array_merge(array($waveId), $appleIds));
     }
 }
