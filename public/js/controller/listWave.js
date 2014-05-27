@@ -5,7 +5,7 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
     //Get list
     $http.get('npi/' + $routeParams.id + '/waves').success(function(data){
         $scope.list = data;
-        $scope.edit(data[0]);
+//        $scope.edit(data[0]);
     });
 
     //Get activities
@@ -100,7 +100,7 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         });
     }
 
-    setTimeout(function(){
-        $scope.openAddPosToWave();
-    }, 500)
+//    setTimeout(function(){
+//        $scope.openAddPosToWave();
+//    }, 500)
 }

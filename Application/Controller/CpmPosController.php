@@ -55,6 +55,7 @@ class CpmPosController extends ControllerDefault {
             'pos_loc_city' => 'f_city',
             'pos_loc_postal_code' => 'f_postal_code',
             'pos_rtm' => 'f_rtm_primary',
+            'isLinked' => "0",
         );
 
         //Work on fields
@@ -97,7 +98,8 @@ class CpmPosController extends ControllerDefault {
 
         if(isset($params['spotlight']))
         {
-
+            $where[] = "(p.f_pos_apple_id LIKE ? OR p.f_legal_name LIKE ? OR p.f_trade_name LIKE ?)";
+            $values = array_merge($values, array_fill(0, 3, '%' . $params['spotlight'] . '%'));
         }
 
         //Compute WHERE
@@ -110,9 +112,10 @@ class CpmPosController extends ControllerDefault {
         WHERE %s
         # LIMIT 100
         ";
+        $sql = sprintf($sql, $fields, $where);
 
         //Launch query
-        $statement = $this->_getPDO()->prepare(sprintf($sql, $fields, $where));
+        $statement = $this->_getPDO()->prepare($sql);
         $statement->execute($values);
         $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -129,7 +132,7 @@ class CpmPosController extends ControllerDefault {
      */
     public function dictionaryAction(Application $app){
         //Programs
-        $sql = "SELECT DISTINCT f_program as name FROM cpm_sfo ORDER BY f_program";
+        $sql = "SELECT DISTINCT f_program as name FROM cpm_sfo s LEFT JOIN cpm_pos p ON s.f_pos_apple_id = p.f_pos_apple_id  WHERE p.f_pos_apple_id>9999 ORDER BY f_program";
         $statement = $this->_getPDO()->query($sql);
         $programs = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -139,12 +142,12 @@ class CpmPosController extends ControllerDefault {
         $regions = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         //RTMs
-        $sql = "SELECT DISTINCT f_rtm_primary as name FROM cpm_pos WHERE f_rtm_primary!='' ORDER BY f_rtm_primary";
+        $sql = "SELECT DISTINCT f_rtm_primary as name FROM cpm_pos WHERE f_rtm_primary!='' AND f_pos_apple_id>9999 ORDER BY f_rtm_primary";
         $statement = $this->_getPDO()->query($sql);
         $rtms = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         //Countries
-        $sql = "SELECT DISTINCT f_country_name as name FROM cpm_pos ORDER BY f_country_name";
+        $sql = "SELECT DISTINCT f_country as id, f_country_name as name FROM cpm_pos WHERE f_country!='00' ORDER BY f_country_name";
         $statement = $this->_getPDO()->query($sql);
         $countries = $statement->fetchAll(\PDO::FETCH_ASSOC);
 

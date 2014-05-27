@@ -25,8 +25,8 @@
                     </div>
                     <table class="table">
                         <thead>
-                            <tr><th>Activities</th><th>&nbsp;</th></tr>
-                            <tr><td colspan="2">
+                            <tr><th colspan="2">Activities</th><th>&nbsp;</th></tr>
+                            <tr><td colspan="3">
                                 <button class="btn btn-default btn-block"
                                         placeholder="Add an activity"
                                         ng-model="select.activity"
@@ -37,6 +37,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="a in item.activities">
+                                <td><i class="fa fa-sort pull-left"></i></td>
                                 <td>{{(activities|filter:{_pk_activity:a._ke_activity})[0].activ_label}}</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm pull-right" ng-click="removeActivity($index)">
@@ -46,8 +47,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <button class="btn btn-success btn-block" ng-click="save(item, $hide);">{{item[config.key] ? 'Save':'Create'}}</button>
                 </div>
 
                 <div class="col-xs-8">
@@ -67,8 +66,16 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="alert alert-warning" ng-show="!item._pk_wave">You must create the wave before adding POS</div>
+                </div>
 
-                    <a class="btn btn-success" ng-click="openAddPosToWave()"><i class="fa fa-plus"></i> Add POS to the wave</a>
+                <div class="clearfix"></div>
+
+                <div class="col-xs-4">
+                    <button class="btn btn-success btn-block" ng-click="save(item);">{{item[config.key] ? 'Save':'Create'}}</button>
+                </div>
+                <div class="col-xs-8">
+                    <a class="btn btn-success btn-block" ng-show="item._pk_wave" ng-click="openAddPosToWave()"><i class="fa fa-plus"></i> Add POS to the wave</a>
                 </div>
 
                 <div class="clearfix"></div>

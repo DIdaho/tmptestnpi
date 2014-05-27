@@ -114,7 +114,7 @@ class ControllerDefault implements ControllerProviderInterface {
      * @param Application $app
      * @return ControllerCollection
      */
-    public function connect(Application $app)
+    final public function connect(Application $app)
     {
         $controller = $this->controller;
         $this->_setApp($app);
@@ -123,21 +123,21 @@ class ControllerDefault implements ControllerProviderInterface {
         /**@var $jsonField array */
         $jsonField = $this->_jsonFields;
 
+        //Register CPM POS controller
+        $class = get_class($this) . '.controller';
+        $app[$class] = $this;
+
+        $this->additionnalRoutes();
+
         /**
          * fetch all data
          */
-        $controller->get("/", function() use ($app, $targetRepository) {
-            $results = $targetRepository->fetchAll();
-            return $app->json($results);
-        });
+        $controller->get("/", "$class:listAction")->assert('id', '\d+');
 
         /**
          * fetch one record
          */
-        $controller->get("/{id}", function($id) use ($app, $targetRepository) {
-            $result = $targetRepository->fetchOne($id);
-            return $app->json($result);
-        })->assert('id', '\d+');
+        $controller->get("/{id}", "$class:detailAction")->assert('id', '\d+');
 
         /**
          * create a new reccord
@@ -173,5 +173,28 @@ class ControllerDefault implements ControllerProviderInterface {
 
         return $controller;
     }
+
+    public function listAction(Application $app, Request $request) {
+        $result = $this->getRepository()->fetchAll();
+        return $app->json($result);
+    }
+
+    public function detailAction(Application $app, Request $request, $id) {
+        $result = $this->getRepository()->fetchOne($id);
+        return $app->json($result);
+    }
+
+    public function additionnalRoutes(){
+        //Empty, can be filled in subclasses
+    }
+
+    //TODO
+    //updateAction
+    //createAction
+    //deleteAction
+
+    //beforeUpdate
+    //beforeCreate
+    //beforeDelete
 
 } 

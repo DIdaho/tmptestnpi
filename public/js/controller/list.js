@@ -60,6 +60,7 @@ function ctrlList($scope, $http, $modal, $q){
             {
                 //Else add to list
                 $scope.list.push(data)
+                angular.extend(item, data);
             }
 
             if(callback)
