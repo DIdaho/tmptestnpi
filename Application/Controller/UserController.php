@@ -21,15 +21,15 @@ class UserController extends ControllerDefault{
      * @param Application $app
      * @return \Silex\ControllerCollection
      */
-    public function connect(Application $app) {
-        $controller = $this->controller;
-
-        // In here, you can write additional controller
-        // or overwrite existing controller in ControllerCore
-
-        parent::connect($app);
-
-        return $controller;
-    }
+//    public function connect(Application $app) {
+//        $controller = $this->controller;
+//
+//        // In here, you can write additional controller
+//        // or overwrite existing controller in ControllerCore
+//
+//        parent::connect($app);
+//
+//        return $controller;
+//    }
 
 }

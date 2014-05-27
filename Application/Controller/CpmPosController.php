@@ -17,19 +17,26 @@ class CpmPosController extends ControllerDefault {
         parent::__construct('cpm_pos');
     }
 
-    public function connect(Application $app) {
-        $this->_setApp($app);
-        $this->setRepository();
+//    public function connect(Application $app) {
+//        $this->_setApp($app);
+//        $this->setRepository();
+//
+//        //Register CPM POS controller
+//        $app['cpm-pos.controller'] = $this;
+//
+//        $this->controller->post("/", "cpm-pos.controller:filterAction");
+//        $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
+//
+//        return $this->controller;
+//    }
 
+    public function additionnalRoutes(){
         //Register CPM POS controller
         $app['cpm-pos.controller'] = $this;
 
         $this->controller->post("/", "cpm-pos.controller:filterAction");
         $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
-
-        return $this->controller;
     }
-
     /**
      * Filtered list of POS
      * @param Application $app

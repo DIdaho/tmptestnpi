@@ -128,17 +128,14 @@ class ControllerDefault implements ControllerProviderInterface {
         $app[$class] = $this;
 
         $this->additionnalRoutes();
-
         /**
          * fetch all data
          */
         $controller->get("/", "$class:listAction")->assert('id', '\d+');
-
         /**
          * fetch one record
          */
         $controller->get("/{id}", "$class:detailAction")->assert('id', '\d+');
-
         /**
          * create a new reccord
          *
@@ -148,31 +145,40 @@ class ControllerDefault implements ControllerProviderInterface {
          * //note : permet de recuperer le contenu fournis (request payload)
          * var_dump( $request->getContent() );
          */
-        $controller->post("/", function(Request $request) use ($app, $targetRepository, $jsonField) {
-            $params = json_decode($request->getContent(), true);
-            $id = $targetRepository->create($params, $jsonField);
-            return $app->json( $targetRepository->fetchOne($id) );
-        });
+//        $controller->post("/", function(Request $request) use ($app, $targetRepository, $jsonField) {
+//            $params = json_decode($request->getContent(), true);
+//            $id = $targetRepository->create($params, $jsonField);
+//            return $app->json( $targetRepository->fetchOne($id) );
+//        });
+        $controller->post("/", "$class:createAction");
 
         /**
          * update one reccord
          */
-        $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository, $jsonField) {
-            $params = json_decode($request->getContent(), true);
-            $params[ $targetRepository->getPrimaryKeyFieldName() ] = $id;
-            $targetRepository->update($params, $jsonField);
-            return $app->json( $targetRepository->fetchOne($id) );
-        })->assert('id', '\d+');
-
+//        $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository, $jsonField) {
+//            $params = json_decode($request->getContent(), true);
+//            $params[ $targetRepository->getPrimaryKeyFieldName() ] = $id;
+//            $targetRepository->update($params, $jsonField);
+//            return $app->json( $targetRepository->fetchOne($id) );
+//        })->assert('id', '\d+');
+        $controller->put("/{id}", "$class:updateAction")->assert('id', '\d+');
         /**
          * delete one reccord
          */
-        $controller->delete("/{id}", function($id) use ($app, $targetRepository) {
-            return $app->json($targetRepository->delete($id));
-        }) ->assert('id', '\d+');
+//        $controller->delete("/{id}", function($id) use ($app, $targetRepository) {
+//            return $app->json($targetRepository->delete($id));
+//        }) ->assert('id', '\d+');
+        $controller->delete("/{id}", "$class:deleteAction")->assert('id', '\d+');
 
         return $controller;
     }
+
+    /**
+     * Default method associated with default route
+     * @param Application $app
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
 
     public function listAction(Application $app, Request $request) {
         $result = $this->getRepository()->fetchAll();
@@ -182,6 +188,25 @@ class ControllerDefault implements ControllerProviderInterface {
     public function detailAction(Application $app, Request $request, $id) {
         $result = $this->getRepository()->fetchOne($id);
         return $app->json($result);
+    }
+
+    public function createAction(Application $app, Request $request){
+        $params = json_decode($request->getContent(), true);
+//        $this->getRepository()->jsonFields = $this->_jsonFields;//probably useless
+        $id = $this->getRepository()->create($params);
+        return $app->json( $this->getRepository()->fetchOne($id) );
+    }
+
+    public function updateAction(Application $app, Request $request, $id){
+        $params = json_decode($request->getContent(), true);
+        $params[ $this->getRepository()->getPrimaryKeyFieldName() ] = $id;
+//        $this->getRepository()->jsonFields = $this->_jsonFields;//probably useless
+        $this->getRepository()->update($params);
+        return $app->json( $this->getRepository()->fetchOne($id) );
+    }
+
+    public function deleteAction(Application $app, Request $request, $id){
+        return $app->json($this->getRepository()->delete($id));
     }
 
     public function additionnalRoutes(){
