@@ -114,7 +114,7 @@ class ControllerDefault implements ControllerProviderInterface {
      * @param Application $app
      * @return ControllerCollection
      */
-    public function connect(Application $app)
+    final public function connect(Application $app)
     {
         $controller = $this->controller;
         $this->_setApp($app);

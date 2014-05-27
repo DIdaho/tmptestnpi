@@ -34,29 +34,14 @@ class CpmPosController extends ControllerDefault {
         parent::__construct('cpm_pos');
     }
 
-//    public function connect(Application $app) {
-//        $this->_setApp($app);
-//        $this->setRepository();
-//
-//        //Register CPM POS controller
-//        $app['cpm-pos.controller'] = $this;
-//
-//        $this->controller->post("/", "cpm-pos.controller:filterAction");
-//        $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
-//
-//        return $this->controller;
-//    }
-
-    public function additionnalRoutes(){
-        //Register CPM POS controller
-        $app['cpm-pos.controller'] = $this;
-        $this->controller->post("/", "cpm-pos.controller:filterAction");
-        $this->controller->post("/add-pos-to-wave/{id}", "cpm-pos.controller:addPosToWaveAction")->assert('id', '\d+');
-        $this->controller->get("/dictionary", "cpm-pos.controller:dictionaryAction");
-        $this->controller->get("/stored/{id}", "cpm-pos.controller:storedAction")->assert('id', '\d+');
-
-        return $this->controller;
+    public function additionnalRoutes() {
+        $class = get_class($this) . '.controller';
+        $this->controller->post("/", "$class:filterAction");
+        $this->controller->post("/add-pos-to-wave/{id}", "$class:addPosToWaveAction")->assert('id', '\d+');
+        $this->controller->get("/dictionary", "$class:dictionaryAction");
+        $this->controller->get("/stored/{id}", "$class:storedAction")->assert('id', '\d+');
     }
+
     /**
      * Filtered list of POS
      * @param Application $app
