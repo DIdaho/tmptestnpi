@@ -5,9 +5,14 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
         $scope.item.pos = [];
     }
 
-    //Search promise tracker
+    var updatedLinked = function(){
+        $scope.linked = _.map($scope.item.pos, function(value){return value.pos_apple_id});
+    }
+
+    //Promise trackers
     $scope.trackerSearch = promiseTracker();
     $scope.trackerAdding = promiseTracker();
+    $scope.trackerRemoving = promiseTracker();
 
     //Init pagination
     $scope.pagination = {
@@ -36,6 +41,9 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
      */
     $scope.results = null;
     $scope.search = function(){
+
+        updatedLinked();
+
         $scope.results = null;
         var request = $http.post('cpm-pos/', $scope.filter).success(function(data){
             $scope.pagination.current = 1;
@@ -74,7 +82,7 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
     };
 
     /**
-     * Add a country
+     * Add a sales org
      */
     $scope.addSalesOrg = function(){
         var salesorg = $scope.search.salesorg;
@@ -87,7 +95,7 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
     }
 
     /**
-     * Remove country
+     * Remove item
      */
     $scope.removeItem = function(object, key){
         delete object[key];
@@ -97,14 +105,32 @@ function ctrlAddPosToWave($scope, $http, $filter, promiseTracker){
      * Add selected POS to the wave
      */
     $scope.addSelectedPos = function(){
-        var toAdd = _.map(_.filter($scope.results, function(i){return i.isSelected}), function(pos, key){return pos.pos_apple_id});
+        var toAdd = _.map(_.filter($scope.results, function(i){return i.isSelected}), function(pos){return pos.pos_apple_id});
         var request = $http.post('cpm-pos/add-pos-to-wave/' + $scope.item._pk_wave, toAdd).success(function(data){
             if(_.isArray(data))
             {
                 $scope.item.pos = data;
+                updatedLinked();
             }
         });
         $scope.trackerAdding.addPromise(request);
+    }
+
+    /**
+     * Remove selected POS
+     */
+    $scope.removeSelectedPos = function(){
+        var toRemove = _.map(_.filter($scope.results, function(i){return i.isSelected}), function(pos){return pos.pos_apple_id});
+        var request = $http.delete('cpm-pos/delete-pos-from-wave/' + $scope.item._pk_wave, {
+            data: toRemove
+        }).success(function(data){
+            if(_.isArray(data))
+            {
+                $scope.item.pos = data;
+                updatedLinked();
+            }
+        });
+        $scope.trackerRemoving.addPromise(request);
     }
 
     /**

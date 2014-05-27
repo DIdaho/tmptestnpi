@@ -80,6 +80,8 @@
                         </tbody>
                     </table>
 
+                    <b class="pull-right" ng-hide="!item.pos.length">{{item.pos.length}} POS linked</b>
+
                     <pagination
                             ng-show="item.pos.length>0"
                             max-size="5"

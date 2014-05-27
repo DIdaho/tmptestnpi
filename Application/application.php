@@ -1,5 +1,7 @@
 <?php include 'scripts.inc';?>
 
+<title>Apple NPI</title>
+
 <link href="css/application.css" rel="stylesheet" type="text/css">
 
 <!-- CONTROLLERS -->

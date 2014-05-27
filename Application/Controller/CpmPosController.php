@@ -95,9 +95,7 @@ class CpmPosController extends ControllerDefault {
         $params = json_decode($request->getContent(), true);
 
         //Fields to return
-        $map = array_merge($this->_fieldsToReturn, array(
-            'isLinked' => "0",
-        ));
+        $map = $this->_fieldsToReturn;
 
         //Work on fields
         array_walk($map, function(&$v, $k){$v = "$v as $k";});
@@ -203,6 +201,11 @@ class CpmPosController extends ControllerDefault {
             'regions' => array_filter($regions),
             'salesorg' => array_filter($sales),
             'countries' => array_filter($countries),
+            'status' => array(
+                0 => 'Under creation',
+                1 => 'Launched',
+                2 => 'Finished'
+            )
         ));
     }
 
@@ -260,7 +263,8 @@ class CpmPosController extends ControllerDefault {
         $this->_deleteStore('stored_cpm_pos_rule', $id, $appleIds, 'f_apple_id');
         $this->_deleteStore('stored_cpm_sfo', $id, $appleIds);
 
-        return $app->json();
+        //Return inserted lines
+        return $this->storedAction($app, $request, $id);
     }
 
 }
