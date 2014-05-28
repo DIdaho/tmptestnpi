@@ -4,7 +4,7 @@ function ctrlList($scope, $http, $modal, $q){
      * Init list of items
      * @type {Array}
      */
-    $scope.list = [];
+    $scope.list = null;
 
     /**
      * Define configuration object defaults

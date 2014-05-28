@@ -28,6 +28,12 @@ var module = angular.module('Application', [
     //Promise tracker
     $rootScope.tracker = promiseTracker();
 
+}).config(function($datepickerProvider) {
+    angular.extend($datepickerProvider.defaults, {
+        dateFormat: 'dd/MM/yyyy',
+        startWeek: 1,
+        autoclose: 1
+    });
 });
 
 // register the interceptor via an anonymous factory

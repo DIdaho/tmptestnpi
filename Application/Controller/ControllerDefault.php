@@ -134,6 +134,7 @@ class ControllerDefault implements ControllerProviderInterface {
          * fetch one record
          */
         $controller->get("/{id}", "$class:detailAction")->assert('id', '\d+');
+
         /**
          * create a new reccord
          */

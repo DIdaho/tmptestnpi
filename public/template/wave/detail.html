@@ -13,15 +13,20 @@
                     </div>
                     <div class="form-group">
                         <label>NPI</label>
-                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                        <!--<input class="form-control" type="text" ng-model="item.wave_name"/>-->
+                        <button class="btn btn-default btn-block"
+                                placeholder="Choose NPI"
+                                ng-model="item._ke_npi"
+                                ng-options="i._pk_npi as i.npi_label for i in npis"
+                                bs-select></button>
                     </div>
                     <div class="form-group">
                         <label>Launch Date</label>
-                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                        <input type="text" class="form-control" ng-model="item.wave_launchDate" bs-datepicker>
                     </div>
                     <div class="form-group">
                         <label>Deadline</label>
-                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                        <input type="text" class="form-control" ng-model="item.wave_deadLine" bs-datepicker>
                     </div>
                     <table class="table">
                         <thead>

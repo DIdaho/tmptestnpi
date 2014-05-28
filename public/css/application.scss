@@ -42,3 +42,13 @@
     white-space: nowrap;
     display: inline-block;
 }
+
+.ng-invalid-date{
+    color: red;
+}
+
+.datepicker{
+    .btn{
+        border:0;
+    }
+}
