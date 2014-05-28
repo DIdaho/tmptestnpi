@@ -61,8 +61,9 @@ function ctrlList($scope, $http, $modal, $q){
             else
             {
                 //Else add to list
-                $scope.list.push(data)
                 angular.extend(item, data);
+                $scope.originalItem = angular.copy(item);
+                $scope.list.push($scope.originalItem)
             }
 
             if(callback)
