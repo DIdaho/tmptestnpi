@@ -72,6 +72,16 @@ function ctrlList($scope, $http, $modal, $q){
         });
     }
 
+    $scope.delete = function(item){
+        if(confirm('Are you sure you want to delete this ' + $scope.config.title + '?'))
+        {
+            var request = $http.delete($scope.config.type + '/' + item[$scope.config.key]).success(function(){
+                $scope.list.splice($scope.list.indexOf(item), 1);
+            });
+            $scope.tracker.addPromise(request);
+        }
+    }
+
     /**
      * Extendable function to set default values when saving item
      * @param item

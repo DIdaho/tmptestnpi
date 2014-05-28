@@ -20,7 +20,7 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
     $scope.currentPkNpi = $routeParams.id;
 
     //Get list
-    $http.get('npi/' + $routeParams.id + '/waves').success(function(data){
+    $http.get('npi/' + $routeParams.id + '/waves', {tracker: $scope.tracker}).success(function(data){
         $scope.list = data;
 //        $scope.edit(data[0]);
     });
@@ -120,9 +120,13 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         });
     }
 
+    /**
+     *
+     * @param wave
+     * @param status
+     */
     $scope.setStatus = function(wave, status){
-        $http.post('wave/' , {
-            _pk_wave: wave._pk_wave,
+        $http.put('wave/' + wave._pk_wave , {
             wave_status: status
         }).success(function(){
             wave.wave_status = status;

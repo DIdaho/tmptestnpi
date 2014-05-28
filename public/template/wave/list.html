@@ -33,10 +33,10 @@
             <td>
                 <div class="pull-right">
                     <a class="btn btn-primary" ng-click="edit(item)">
-                        &nbsp;<i class="fa" ng-class="{'fa-pencil':!item.status, 'fa-zoom':item.status>0}"></i>&nbsp;Edit
+                        &nbsp;<i class="fa" ng-class="{'fa-pencil':item.wave_status == 0, 'fa-search':item.wave_status>0}"></i>&nbsp;
                     </a>
-                    <a class="btn btn-danger" ng-click="delete(item)" ng-disabled="item.status>0">
-                        &nbsp;<i class="fa fa-trash-o"></i>&nbsp;Delete
+                    <a class="btn btn-danger" ng-click="delete(item)" ng-disabled="item.wave_status>0">
+                        &nbsp;<i class="fa fa-trash-o"></i>&nbsp;
                     </a>
                 </div>
             </td>

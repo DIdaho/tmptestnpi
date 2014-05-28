@@ -9,29 +9,30 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label>Name</label>
-                        <input class="form-control" type="text" ng-model="item.wave_name"/>
+                        <input class="form-control" type="text" ng-model="item.wave_name" ng-disabled="item.wave_status>0"/>
                     </div>
                     <div class="form-group">
                         <label>NPI</label>
                         <!--<input class="form-control" type="text" ng-model="item.wave_name"/>-->
                         <button class="btn btn-default btn-block"
                                 placeholder="Choose NPI"
+                                ng-disabled="item.wave_status>0"
                                 ng-model="item._ke_npi"
                                 ng-options="i._pk_npi as i.npi_label for i in npis"
                                 bs-select></button>
                     </div>
                     <div class="form-group">
                         <label>Launch Date</label>
-                        <input type="text" class="form-control" ng-model="item.wave_launchDate" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="item.wave_launchDate" ng-disabled="item.wave_status>0" bs-datepicker>
                     </div>
                     <div class="form-group">
                         <label>Deadline</label>
-                        <input type="text" class="form-control" ng-model="item.wave_deadLine" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="item.wave_deadLine" ng-disabled="item.wave_status>0" bs-datepicker>
                     </div>
                     <table class="table">
                         <thead>
                             <tr><th colspan="2">Activities</th><th>&nbsp;</th></tr>
-                            <tr><td colspan="3">
+                            <tr ng-hide="item.wave_status>0"><td colspan="3">
                                 <button class="btn btn-default btn-block"
                                         placeholder="Add an activity"
                                         ng-model="select.activity"

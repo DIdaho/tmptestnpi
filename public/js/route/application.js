@@ -33,16 +33,20 @@ module.config(function($routeProvider){
             redirectTo: '/npi'
         });
 }).run(function($rootScope, $location, $http){
+    var request;
+
     //Load NPI
     $rootScope.npis = [];
-    $http.get('npi').success(function(data){
+    request = $http.get('npi').success(function(data){
         $rootScope.npis = data;
     })
+    $rootScope.tracker.addPromise(request);
 
     //Load config
     $rootScope.dictionary = {};
-    $http.get('cpm-pos/dictionary').success(function(data){
+    request = $http.get('cpm-pos/dictionary').success(function(data){
         $rootScope.dictionary = data;
     })
+    $rootScope.tracker.addPromise(request);
 
 });

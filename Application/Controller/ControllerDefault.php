@@ -144,6 +144,7 @@ class ControllerDefault implements ControllerProviderInterface {
          * update one reccord
          */
         $controller->put("/{id}", "$class:updateAction")->assert('id', '\d+');
+
         /**
          * delete one reccord
          */
