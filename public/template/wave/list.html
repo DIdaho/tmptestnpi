@@ -29,7 +29,7 @@
                 </a>
             </td>
             <td>
-                <a class="btn btn-success btn-block pull-right" ng-click="setStatus(item, 1)" ng-if="item.wave_status == 0">
+                <a class="btn btn-success btn-block pull-right" ng-click="launchWave(item)" ng-if="item.wave_status == 0">
                     &nbsp;<i class="fa fa-play"></i>&nbsp;Launch&nbsp;the&nbsp;wave&nbsp;
                 </a>
                 <a class="btn btn-warning btn-block pull-right" ng-click="setStatus(item, 2)" ng-if="item.wave_status == 1">

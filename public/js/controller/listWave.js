@@ -142,6 +142,12 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         })
     }
 
+    $scope.launchWave = function(wave){
+        $http.get('wave/launch/' + wave._pk_wave).success(function(){
+            wave.wave_status = 1;
+        })
+    }
+
     /**
      * Remove a POS from the wave
      * @param appleId

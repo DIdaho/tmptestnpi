@@ -70,7 +70,7 @@
                                 <th>Country</th>
                                 <!--<th>Region</th>-->
                                 <th>RTM</th>
-                                <th>&nbsp;</th>
+                                <th ng-if="item.wave_status == 0">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +81,7 @@
                                 <td>{{pos.pos_loc_country}}</td>
                                 <!--<td>{{pos.pos_loc_region}}</td>-->
                                 <td>{{pos.pos_rtm}}</td>
-                                <td>
+                                <td ng-if="item.wave_status == 0">
                                     <a class="btn btn-danger btn-sm pull-right" ng-click="removePos(pos.pos_apple_id)">
                                         <i class="fa fa-minus"></i>
                                     </a>

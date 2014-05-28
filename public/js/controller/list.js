@@ -73,6 +73,10 @@ function ctrlList($scope, $http, $modal, $q){
         });
     }
 
+    /**
+     * Delete an item from the list
+     * @param item
+     */
     $scope.delete = function(item){
         if(confirm('Are you sure you want to delete this ' + $scope.config.title + '?'))
         {
@@ -92,6 +96,11 @@ function ctrlList($scope, $http, $modal, $q){
         return item;
     }
 
+    /**
+     * Overwrite this scope method if you want a specific loading before displaying the detail modal
+     * @param item
+     * @returns {promise}
+     */
     $scope.loadingPromise = function(item){
         var deferred = $q.defer();
         deferred.resolve(item)
