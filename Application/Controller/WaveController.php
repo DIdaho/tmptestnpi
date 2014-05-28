@@ -33,6 +33,7 @@ class WaveController extends ControllerDefault {
             }
             // get request payload content
             $params = json_decode($request->getContent(), true);
+            $params[$targetRepository->getPrimaryKeyFieldName()] = $id;
             // and create/update wave and related data
             $result = $targetRepository->updateWave($params);
             return $app->json( $result );

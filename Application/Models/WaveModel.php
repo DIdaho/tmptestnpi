@@ -30,7 +30,7 @@ class WaveModel extends ModelDefault{
         $idWave = false;
 
         //check if wave exist => insert or update
-        if( !isset($data['_pk_wave']) || empty($data['_pk_wave']) ){
+        if( !isset($data[$this->getPrimaryKeyFieldName()]) || empty($data[$this->getPrimaryKeyFieldName()]) ){
             $idWave = $this->create($data);
         }else{
             $this->update($data);
