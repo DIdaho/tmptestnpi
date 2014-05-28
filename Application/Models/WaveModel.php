@@ -37,21 +37,23 @@ class WaveModel extends ModelDefault{
             $idWave = $this->cleanData($data['_pk_wave']);
         }
 
-        //get all activity for current wave
-        $sql = 'SELECT * FROM waveactivity WHERE _ke_wave = '.$this->cleanData($idWave);
-        $statement = $this->query($sql);
-        $waveactivities = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
         $createWaveActivity_dataString = '';
         $keyActivityExist = array();
 
-        //build db activities collection for current wave
-        foreach( $waveactivities as $value){
-            $keyActivityExist[] = $value['_ke_activity'];
-        }
-
         //waves activities data send treatment
-        if( isset($data['activities']) && 0 < count($data['activities']) ){
+        if( isset($data['activities'])/* && 0 < count($data['activities'])*/ ){
+
+            //get all activity for current wave
+            $sql = 'SELECT * FROM waveactivity WHERE _ke_wave = '.$this->cleanData($idWave);
+            $statement = $this->query($sql);
+            $waveactivities = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            //build db activities collection for current wave
+            foreach( $waveactivities as $value){
+                $keyActivityExist[] = $value['_ke_activity'];
+            }
+
+            //build data activity for query statement
             foreach( $data['activities'] as $key => $activity){
                 //add data at create or updated wave activity formated string
                 $createWaveActivity_dataString .= '('
@@ -69,24 +71,25 @@ class WaveModel extends ModelDefault{
             }
             //delete the last , from data formated string
             $createWaveActivity_dataString = rtrim($createWaveActivity_dataString, ',');
-        }
 
-        //and if data => persist in db
-        if( !empty($createWaveActivity_dataString) ){
-            $createWaveActivityStatement = 'INSERT INTO `waveactivity`
+            //and if data => persist in db
+            if( !empty($createWaveActivity_dataString) ){
+                $createWaveActivityStatement = 'INSERT INTO `waveactivity`
                                             (
                                             `_ke_wave`,
                                             `_ke_activity`,
                                             `waveactiv_order`
                                             )
                                         VALUES '.$createWaveActivity_dataString.' ON DUPLICATE KEY UPDATE `waveactiv_order` = VALUES(`waveactiv_order`)';
-            $this->query($createWaveActivityStatement);
-        }
+                $this->query($createWaveActivityStatement);
+            }
 
-        //check if wave  activity has been deleted
-        if( 0 < count($keyActivityExist) ){
-            $deleteWaveActivityStatement = 'DELETE FROM `waveactivity` WHERE `_ke_wave` =  '.$idWave.' AND _ke_activity IN ( '.implode(',', $keyActivityExist). ' )';
-            $this->query($deleteWaveActivityStatement);
+            //check if wave  activity has been deleted
+            if( 0 < count($keyActivityExist) ){
+                $deleteWaveActivityStatement = 'DELETE FROM `waveactivity` WHERE `_ke_wave` =  '.$idWave.' AND _ke_activity IN ( '.implode(',', $keyActivityExist). ' )';
+                $this->query($deleteWaveActivityStatement);
+            }
+
         }
 
         return $this->fetchOne($idWave);
