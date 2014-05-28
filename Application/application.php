@@ -11,6 +11,7 @@
 <script type="text/javascript" src="js/controller/listActivity.js"></script>
 <script type="text/javascript" src="js/controller/listContact.js"></script>
 <script type="text/javascript" src="js/controller/addPosToWave.js"></script>
+<script type="text/javascript" src="js/controller/report.js"></script>
 <script type="text/javascript" src="js/route/application.js"></script>
 
 <div class="container-fluid" ng-app="Application">

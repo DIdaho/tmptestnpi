@@ -15,6 +15,11 @@ module.config(function($routeProvider){
             controller: 'ctrlListActivity',
             reloadOnSearch: false
         }).
+        when('/report/:id', {
+            templateUrl: 'template/report/list.html',
+            controller: 'ctrlReport',
+            reloadOnSearch: false
+        }).
         when('/contact', {
             templateUrl: 'template/contact/list.html',
             controller: 'ctrlListContact',
