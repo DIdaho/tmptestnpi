@@ -51,4 +51,20 @@ class WaveController extends ControllerDefault {
         })->assert('id', '\d+');
     }
 
+    /**
+     * validation before wave deletion
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @throws \Exception
+     */
+    public function beforeDeleteAction(Application $app, Request $request, $id){
+        $targetRepository = $this->getRepository();
+        /*@var $statement \PDOStatement*/
+        $wave = $targetRepository->fetchOne($id);
+        if( false !== $wave && 0 != $wave['wave_status'] ){
+            throw new \Exception('This wave are not in "Under Creation" status and can\'t be deleted');
+        }
+    }
+
 }
