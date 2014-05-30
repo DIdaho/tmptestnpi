@@ -67,4 +67,19 @@ class WaveController extends ControllerDefault {
         }
     }
 
+    /**
+     * validation before wave data update
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @throws \Exception
+     */
+    public function beforeUpdateAction(Application $app, Request $request, $id){
+        $targetRepository = $this->getRepository();
+        /*@var $statement \PDOStatement*/
+        $wave = $targetRepository->fetchOne($id);
+        if( false !== $wave && 0 != $wave['wave_status'] ){
+            throw new \Exception('This wave are not in "Under Creation" status and can\'t be edited');
+        }
+    }
 }
