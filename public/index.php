@@ -81,15 +81,22 @@ $app->mount('/cpm-pos', new \Controller\CpmPosController() );
  * Error Handling
  */
 $app->error(function (\Exception $e, $code) {
+    //default HTTP header error code
+    //info : 400 = Bad Request (note : The request could not be understood by the server due to malformed syntax.
+    // The client SHOULD NOT repeat the request without modifications)
+    $headerCode = 400;
+    $contentType = 'application/json';
     switch ($code) {
         case 404:
             $message = 'The requested page could not be found.';
+            $contentType = 'text/html; charset=UTF-8';
+            $headerCode = 404;
             break;
         default:
-            $message = 'We are sorry, but something went terribly wrong.<br/><br/>'.$e->getMessage();
+            $message = json_encode( array('msg' =>'We are sorry, but something went terribly wrong.<br/><br/>'.$e->getMessage()) );
     }
 
-    return new Response($message);
+    return new Response($message, $headerCode, array('X-Status-code' => $headerCode, 'Content-Type' => $contentType));
 });
 
 // ... definitions

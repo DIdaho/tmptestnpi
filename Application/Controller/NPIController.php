@@ -8,7 +8,7 @@
 namespace Controller;
 
 use Silex\Application;
-
+use Symfony\Component\HttpFoundation\Request;
 //
 class NpiController extends ControllerDefault {
 
@@ -39,4 +39,21 @@ class NpiController extends ControllerDefault {
         })->assert('id', '\d+');
     }
 
+    /**
+     * validation before npi deletion
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @throws \Exception
+     */
+    public function beforeDeleteAction(Application $app, Request $request, $id){
+        $targetRepository = $this->getRepository();
+        //check if current npi have related wave
+        $sql = "SELECT * FROM wave WHERE _ke_npi = ".$targetRepository->cleanData($id);
+        /*@var $statement \PDOStatement*/
+        $statement = $targetRepository->query($sql);
+        if( false !== $statement && $statement->rowCount() > 0 ){
+            throw new \Exception('This npi have related Wave and can\'t be deleted');
+        }
+    }
 }
