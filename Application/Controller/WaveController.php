@@ -22,7 +22,6 @@ class WaveController extends ControllerDefault {
      * Additionnal routes
      */
     public function additionnalRoutes(){
-<<<<<<< HEAD
         $controller = $this->controller;
 
         $app = $this->_getApp();
@@ -103,7 +102,6 @@ class WaveController extends ControllerDefault {
         if( false !== $wave && 0 != $wave['wave_status'] ){
             throw new \Exception('This wave are not in "Under Creation" status and can\'t be edited');
         }
-=======
 
         $class = $this->getControllerName();
 
@@ -249,6 +247,5 @@ class WaveController extends ControllerDefault {
             'fields' => $fields,
             'data' => $result,
         );
->>>>>>> dfeb104c78b22cd73666e30cc0cc04ed1d02dbf5
     }
 }
