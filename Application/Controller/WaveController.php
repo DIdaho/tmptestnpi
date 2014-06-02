@@ -25,7 +25,7 @@ class WaveController extends ControllerDefault {
         $targetRepository = $this->setRepository( new \Models\WaveModel( $this->_getPDO() ));
 
         /**
-         * used for wave udpate
+         * used for wave update
          */
         $controller->put("/{id}", function(Request $request, $id) use ($app, $targetRepository) {
             if( empty($id) ){
@@ -49,6 +49,23 @@ class WaveController extends ControllerDefault {
             $result = $targetRepository->updateWave($params);
             return $app->json( $result );
         })->assert('id', '\d+');
+    }
+
+    public function deleteAction(Application $app, Request $request, $id){
+        //call method for validation action before delete
+        $this->beforeDeleteAction($app, $request, $id);
+        $targetRepository = $this->getRepository();
+        //delete related data
+        $sql ='DELETE FROM `waveactivity` WHERE _ke_wave ='.$targetRepository->cleanData($id);
+        $this->getRepository()->query($sql);
+        $sql ='DELETE FROM `stored_cpm_pos` WHERE _ke_wave ='.$targetRepository->cleanData($id);
+        $this->getRepository()->query($sql);
+        $sql ='DELETE FROM `stored_cpm_pos_rule` WHERE _ke_wave ='.$targetRepository->cleanData($id);
+        $this->getRepository()->query($sql);
+        $sql ='DELETE FROM `stored_cpm_sfo` WHERE _ke_wave =' .$targetRepository->cleanData($id);
+        $this->getRepository()->query($sql);
+        //delete wave
+        return $app->json($this->getRepository()->delete($id));
     }
 
     /**
