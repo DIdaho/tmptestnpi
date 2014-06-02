@@ -19,4 +19,10 @@ return array(
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"
         ),
     ),
+    'exchange' => array(
+        //URL with end slash "/"
+        'mobileRootUrl' => 'http://localhost/Apple_NPI/public/',
+        //URL with end slash "/"
+        'appleRootUrl' => 'http://localhost/Apple_NPI/public/',
+    ),
 );

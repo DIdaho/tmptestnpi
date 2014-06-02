@@ -1,4 +1,4 @@
-function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $modal){
+function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $modal, $location){
 
     $injector.invoke(ctrlList, this, {$scope: $scope});
 
@@ -38,6 +38,7 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
         if( ! item._ke_npi)
         {
             item._ke_npi = $routeParams.id;
+            item.wave_status = 0;
         }
     }
 
@@ -121,7 +122,15 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
     }
 
     /**
-     *
+     * Open report of a wave
+     * @param item
+     */
+    $scope.openReport = function(item){
+        $location.path('/report/' + item._pk_wave)
+    }
+
+    /**
+     * Change Wave status
      * @param wave
      * @param status
      */
@@ -130,6 +139,12 @@ function ctrlListWave($scope, $http, $routeParams, $injector, $filter, $q, $moda
             wave_status: status
         }).success(function(){
             wave.wave_status = status;
+        })
+    }
+
+    $scope.launchWave = function(wave){
+        $http.get('wave/launch/' + wave._pk_wave).success(function(){
+            wave.wave_status = 1;
         })
     }
 

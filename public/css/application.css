@@ -4,6 +4,8 @@
 .table .checkbox {
   margin-bottom: 5px;
   margin-top: 5px; }
+.table.table-nowrap td, .table.table-nowrap th {
+  white-space: nowrap; }
 
 .modal-activity textarea {
   resize: none;

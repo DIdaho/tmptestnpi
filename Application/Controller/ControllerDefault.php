@@ -82,8 +82,10 @@ class ControllerDefault implements ControllerProviderInterface {
             return false;
         }
     }
+
     /**
      * retrive pdo object
+     * @throws \Exception
      * @return \PDO
      */
     protected function _getPDO(){
@@ -109,6 +111,14 @@ class ControllerDefault implements ControllerProviderInterface {
     }
 
     /**
+     * Returns controller name to use when linking routes
+     * @return string
+     */
+    public function getControllerName(){
+        return get_class($this) . '.controller';
+    }
+
+    /**
      * Load General Route (crud)
      *
      * @param Application $app
@@ -122,7 +132,7 @@ class ControllerDefault implements ControllerProviderInterface {
         $this->setRepository();
 
         //Register CPM POS controller
-        $class = get_class($this) . '.controller';
+        $class = $this->getControllerName();
         $app[$class] = $this;
 
         $this->additionnalRoutes();

@@ -76,6 +76,7 @@ $app->mount('/wave', new \Controller\WaveController() );
 $app->mount('/activity', new \Controller\ActivityController() );
 $app->mount('/contact', new \Controller\ContactController() );
 $app->mount('/cpm-pos', new \Controller\CpmPosController() );
+$app->mount('/exchange', new \Controller\ExchangeController() );
 
 /**
  * Error Handling
