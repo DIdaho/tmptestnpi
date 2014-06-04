@@ -18,6 +18,13 @@ class ExchangeController extends ControllerDefault {
         $this->controller->post('/import-wave/{id}', "$class:importWaveAction")->assert('id', '\d+');
     }
 
+    /**
+     * Import data from Apple Server into the Remote Server
+     * @param Application $app
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function importWaveAction(Application $app, Request $request, $id){
         $params = json_decode($request->getContent(), true);
 
@@ -48,10 +55,24 @@ class ExchangeController extends ControllerDefault {
                     'inserted' => $statement->rowCount(),
                 );
             }
-
-
         }
 
         return $app->json($results);
+    }
+
+    /**
+     * Return JSON of all answers since last update data provided
+     */
+    public function exportFromExternalServerAction(Application $app, Request $request, \Date $lastUpdate){
+
+    }
+
+    /**
+     * Makes a CURL request to exportFromExternalServer to fetch the answers and load them in the database (INSERT OR UPDATE)
+     * @param Application $app
+     * @param Request $request
+     */
+    public function importIntoAppleServerAction(Application $app, Request $request){
+
     }
 }
