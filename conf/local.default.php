@@ -25,4 +25,12 @@ return array(
         //URL with end slash "/"
         'appleRootUrl' => 'http://localhost/Apple_NPI/public/',
     ),
+    'swiftmailer.options' => array(
+        'host' => 'host',
+        'port' => '25',
+        'username' => 'username',
+        'password' => 'password',
+        'encryption' => null,
+        'auth_mode' => null
+    ),
 );

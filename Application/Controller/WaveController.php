@@ -208,6 +208,40 @@ class WaveController extends ControllerDefault {
 //            'wave_status' => 1,
 //        ));
 //die($resp);
+
+        /**
+         * send mail on wave launch
+         */
+        //retrieve dst
+        $targetRepository = $this->getRepository();
+        //get e-mail related on current wave
+        $sqlGetMail = 'SELECT DISTINCT(contact_email), * FROM stored_cpm_pos s JOIN contact c ON s.f_country = c.contact_country WHERE s._ke_wave = '.$targetRepository->cleanData($id);
+        $resultSet = $targetRepository->query($sqlGetMail);
+
+        if( false !== $resultSet && $resultSet->rowCount() > 0){
+            $mailDst = array();
+            while( $row = $resultSet->fetch(\PDO::FETCH_ASSOC) ){
+                if( \Swift_Validate::email($row['contact_email']) ){
+                    $mailDst[] = $row['contact_email'];
+                }
+            }
+            //@todo : contenu de mail dynamique wave:id/emailcontact crypte pour acces info user
+
+            $mailer = $this->_getMailer();
+            $globalConfig = $this->_getAppParameters('wave.launch.mail');
+            $message = \Swift_Message::newInstance()
+                ->setSubject( $globalConfig['subject'] )
+                ->setFrom( array($globalConfig['from']) )
+                ->setTo( array($globalConfig['to']) )
+                ->setBcc( $mailDst )
+                ->setBody( $globalConfig['body'] );
+
+            //send mail
+            if( !$mailer->send( $message ) ) {echo 'an error occured on mail ocnfirmation!';};
+        }
+        /** -------------- */
+
+
         //Display what we received
         return $app->json(json_decode($resp, true));
     }

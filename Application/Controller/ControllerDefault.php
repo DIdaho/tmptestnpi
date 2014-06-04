@@ -102,6 +102,24 @@ class ControllerDefault implements ControllerProviderInterface {
     }
 
     /**
+     * @return \Swift_Mailer
+     */
+    protected function _getMailer(){
+        $app = $this->_getApp();
+        $mailCfg = $this->_getAppParameters('swiftmailer.options');
+//        return $app['mailer'];
+        /** @var \Swift_SmtpTransport $transport */
+        $transport = \Swift_SmtpTransport::newInstance($mailCfg['host'], $mailCfg['port']);
+        $transport->setHost($mailCfg['host']);
+        $transport->setPort($mailCfg['port']);
+        $transport->setEncryption($mailCfg['encryption']);
+        $transport->setUsername($mailCfg['username']);
+        $transport->setPassword($mailCfg['password']);
+        $transport->setAuthMode($mailCfg['auth_mode']);
+        return new \Swift_Mailer($transport);
+    }
+
+    /**
      * set table name parameter if associated table exist (for crud functionality)
      * @param bool $tableName
      */

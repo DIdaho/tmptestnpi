@@ -38,8 +38,10 @@ $conf = array_merge( $configFile_global, $configFile_local );
 $app[ControllerDefault::__PARAM_APP_KEY] = $conf;
 
 /**
- * register pdo db service provider
+ * Register service
  */
+
+/** register pdo db service provider */
 $app->register(
     new PdoServiceProvider(),
     array(
@@ -47,10 +49,12 @@ $app->register(
         'pdo.db.options' => $conf['db'],
     )
 );
-
 //Register service to map controller methods
 $app->register(new ServiceControllerServiceProvider());
 
+/** register swiftmailer service provider */
+//$app['swiftmailer.options'] = $conf['swiftmailer.options'];
+//$app->register( new Silex\Provider\SwiftmailerServiceProvider() );
 /**
  * load route config, and controller...
  */
@@ -77,6 +81,7 @@ $app->mount('/activity', new \Controller\ActivityController() );
 $app->mount('/contact', new \Controller\ContactController() );
 $app->mount('/cpm-pos', new \Controller\CpmPosController() );
 $app->mount('/exchange', new \Controller\ExchangeController() );
+$app->mount('/answers', new \Controller\ExchangeController() );
 
 /**
  * Error Handling
@@ -85,6 +90,8 @@ $app->error(function (\Exception $e, $code) {
     //default HTTP header error code
     //info : 400 = Bad Request (note : The request could not be understood by the server due to malformed syntax.
     // The client SHOULD NOT repeat the request without modifications)
+//    var_dump($e);
+
     $headerCode = 400;
     $contentType = 'application/json';
     switch ($code) {
