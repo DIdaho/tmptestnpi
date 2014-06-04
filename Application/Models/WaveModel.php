@@ -69,7 +69,7 @@ class WaveModel extends ModelDefault{
                     unset( $keyActivityExist[$positionActivity] );
                 }
             }
-            //delete the last , from data formated string
+            //delete the last character, from data formated string
             $createWaveActivity_dataString = rtrim($createWaveActivity_dataString, ',');
 
             //and if data => persist in db
