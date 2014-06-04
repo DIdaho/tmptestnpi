@@ -191,6 +191,7 @@ class WaveController extends ControllerDefault {
                     '_ke_wave',
                 )),
                 'wave' => $wave,
+                'wave_activity' => $this->_fetchTableData('wave_activity', $id),
                 'activity' => $this->_fetchTableData('activity'),
                 'contact' => $this->_fetchTableData('contact'),
             )),
@@ -253,7 +254,6 @@ class WaveController extends ControllerDefault {
      * @return array
      */
     protected function _fetchTableData($table, $waveId = null, array $fields=array()){
-
 
         if( ! count($fields))
         {
