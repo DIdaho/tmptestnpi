@@ -16,6 +16,25 @@ class ExchangeController extends ControllerDefault {
         $class = $this->getControllerName();
 
         $this->controller->post('/import-wave/{id}', "$class:importWaveAction")->assert('id', '\d+');
+
+        /**
+         * export updated and created response
+         */
+        $this->controller->post('/export-answer/{date}', "$class:exportFromExternalServerAction")->convert('date', function($date){
+            $dateTime_obj = \DateTime::createFromFormat( 'Y-m-d', $date );
+            //Date Format Validation
+            if( empty($date) ){
+                throw new \Exception('Last date update are required !');
+            }else if( false === $dateTime_obj ){
+                throw new \Exception('Bad date format, you must provided a date on format : yyyy-mm-dd !');
+            }
+            return $dateTime_obj;
+        });
+
+        /**
+         * import updated and created response
+         */
+        $this->controller->get('/import-answer/', "$class:importIntoAppleServerAction");
     }
 
     /**
@@ -63,8 +82,16 @@ class ExchangeController extends ControllerDefault {
     /**
      * Return JSON of all answers since last update data provided
      */
-    public function exportFromExternalServerAction(Application $app, Request $request, \Date $lastUpdate){
-
+    public function exportFromExternalServerAction(Application $app, Request $request, \DateTime $date){
+        var_dump($date);
+        $dateLastUpdate = 'SELECT * FROM apple_npi.answers WHERE ans_modificationdate > '.$date->format('Y-m-d');
+        $pdo = new \PDO('mysql:host=192.168.69.19;dbname=apple_npi_remote;charset=UTF8', 'root', 'benbert');
+        $resultSet = $pdo->query($dateLastUpdate);
+        $result = array();
+        if( false !== $resultSet && 0 < $resultSet->rowCount() ){
+            $result = $resultSet->fetchAll( \PDO::FETCH_ASSOC );
+        }
+        $app->json($result);
     }
 
     /**
@@ -73,6 +100,6 @@ class ExchangeController extends ControllerDefault {
      * @param Request $request
      */
     public function importIntoAppleServerAction(Application $app, Request $request){
-
+        ;
     }
 }
